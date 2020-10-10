@@ -21,6 +21,7 @@ class Routes {
       'createPage': CreatePage(),
       'likePage': LikePage(),
       'minePage': MinePage(),
+      'loginPage': LoginPage(),
     },
     visitor: (String path, Page<Object, dynamic> page) {
       if (page.isTypeof<GlobalBaseState>()) {
