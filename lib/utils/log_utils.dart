@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-10-10 18:33:32
- * @LastEditTime: 2020-10-10 18:40:24
+ * @LastEditTime: 2020-10-12 14:34:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \bluespace\lib\utils\log_utils.dart
@@ -11,12 +11,21 @@ import 'dart:convert' as convert;
 import 'package:common_utils/common_utils.dart';
 import 'common.dart';
 
-class Log{
-
+class Log {
   static const String tag = 'Flutter-LOG';
-  
-  static init() {
-    LogUtil.debuggable = !Constant.inProduction;
+
+  // static init() {
+  //   LogUtil.debuggable = !Constant.inProduction;
+  // }
+
+  static init({
+    String tag = tag,
+    bool isDebug = !Constant.inProduction,
+    int maxLen = 128,
+  }) {
+    tag = tag;
+    isDebug = isDebug;
+    maxLen = maxLen;
   }
 
   static d(String msg, {tag: tag}) {
@@ -44,7 +53,8 @@ class Log{
   }
 
   // https://github.com/Milad-Akarie/pretty_dio_logger
-  static void _printMap(Map data, {tag: tag, int tabs = 1, bool isListItem = false, bool isLast = false}) {
+  static void _printMap(Map data,
+      {tag: tag, int tabs = 1, bool isListItem = false, bool isLast = false}) {
     final bool isRoot = tabs == 1;
     final initialIndent = _indent(tabs);
     tabs++;
@@ -57,7 +67,8 @@ class Log{
       if (value is String) value = '\"$value\"';
       if (value is Map) {
         if (value.length == 0)
-          LogUtil.v('${_indent(tabs)} $key: $value${!isLast ? ',' : ''}', tag: tag);
+          LogUtil.v('${_indent(tabs)} $key: $value${!isLast ? ',' : ''}',
+              tag: tag);
         else {
           LogUtil.v('${_indent(tabs)} $key: {', tag: tag);
           _printMap(value, tabs: tabs);

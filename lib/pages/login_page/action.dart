@@ -11,6 +11,7 @@ import 'package:fish_redux/fish_redux.dart';
 enum LoginPageAction {
   action,
   loginClicked,
+  getUserInfo,
   signUp,
   weixinSignin,
   switchLoginMode
@@ -24,7 +25,9 @@ class LoginPageActionCreator {
   static Action onLoginClicked() {
     return const Action(LoginPageAction.loginClicked);
   }
-
+  static Action getUserInfo(){
+    return const Action(LoginPageAction.getUserInfo);
+  }
   static Action onSignUp() {
     return const Action(LoginPageAction.signUp);
   }

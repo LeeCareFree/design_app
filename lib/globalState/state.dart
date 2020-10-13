@@ -6,26 +6,21 @@ abstract class GlobalBaseState {
   Color get themeColor;
   set themeColor(Color color);
 
-  Locale get locale;
-  set locale(Locale locale);
-
-  UserInfoEntity get user;
-  set user(UserInfoEntity u);
+  UserInfoEntity get userInfo;
+  set userInfo(UserInfoEntity userInfo);
 }
 
 class GlobalState implements GlobalBaseState, Cloneable<GlobalState> {
   @override
   Color themeColor;
-  @override
-  Locale locale;
 
   @override
-  UserInfoEntity user;
+  UserInfoEntity userInfo;
 
   @override
   GlobalState clone() {
     return GlobalState()
       ..themeColor = themeColor
-      ..user = user;
+      ..userInfo = userInfo;
   }
 }

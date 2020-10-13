@@ -35,9 +35,11 @@ dependencies:
   cached_network_image: ^2.3.2+1
   common_utils: ^1.2.1
   shared_preferences: ^0.5.12
+  flutter_easyloading: ^2.0.0
   dio: ^3.0.10
   flustars: ^0.3.3
   sprintf: ^5.0.0
+  oktoast: ^2.3.2
 
 
 dev_dependencies:

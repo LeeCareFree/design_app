@@ -6,18 +6,14 @@
  * @Description: In User Settings Edit
  * @FilePath: \bluespace\lib\models\entity_factory.dart
  */
+import 'package:bluespace/models/user_info_entity.dart';
+
 class EntityFactory {
   static T generateOBJ<T>(json) {
-  //   if (T.toString() == "PlateEntity") {
-  //     return PlateEntity.fromJson(json) as T;
-  //   } else if (T.toString() == "UserInfoEntity") {
-  //     return UserInfoEntity.fromJson(json) as T;
-  //   }else if (T.toString() == "CollectEntity") {
-  //     return CollectEntity.fromJson(json) as T;
-  //   }else if (T.toString() == "MaterialEntity") {
-  //     return MaterialEntity.fromJson(json) as T;
-  //   } else {
-  //     return null;
-  //   }
+    if (T.toString() == "UserInfoEntity") {
+      return UserInfoEntity.fromJson(json) as T;
+    }  else {
+      return null;
+    }
   }
 }

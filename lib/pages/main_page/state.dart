@@ -12,17 +12,13 @@ class MainPageState implements GlobalBaseState, Cloneable<MainPageState> {
     return MainPageState()
       ..pages = pages
       ..selectedIndex = selectedIndex
-      ..scaffoldKey = scaffoldKey
-      ..locale = locale;
+      ..scaffoldKey = scaffoldKey;
   }
-
-  @override
-  Locale locale;
 
   @override
   Color themeColor;
   @override
-  UserInfoEntity user;
+  UserInfoEntity userInfo;
   
    
 }

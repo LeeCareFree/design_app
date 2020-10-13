@@ -29,12 +29,12 @@ class Routes {
             (Object pagestate, GlobalState appState) {
           final GlobalBaseState p = pagestate;
           if (p.themeColor != appState.themeColor ||
-              p.user != appState.user) {
+              p.userInfo != appState.userInfo) {
             if (pagestate is Cloneable) {
               final Object copy = pagestate.clone();
               final GlobalBaseState newState = copy;
               newState.themeColor = appState.themeColor;
-              newState.user = appState.user;
+              newState.userInfo = appState.userInfo;
               return newState;
             }
           }

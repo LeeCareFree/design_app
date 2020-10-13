@@ -11,7 +11,7 @@ Reducer<GlobalState> buildReducer() {
   return asReducer(
     <Object, Reducer<GlobalState>>{
       GlobalAction.changeThemeColor: _onchangeThemeColor,
-      GlobalAction.setUser: _onSetUser,
+      GlobalAction.updateUserInfo: _onUpdateUserInfo,
     },
   );
 }
@@ -29,7 +29,6 @@ GlobalState _onchangeThemeColor(GlobalState state, Action action) {
   return state.clone()..themeColor = next;
 }
 
-GlobalState _onSetUser(GlobalState state, Action action) {
-  final UserInfoEntity userInfo = action.payload;
-  return state.clone()..user = userInfo;
+GlobalState _onUpdateUserInfo(GlobalState state, Action action) {
+  return state.clone()..userInfo = action.payload;
 }
