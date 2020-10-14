@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-10-10 14:14:45
- * @LastEditTime: 2020-10-13 10:50:39
+ * @LastEditTime: 2020-10-14 14:11:04
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \bluespace\lib\pages\login_page\effect.dart
@@ -10,10 +10,11 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:bluespace/globalState/action.dart';
 import 'package:bluespace/globalState/store.dart';
+import 'package:bluespace/models/login_model.dart';
 import 'package:bluespace/models/user_info_entity.dart';
+import 'package:bluespace/net/dio_utils.dart';
+import 'package:bluespace/net/http_api.dart';
 import 'package:bluespace/router/fluro_navigator.dart';
-import 'package:bluespace/service/dio_utils.dart';
-import 'package:bluespace/service/http_api.dart';
 import 'package:bluespace/utils/common.dart';
 import 'package:bluespace/utils/toast.dart';
 import 'package:bluespace/utils/native_method.dart';
@@ -21,7 +22,6 @@ import 'package:bluespace/utils/progress.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/widgets.dart' hide Action;
-import 'package:sprintf/sprintf.dart';
 import 'action.dart';
 import 'state.dart';
 
@@ -56,11 +56,11 @@ void _onBuild(Action action, Context<LoginPageState> ctx) {
 
 void _onDispose(Action action, Context<LoginPageState> ctx) {
   ctx.state.animationController.dispose();
-  // ctx.state.userFocusNode.dispose();
-  // ctx.state.pwdFocusNode.dispose();
+  ctx.state.userFocusNode.dispose();
+  ctx.state.pwdFocusNode.dispose();
   ctx.state.submitAnimationController.dispose();
-  // ctx.state.userTextController.dispose();
-  // ctx.state.passwordTextController.dispose();
+  ctx.state.userTextController.dispose();
+  ctx.state.passwordTextController.dispose();
 }
 
 void _onAction(Action action, Context<LoginPageState> ctx) {}
@@ -83,31 +83,30 @@ Future _phoneNumSignIn(Action action, Context<LoginPageState> ctx) async {
   // String cipherPwd = await encode(wrapWithTimestamps(ctx.state.pwd));
   // Map<String,dynamic> message = json.decode(action.payload);
   // showProgress(ctx.context);
-  Map<String,String> params = Map();
+  Map<String, String> params = Map();
   params['username'] = ctx.state.userTextController.text;
   params['password'] = ctx.state.passwordTextController.text;
   // params['vtoken'] = message['vtoken'];
   // params['vsessionId'] = message['vsessionId'];
-  DioUtils.instance.requestNetwork(Method.post, HttpApi.login,params: params,queryParameters: null,onSuccess: (data)async{
-    println('开始请求$params');
-    // hideProgress(ctx.context);
-    println('打印信息$data');
-    // Toast.show(msg);
-    // await SpUtil.putString(Constant.loginToken, data);
-    // ctx.dispatch(LoginPageActionCreator.getUserInfo());
-  }, onError: (code,msg){
-    // hideProgress(ctx.context);
+  DioUtils.instance.requestNetwork<LoginModel>(Method.post, HttpApi.login,
+      params: params, queryParameters: null, onSuccess: (res) async {
+        ctx.dispatch(LoginPageActionCreator.getUserInfo());
+    Toast.show('---------${res.msg}');
+    ctx.state.submitAnimationController.stop();
+  }, onError: (code, msg) {
     Toast.show(msg);
   });
   return null;
 }
-void _getUserInfo(Action action,Context<LoginPageState> ctx) async{
-  DioUtils.instance.requestNetwork<UserInfoEntity>(Method.get, HttpApi.getUserInfo,params: null,queryParameters: null,onSuccess: (data) async{
-    GlobalStore.store.dispatch(GlobalActionCreator.updateUserInfo(data));
-    NavigatorUtils.goBack(ctx.context);
-  },onError: (code,msg){
-    Toast.show(msg);
-  });
+
+void _getUserInfo(Action action, Context<LoginPageState> ctx) async {
+  println(ctx.state.user);
+  // DioUtils.instance.requestNetwork<UserInfoEntity>(Method.get, HttpApi.getUserInfo,params: null,queryParameters: null,onSuccess: (data) async{
+  //   GlobalStore.store.dispatch(GlobalActionCreator.updateUserInfo(data));
+  //   NavigatorUtils.goBack(ctx.context);
+  // },onError: (code,msg){
+  //   Toast.show(msg);
+  // });
 }
 
 Future _onSignUp(Action action, Context<LoginPageState> ctx) async {

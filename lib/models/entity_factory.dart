@@ -6,12 +6,13 @@
  * @Description: In User Settings Edit
  * @FilePath: \bluespace\lib\models\entity_factory.dart
  */
+import 'package:bluespace/models/login_model.dart';
 import 'package:bluespace/models/user_info_entity.dart';
 
 class EntityFactory {
   static T generateOBJ<T>(json) {
-    if (T.toString() == "UserInfoEntity") {
-      return UserInfoEntity.fromJson(json) as T;
+    if (T.toString() == "LoginModel") {
+      return LoginModel.fromJson(json) as T;
     }  else {
       return null;
     }

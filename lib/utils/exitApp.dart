@@ -1,5 +1,13 @@
+/*
+ * @Author: your name
+ * @Date: 2020-10-09 16:48:12
+ * @LastEditTime: 2020-10-14 10:39:36
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \bluespace\lib\utils\exitApp.dart
+ */
+import 'package:bluespace/utils/toast.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class DoubleTapBackExitApp extends StatefulWidget {
   const DoubleTapBackExitApp({
@@ -32,7 +40,7 @@ class _DoubleTapBackExitAppState extends State<DoubleTapBackExitApp> {
     if (_lastTime == null ||
         DateTime.now().difference(_lastTime) > widget.duration) {
       _lastTime = DateTime.now();
-      Fluttertoast.showToast(msg: "再次点击退出应用",toastLength: Toast.LENGTH_SHORT,gravity: ToastGravity.CENTER);
+      Toast.show("再次点击退出应用");
       return Future.value(false);
     }
     return Future.value(true);

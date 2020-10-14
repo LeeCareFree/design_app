@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-10-10 14:15:11
- * @LastEditTime: 2020-10-10 17:54:46
+ * @LastEditTime: 2020-10-14 14:02:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \bluespace\lib\pages\login_page\state.dart
@@ -32,7 +32,6 @@ class LoginPageState implements Cloneable<LoginPageState> {
       ..submitAnimationController = submitAnimationController
       ..animationController = animationController
       ..isPhoneLogin = isPhoneLogin;
-      ;
   }
   @override
   Color themeColor;
