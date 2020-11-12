@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-10-10 14:14:45
- * @LastEditTime: 2020-10-14 14:11:04
+ * @LastEditTime: 2020-11-12 15:17:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \bluespace\lib\pages\login_page\effect.dart
@@ -39,6 +39,8 @@ Effect<LoginPageState> buildEffect() {
 }
 
 void _onInit(Action action, Context<LoginPageState> ctx) {
+  ctx.state.userFocusNode = FocusNode();
+  ctx.state.pwdFocusNode = FocusNode();
   ctx.state.isPhoneLogin = true;
   TickerProvider ticker = ctx.stfState as TickerProvider;
   ctx.state.submitAnimationController = AnimationController(
@@ -70,7 +72,6 @@ Future _onLoginClicked(Action action, Context<LoginPageState> ctx) async {
     await _phoneNumSignIn(action, ctx);
   else
     await _phoneNumSignIn(action, ctx);
-  // Navigator.of(ctx.context).pop({'s': true, 'name': 'lyc'});
 }
 
 Future _onWeixinSignin(Action action, Context<LoginPageState> ctx) async {
@@ -90,9 +91,9 @@ Future _phoneNumSignIn(Action action, Context<LoginPageState> ctx) async {
   // params['vsessionId'] = message['vsessionId'];
   DioUtils.instance.requestNetwork<LoginModel>(Method.post, HttpApi.login,
       params: params, queryParameters: null, onSuccess: (res) async {
-        ctx.dispatch(LoginPageActionCreator.getUserInfo());
-    Toast.show('---------${res.msg}');
-    ctx.state.submitAnimationController.stop();
+    ctx.dispatch(LoginPageActionCreator.getUserInfo());
+    
+    Navigator.of(ctx.context).pop({'s': true, 'name': res.data.username});
   }, onError: (code, msg) {
     Toast.show(msg);
   });

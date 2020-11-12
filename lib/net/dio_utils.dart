@@ -12,7 +12,6 @@ import 'error_handle.dart';
 import 'intercept.dart';
 
 /// *@filename dio_utils.dart
-/// *@author 何晏波
 /// *@QQ 1054539528
 /// *@date 2020-01-14
 /// *@Description: 网络请求基类
@@ -81,10 +80,8 @@ class DioUtils {
         // println(response);
     try {
       /// 集成测试无法使用 isolate
-      Map<String, dynamic> _map = Constant.isTest
-          ? parseData(response.data.toString())
-          : await compute(parseData, response.data.toString());
-          println(_map[Constant.data]);
+      Map<String, dynamic> _map =  parseData(response.data.toString());
+          println(_map);
       return BaseEntity.fromJson(_map);
     } catch (e) {
       print(e);

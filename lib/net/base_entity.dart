@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-10-14 10:59:53
+ * @LastEditTime: 2020-11-12 15:42:06
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \bluespace\lib\net\base_entity.dart
+ */
 import 'package:bluespace/models/entity_factory.dart';
 import 'package:bluespace/utils/common.dart';
 
