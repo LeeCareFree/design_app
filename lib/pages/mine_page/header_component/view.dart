@@ -35,20 +35,39 @@ Widget buildView(
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          MaterialButton(
-            child: Text(
-              "请登录",
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: Adapt.px(35)),
-            ),
-            onPressed: () => {
-              dispatch(MineActionCreator.onLogin())
-            },
-          )
+          state.user == null
+              ? InkWell(
+                  onTap: () => dispatch(MineActionCreator.onLogin()),
+                  child: Container(
+                      height: Adapt.px(65),
+                      width: Adapt.px(200),
+                      margin: EdgeInsets.only(
+                          right: Adapt.px(30),
+                          top: Adapt.px(15),
+                          bottom: Adapt.px(15)),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: Adapt.px(10), vertical: Adapt.px(10)),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(Adapt.px(30)),
+                          border: Border.all(color: Colors.black, width: 1)),
+                      child: Center(
+                          child: (Text(
+                        '请登录',
+                        style: TextStyle(
+                            color: Colors.black, fontSize: Adapt.px(26)),
+                      )))))
+              : MaterialButton(
+                  child: Text(
+                    '请登录',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: Adapt.px(35)),
+                  ),
+                  onPressed: () => {dispatch(MineActionCreator.onLogin())},
+                )
         ],
       )
     ],

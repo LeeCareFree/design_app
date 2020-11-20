@@ -1,6 +1,6 @@
 import 'package:bluespace/utils/adapt.dart';
 import 'package:bluespace/utils/exitApp.dart';
-import 'package:bluespace/widgets/keepalive_widget.dart';
+import 'package:bluespace/components/keepalive_widget.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

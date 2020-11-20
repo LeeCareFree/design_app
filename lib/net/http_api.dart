@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-10-14 10:59:45
- * @LastEditTime: 2020-10-14 11:06:46
- * @LastEditors: your name
+ * @LastEditTime: 2020-11-13 11:05:56
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \bluespace\lib\net\http_api.dart
  */
@@ -11,7 +11,8 @@ class HttpApi {
 
   ///密码登录
   static const String login = '/login';
-
+  // 手机号注册
+  static const String register = '/register';
   /**首页模块**/
 
   ///获取首页板块配置数据

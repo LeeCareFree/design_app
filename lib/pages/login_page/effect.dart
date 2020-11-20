@@ -1,26 +1,17 @@
 /*
  * @Author: your name
  * @Date: 2020-10-10 14:14:45
- * @LastEditTime: 2020-11-12 15:17:50
+ * @LastEditTime: 2020-11-13 11:08:40
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \bluespace\lib\pages\login_page\effect.dart
  */
-import 'dart:convert';
 import 'dart:async';
-import 'package:bluespace/globalState/action.dart';
-import 'package:bluespace/globalState/store.dart';
 import 'package:bluespace/models/login_model.dart';
-import 'package:bluespace/models/user_info_entity.dart';
 import 'package:bluespace/net/dio_utils.dart';
 import 'package:bluespace/net/http_api.dart';
-import 'package:bluespace/router/fluro_navigator.dart';
-import 'package:bluespace/utils/common.dart';
 import 'package:bluespace/utils/toast.dart';
-import 'package:bluespace/utils/native_method.dart';
-import 'package:bluespace/utils/progress.dart';
 import 'package:fish_redux/fish_redux.dart';
-import 'package:flustars/flustars.dart';
 import 'package:flutter/widgets.dart' hide Action;
 import 'action.dart';
 import 'state.dart';
@@ -77,6 +68,17 @@ Future _onLoginClicked(Action action, Context<LoginPageState> ctx) async {
 Future _onWeixinSignin(Action action, Context<LoginPageState> ctx) async {
   print('微信登录');
 }
+// 检查手机号和密码格式
+bool isPhone(String str) {
+  return new RegExp(
+          '^((13[0-9])|(15[^4])|(166)|(17[0-8])|(18[0-9])|(19[8-9])|(147,145))\\d{8}\$')
+      .hasMatch(str);
+}
+
+bool isPwd(String str) {
+  return new RegExp('^(?![0-9]+\$)(?![a-zA-Z]+\$)[0-9A-Za-z]{6,20}\$')
+      .hasMatch(str);
+}
 
 Future _phoneNumSignIn(Action action, Context<LoginPageState> ctx) async {
   print('手机号登陆');
@@ -84,16 +86,29 @@ Future _phoneNumSignIn(Action action, Context<LoginPageState> ctx) async {
   // String cipherPwd = await encode(wrapWithTimestamps(ctx.state.pwd));
   // Map<String,dynamic> message = json.decode(action.payload);
   // showProgress(ctx.context);
+  String username = ctx.state.userTextController.text;
+  String password = ctx.state.passwordTextController.text;
+  if (username.isEmpty ||
+      !isPhone(username) ||
+      password.isEmpty ||
+      !isPwd(password)) {
+    ctx.state.submitAnimationController.reset();
+    Toast.show('请输入正确的手机号和密码！');
+  }
   Map<String, String> params = Map();
-  params['username'] = ctx.state.userTextController.text;
-  params['password'] = ctx.state.passwordTextController.text;
+  params['username'] = username;
+  params['password'] = password;
   // params['vtoken'] = message['vtoken'];
   // params['vsessionId'] = message['vsessionId'];
   DioUtils.instance.requestNetwork<LoginModel>(Method.post, HttpApi.login,
       params: params, queryParameters: null, onSuccess: (res) async {
-    ctx.dispatch(LoginPageActionCreator.getUserInfo());
-    
-    Navigator.of(ctx.context).pop({'s': true, 'name': res.data.username});
+    if (res.data != null) {
+      ctx.dispatch(LoginPageActionCreator.getUserInfo());
+      Navigator.of(ctx.context).pop({'s': true, 'name': res.data.username});
+      Toast.show(res.msg);
+    }
+    ctx.state.submitAnimationController.reset();
+    Toast.show(res.msg);
   }, onError: (code, msg) {
     Toast.show(msg);
   });
@@ -111,6 +126,34 @@ void _getUserInfo(Action action, Context<LoginPageState> ctx) async {
 }
 
 Future _onSignUp(Action action, Context<LoginPageState> ctx) async {
+  print('注册');
+  String username = ctx.state.userTextController.text;
+  String password = ctx.state.passwordTextController.text;
+  if (username.isEmpty ||
+      !isPhone(username) ||
+      password.isEmpty ||
+      !isPwd(password)) {
+    ctx.state.submitAnimationController.reset();
+    Toast.show('请输入正确的手机号和密码！');
+  }
+  Map<String, String> params = Map();
+  params['username'] = username;
+  params['password'] = password;
+  // params['vtoken'] = message['vtoken'];
+  // params['vsessionId'] = message['vsessionId'];
+  DioUtils.instance.requestNetwork<LoginModel>(Method.post, HttpApi.register,
+      params: params, queryParameters: null, onSuccess: (res) async {
+    if (res.data != null) {
+      ctx.dispatch(LoginPageActionCreator.getUserInfo());
+      Navigator.of(ctx.context).pop({'s': true, 'name': res.data.username});
+      ctx.state.submitAnimationController.reset();
+      Toast.show(res.msg);
+    }
+    Toast.show(res.msg);
+  }, onError: (code, msg) {
+    Toast.show(msg);
+  });
+  return null;
   // Navigator.of(ctx.context)
   //     .push(PageRouteBuilder(pageBuilder: (context, an, _) {
   //   return FadeTransition(
@@ -124,5 +167,4 @@ Future _onSignUp(Action action, Context<LoginPageState> ctx) async {
   //       Navigator.of(ctx.context).pop(results.results);
   //   }
   // });
-  print('注册');
 }

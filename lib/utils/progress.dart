@@ -10,7 +10,7 @@ import 'package:bluespace/router/fluro_navigator.dart';
 import 'package:bluespace/style/colors.dart';
 import 'package:bluespace/utils/adapt.dart';
 import 'package:bluespace/utils/imageUtil.dart';
-import 'package:bluespace/widgets/load_image.dart';
+import 'package:bluespace/components/load_image.dart';
 import 'package:flutter/material.dart';
 
 /// *@Description: 自定义进度展示对话框

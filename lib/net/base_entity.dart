@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-10-14 10:59:53
- * @LastEditTime: 2020-11-12 15:42:06
- * @LastEditors: your name
+ * @LastEditTime: 2020-11-13 10:16:51
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \bluespace\lib\net\base_entity.dart
  */
@@ -13,15 +13,15 @@ import 'package:bluespace/utils/common.dart';
 class BaseEntity<T>{
 
   int code;
-  String message;
+  String msg;
   T data;
   List<T> listData = [];
 
-  BaseEntity(this.code, this.message, this.data);
+  BaseEntity(this.code, this.msg, this.data);
 
   BaseEntity.fromJson(Map<String, dynamic> json) {
     code = json[Constant.code];
-    message = json[Constant.message];
+    msg = json[Constant.msg];
     if (json.containsKey(Constant.data)) {
       if (json[Constant.data] is List) {
         (json[Constant.data] as List).forEach((item) {

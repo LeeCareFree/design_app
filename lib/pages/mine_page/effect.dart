@@ -1,11 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2020-10-09 16:40:38
- * @LastEditTime: 2020-10-10 11:10:32
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \bluespace\lib\pages\mine_page\effect.dart
- */
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'action.dart';
@@ -13,6 +5,9 @@ import 'state.dart';
 
 Effect<MineState> buildEffect() {
   return combineEffects(<Object, Effect<MineState>>{
+    Lifecycle.initState: _onInit,
+    Lifecycle.build: _onBuild,
+    Lifecycle.dispose: _onDispose,
     MineAction.action: _onAction,
     MineAction.login: _onLogin,
     MineAction.navigatorPush: _navigatorPush,
@@ -44,8 +39,16 @@ Future _onInit(Action action, Context<MineState> ctx) async {
     ctx.state.animationController = AnimationController(
         vsync: ticker, duration: Duration(milliseconds: 1000));
   }
-  String name = 'lyc';
+  String name = ctx.state.user?.userInfo?.username;
   String avatar = 'assets/images/avatar.png';
   bool islogin = false;
   ctx.dispatch(MineActionCreator.onInit(name, avatar, islogin));
+}
+
+void _onBuild(Action action, Context<MineState> ctx) {
+  ctx.state.animationController.forward();
+}
+
+void _onDispose(Action action, Context<MineState> ctx) {
+  ctx.state.animationController.dispose();
 }

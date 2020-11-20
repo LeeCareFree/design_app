@@ -8,7 +8,7 @@ class Constant {
   static bool isTest  = false;
 
   static const String data = 'data';
-  static const String message = 'msg';
+  static const String msg = 'msg';
   static const String code = 'code';
   static const String loginToken = 'loginToken';
   static const String homeData = "homeData";

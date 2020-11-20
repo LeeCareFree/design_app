@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:bluespace/utils/common.dart';
 import 'package:bluespace/utils/log_utils.dart';
+import 'package:bluespace/utils/toast.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:fish_redux/fish_redux.dart';
@@ -81,7 +82,7 @@ class DioUtils {
     try {
       /// 集成测试无法使用 isolate
       Map<String, dynamic> _map =  parseData(response.data.toString());
-          println(_map);
+          println(response);
       return BaseEntity.fromJson(_map);
     } catch (e) {
       print(e);
@@ -113,7 +114,7 @@ class DioUtils {
             options: options,
             cancelToken: cancelToken)
         .then((BaseEntity<T> result) {
-      if (result.code == 0) {
+      if (result.code == 0 && result.data != null) {
         if (isList) {
           if (onSuccessList != null) {
             onSuccessList(result.listData);
@@ -124,7 +125,8 @@ class DioUtils {
           }
         }
       } else {
-        _onError(result.code, result.message, onError);
+        Toast.show('111');
+        _onError(result.code, result.msg, onError);
       }
     }, onError: (e, _) {
       _cancelLogPrint(e, url);
@@ -162,7 +164,7 @@ class DioUtils {
           }
         }
       } else {
-        _onError(result.code, result.message, onError);
+        _onError(result.code, result.msg, onError);
       }
     }, onError: (e) {
       _cancelLogPrint(e, url);
@@ -182,7 +184,7 @@ class DioUtils {
       code = ExceptionHandle.unknown_error;
       msg = "未知异常";
     }
-    Log.e("接口请求异常： code: $code, mag: $msg");
+    Log.e("接口请求异常： code: $code, msg: $msg");
     if (onError != null) {
       onError(code, msg);
     }

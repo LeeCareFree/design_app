@@ -15,7 +15,7 @@ import 'reducer.dart';
 import 'state.dart';
 import 'view.dart';
 
-class MinePage extends Page<MineState, Map<String, dynamic>> {
+class MinePage extends Page<MineState, Map<String, dynamic>> with TickerProviderMixin<MineState> {
   MinePage()
       : super(
             initState: initState,
