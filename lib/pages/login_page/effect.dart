@@ -68,6 +68,7 @@ Future _onLoginClicked(Action action, Context<LoginPageState> ctx) async {
 Future _onWeixinSignin(Action action, Context<LoginPageState> ctx) async {
   print('微信登录');
 }
+
 // 检查手机号和密码格式
 bool isPhone(String str) {
   return new RegExp(
@@ -94,6 +95,7 @@ Future _phoneNumSignIn(Action action, Context<LoginPageState> ctx) async {
       !isPwd(password)) {
     ctx.state.submitAnimationController.reset();
     Toast.show('请输入正确的手机号和密码！');
+    return;
   }
   Map<String, String> params = Map();
   params['username'] = username;
@@ -135,6 +137,7 @@ Future _onSignUp(Action action, Context<LoginPageState> ctx) async {
       !isPwd(password)) {
     ctx.state.submitAnimationController.reset();
     Toast.show('请输入正确的手机号和密码！');
+    return;
   }
   Map<String, String> params = Map();
   params['username'] = username;
