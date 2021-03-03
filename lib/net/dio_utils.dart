@@ -41,7 +41,7 @@ class DioUtils {
         return true;
       },
       // baseUrl: "http://192.168.0.107:3000",
-      baseUrl: "http://192.168.0.103:3000",
+      baseUrl: "http://192.168.0.103:3000/api",
 //      contentType: ContentType('application', 'x-www-form-urlencoded', charset: 'utf-8'),
     );
     _dio = Dio(options);

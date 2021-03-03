@@ -10,7 +10,7 @@ class HttpApi {
   /**登录模块**/
 
   ///密码登录
-  static const String login = '/api/users/login';
+  static const String login = '/users/login';
   // 手机号注册
   static const String register = '/register';
   /**首页模块**/
