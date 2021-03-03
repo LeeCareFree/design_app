@@ -82,7 +82,7 @@ bool isPwd(String str) {
 }
 
 Future _phoneNumSignIn(Action action, Context<LoginPageState> ctx) async {
-  print('手机号登陆');
+  print('手机号登录');
   // String cipherPhone = await encode(wrapWithTimestamps(ctx.state.user));
   // String cipherPwd = await encode(wrapWithTimestamps(ctx.state.pwd));
   // Map<String,dynamic> message = json.decode(action.payload);
@@ -109,6 +109,7 @@ Future _phoneNumSignIn(Action action, Context<LoginPageState> ctx) async {
       Navigator.of(ctx.context).pop({'s': true, 'name': res.data.username});
       Toast.show(res.msg);
     }
+    print(res);
     ctx.state.submitAnimationController.reset();
     Toast.show(res.msg);
   }, onError: (code, msg) {

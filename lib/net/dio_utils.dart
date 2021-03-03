@@ -40,7 +40,8 @@ class DioUtils {
         // 不使用http状态码判断状态，使用AdapterInterceptor来处理（适用于标准REST风格）
         return true;
       },
-      baseUrl: "http://10.81.196.58:3000",
+      // baseUrl: "http://192.168.0.107:3000",
+      baseUrl: "http://192.168.0.103:3000",
 //      contentType: ContentType('application', 'x-www-form-urlencoded', charset: 'utf-8'),
     );
     _dio = Dio(options);
@@ -48,7 +49,8 @@ class DioUtils {
     (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
         (HttpClient client) {
       client.findProxy = (uri) {
-        return "PROXY 10.81.196.58:8899";
+        // return "PROXY 192.168.0.107:8899";
+        return "PROXY 192.168.0.103:8899";
       };
     };
 
@@ -78,11 +80,11 @@ class DioUtils {
         queryParameters: queryParameters,
         options: _checkOptions(method, options),
         cancelToken: cancelToken);
-        // println(response);
+    // println(response);
     try {
       /// 集成测试无法使用 isolate
-      Map<String, dynamic> _map =  parseData(response.data.toString());
-          println(response);
+      Map<String, dynamic> _map = parseData(response.data.toString());
+      println(response);
       return BaseEntity.fromJson(_map);
     } catch (e) {
       print(e);
