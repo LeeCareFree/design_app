@@ -12,8 +12,6 @@ import 'package:bluespace/globalState/action.dart';
 import 'package:bluespace/globalState/store.dart';
 import 'package:bluespace/models/login_model.dart';
 import 'package:bluespace/models/user_info.dart';
-import 'package:bluespace/net/dio_utils.dart';
-import 'package:bluespace/net/http_api.dart';
 import 'package:bluespace/net/service_method.dart';
 import 'package:bluespace/utils/toast.dart';
 import 'package:fish_redux/fish_redux.dart';
