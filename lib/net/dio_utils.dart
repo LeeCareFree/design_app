@@ -75,7 +75,7 @@ class DioUtils {
       Map<String, dynamic> queryParameters,
       CancelToken cancelToken,
       Options options}) async {
-    var response = await _dio.request(url,
+    Response response = await _dio.request(url,
         data: data,
         queryParameters: queryParameters,
         options: _checkOptions(method, options),
@@ -84,8 +84,8 @@ class DioUtils {
     try {
       /// 集成测试无法使用 isolate
       Map<String, dynamic> _map = parseData(response.data.toString());
-      println(response);
-      return BaseEntity.fromJson(_map);
+      println('111${_map["data"]}');
+      return BaseEntity.fromJson(_map['data']);
     } catch (e) {
       print(e);
       return BaseEntity(ExceptionHandle.parse_error, "数据解析错误", null);
@@ -116,6 +116,7 @@ class DioUtils {
             options: options,
             cancelToken: cancelToken)
         .then((BaseEntity<T> result) {
+      print('11$result');
       if (result.code == 0 && result.data != null) {
         if (isList) {
           if (onSuccessList != null) {

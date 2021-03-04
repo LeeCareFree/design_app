@@ -28,21 +28,20 @@ Future _onLogin(Action action, Context<MineState> ctx) async {
   if (r['s'] == true) {
     String name = r['name'];
     String avatar = 'assets/images/avatar.png';
-    bool isLogin = false;
-    ctx.dispatch(MineActionCreator.onInit(name, avatar, isLogin));
+    ctx.dispatch(MineActionCreator.onInit(name, avatar));
   }
 }
 
 Future _onInit(Action action, Context<MineState> ctx) async {
+  print('111${ctx.state.userInfo}');
   if (ctx.state.animationController == null) {
     final Object ticker = ctx.stfState;
     ctx.state.animationController = AnimationController(
         vsync: ticker, duration: Duration(milliseconds: 1000));
   }
-  String name = ctx.state.user?.userInfo?.username;
+  String name = ctx.state.userInfo?.username;
   String avatar = 'assets/images/avatar.png';
-  bool islogin = false;
-  ctx.dispatch(MineActionCreator.onInit(name, avatar, islogin));
+  ctx.dispatch(MineActionCreator.onInit(name, avatar));
 }
 
 void _onBuild(Action action, Context<MineState> ctx) {

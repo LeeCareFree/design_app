@@ -1,13 +1,12 @@
 import 'dart:ui';
-import 'package:bluespace/models/user_info_entity.dart';
+import 'package:bluespace/models/user_info.dart';
 import 'package:fish_redux/fish_redux.dart';
 
 abstract class GlobalBaseState {
   Color get themeColor;
   set themeColor(Color color);
-
-  UserInfoEntity get userInfo;
-  set userInfo(UserInfoEntity userInfo);
+  UserInfo get userInfo;
+  set userInfo(UserInfo userInfo);
 }
 
 class GlobalState implements GlobalBaseState, Cloneable<GlobalState> {
@@ -15,7 +14,7 @@ class GlobalState implements GlobalBaseState, Cloneable<GlobalState> {
   Color themeColor;
 
   @override
-  UserInfoEntity userInfo;
+  UserInfo userInfo;
 
   @override
   GlobalState clone() {

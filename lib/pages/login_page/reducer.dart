@@ -16,6 +16,7 @@ LoginPageState _onAction(LoginPageState state, Action action) {
   final LoginPageState newState = state.clone();
   return newState;
 }
+
 LoginPageState _switchLoginMode(LoginPageState state, Action action) {
   final LoginPageState newState = state.clone();
   newState.isPhoneLogin = !state.isPhoneLogin;

@@ -5,7 +5,8 @@ class ThemeStyle {
     tabBarTheme: TabBarTheme(labelColor: const Color(0xFF000000)),
     backgroundColor: const Color(0xFFFFFFFF),
     cardColor: const Color(0xFFFFFFFF),
-    bottomAppBarColor: const Color.fromRGBO(45, 45, 48, 1),
+    buttonColor: const Color.fromRGBO(46, 76, 114, 1),
+    bottomAppBarColor: const Color.fromRGBO(46, 76, 114, 1),
     primaryColorLight: const Color(0xFFF5F5F5),
     primaryColorDark: const Color(0xFFEEEEEE),
   );

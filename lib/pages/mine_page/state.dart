@@ -1,4 +1,4 @@
-import 'package:bluespace/models/app_user.dart';
+import 'package:bluespace/models/user_info.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,26 +12,23 @@ class MineState implements Cloneable<MineState> {
   bool isLogin;
   AnimationController animationController;
   @override
+  UserInfo userInfo;
+  @override
   MineState clone() {
     return MineState()
-    ..name = name
-    ..avatar = avatar
-    ..isLogin = isLogin
-    ..themeColor = themeColor
-    ..animationController = animationController
-    ..scafoldState = scafoldState
-    ..user = user;
+      ..name = name
+      ..avatar = avatar
+      ..isLogin = isLogin
+      ..themeColor = themeColor
+      ..animationController = animationController
+      ..scafoldState = scafoldState
+      ..userInfo = userInfo;
   }
+
   @override
   Color themeColor;
-
-  @override
-  AppUser user;
-
 }
 
 MineState initState(Map<String, dynamic> args) {
-  return MineState()
-  ..name = ''
-  ..isLogin = false;
+  return MineState()..name = '';
 }

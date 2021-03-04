@@ -7,12 +7,18 @@
  * @FilePath: \bluespace\lib\pages\login_page\effect.dart
  */
 import 'dart:async';
+import 'dart:convert';
+import 'package:bluespace/globalState/action.dart';
+import 'package:bluespace/globalState/store.dart';
 import 'package:bluespace/models/login_model.dart';
+import 'package:bluespace/models/user_info.dart';
 import 'package:bluespace/net/dio_utils.dart';
 import 'package:bluespace/net/http_api.dart';
+import 'package:bluespace/net/service_method.dart';
 import 'package:bluespace/utils/toast.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/widgets.dart' hide Action;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'action.dart';
 import 'state.dart';
 
@@ -97,25 +103,31 @@ Future _phoneNumSignIn(Action action, Context<LoginPageState> ctx) async {
     Toast.show('请输入正确的手机号和密码！');
     return;
   }
-  Map<String, String> params = Map();
-  params['username'] = username;
-  params['password'] = password;
-  // params['vtoken'] = message['vtoken'];
-  // params['vsessionId'] = message['vsessionId'];
-  DioUtils.instance.requestNetwork<LoginModel>(Method.post, HttpApi.login,
-      params: params, queryParameters: null, onSuccess: (res) async {
-    if (res.data != null) {
-      ctx.dispatch(LoginPageActionCreator.getUserInfo());
-      Navigator.of(ctx.context).pop({'s': true, 'name': res.data.username});
-      Toast.show(res.msg);
-    }
-    print(res);
+
+  var loginData = {
+    'username': username,
+    'password': password,
+  };
+  String formData = json.encode(loginData);
+
+  var data = await DioUtil.request('login', formData: formData);
+  data = json.decode(data.toString());
+  print('1$data');
+  if (data['code'] != 200) {
+    Toast.show(data['msg']);
     ctx.state.submitAnimationController.reset();
-    Toast.show(res.msg);
-  }, onError: (code, msg) {
-    Toast.show(msg);
-  });
-  return null;
+  } else {
+    ctx.state.submitAnimationController.reset();
+    GlobalStore.store.dispatch(GlobalActionCreator.setUser(UserInfo(
+        username: data['data']['username'], token: data['data']['token'])));
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // token储存到本地
+    prefs.setString('token', data['data']['token']);
+    ctx.state.submitAnimationController.reset();
+    Navigator.of(ctx.context)
+        .pop({'s': true, 'name': data['data']['username']});
+    Toast.show(data['msg']);
+  }
 }
 
 void _getUserInfo(Action action, Context<LoginPageState> ctx) async {
@@ -145,18 +157,20 @@ Future _onSignUp(Action action, Context<LoginPageState> ctx) async {
   params['password'] = password;
   // params['vtoken'] = message['vtoken'];
   // params['vsessionId'] = message['vsessionId'];
-  DioUtils.instance.requestNetwork<LoginModel>(Method.post, HttpApi.register,
-      params: params, queryParameters: null, onSuccess: (res) async {
-    if (res.data != null) {
-      ctx.dispatch(LoginPageActionCreator.getUserInfo());
-      Navigator.of(ctx.context).pop({'s': true, 'name': res.data.username});
-      ctx.state.submitAnimationController.reset();
-      Toast.show(res.msg);
-    }
-    Toast.show(res.msg);
-  }, onError: (code, msg) {
-    Toast.show(msg);
-  });
+  var data = await DioUtil.request('register', formData: params);
+  print(data);
+  // DioUtils.instance.requestNetwork<LoginModel>(Method.post, HttpApi.register,
+  //     params: params, queryParameters: null, onSuccess: (res) async {
+  //   if (res.data != null) {
+  //     ctx.dispatch(LoginPageActionCreator.getUserInfo());
+  //     Navigator.of(ctx.context).pop({'s': true, 'name': res.data.username});
+  //     ctx.state.submitAnimationController.reset();
+  //     Toast.show(res.msg);
+  //   }
+  //   Toast.show(res.msg);
+  // }, onError: (code, msg) {
+  //   Toast.show(msg);
+  // });
   return null;
   // Navigator.of(ctx.context)
   //     .push(PageRouteBuilder(pageBuilder: (context, an, _) {

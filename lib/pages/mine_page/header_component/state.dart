@@ -6,23 +6,24 @@
  * @Description: In User Settings Edit
  * @FilePath: \bluespace\lib\pages\mine_page\header_component\state.dart
  */
-import 'package:bluespace/models/app_user.dart';
+import 'package:bluespace/models/user_info.dart';
 import 'package:bluespace/pages/mine_page/state.dart';
 import 'package:fish_redux/fish_redux.dart';
 
 class HeaderState implements Cloneable<HeaderState> {
-  AppUser user;
+  UserInfo userInfo;
+  String name;
   @override
   HeaderState clone() {
     return HeaderState();
   }
 }
+
 class HeaderConnector extends ConnOp<MineState, HeaderState> {
   @override
   HeaderState get(MineState state) {
     HeaderState subState = new HeaderState();
-    subState.user = state.user;
+    subState.name = state.name;
     return subState;
   }
 }
-
