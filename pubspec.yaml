@@ -41,6 +41,7 @@ dependencies:
   sprintf: ^5.0.0
   oktoast: ^2.3.2
   image_picker: ^0.6.7+22
+  flutter_swiper: ^1.1.6
 
 
 dev_dependencies:
