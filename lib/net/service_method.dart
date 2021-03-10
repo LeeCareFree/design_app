@@ -20,7 +20,7 @@ class DioUtil {
         (HttpClient client) {
       client.findProxy = (uri) {
         // return "PROXY 192.168.0.107:8899";
-        return "PROXY 192.168.0.103:8899";
+        return "PROXY 192.168.0.104:8899";
       };
     };
     try {
