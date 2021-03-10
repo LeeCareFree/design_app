@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-10-09 16:40:56
- * @LastEditTime: 2020-10-14 10:52:41
- * @LastEditors: your name
+ * @LastEditTime: 2021-03-10 14:19:23
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \bluespace\lib\app.dart
  */
