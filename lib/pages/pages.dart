@@ -14,3 +14,4 @@ export 'create_page/page.dart';
 export 'like_page/page.dart';
 export 'mine_page/page.dart';
 export 'login_page/page.dart';
+export 'publish_page/page.dart';

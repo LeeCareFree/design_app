@@ -13,16 +13,18 @@ Reducer<MineState> buildReducer() {
   );
 }
 
-MineState _onAction(MineState state, Action action) {
-  final MineState newState = state.clone();
-  return newState;
-}
-
 MineState _onInit(MineState state, Action action) {
-  final String name = action.payload[0] ?? '游客';
-  final String avatar = action.payload[1] ?? 'assets/images/.png';
+  final String name = action.payload[0];
+  final String avatar = action.payload[1];
+  final String uid = action.payload[2];
   final MineState newState = state.clone();
   newState.name = name;
   newState.avatar = avatar;
+  newState.uid = uid;
+  return newState;
+}
+
+MineState _onAction(MineState state, Action action) {
+  final MineState newState = state.clone();
   return newState;
 }

@@ -35,7 +35,7 @@ class DioUtil {
 //  dio.options.contentType = ContentType.parse("application/json;charset=UTF-8")
       print(servicePath[url]);
       if (formData == null) {
-        response = await dio.post(servicePath[url]);
+        response = await dio.get(servicePath[url]);
       } else {
         response = await dio.post(servicePath[url], data: formData);
         print(formData);

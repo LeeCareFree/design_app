@@ -59,7 +59,7 @@ Widget buildView(
 }
 
 List<BottomNavigationBarItem> _buildBottomNavigationBarItem() {
-  var _appBarTitles = ['首页', '分类', '创作', '关注', '我的'];
+  var _appBarTitles = ['首页', '分类', '发布', '关注', '我的'];
   List<BottomNavigationBarItem> _list;
   if (_list == null) {
     var _tabImages = [
@@ -86,6 +86,7 @@ List<BottomNavigationBarItem> _buildBottomNavigationBarItem() {
     ];
     _list = List.generate(5, (i) {
       return BottomNavigationBarItem(
+          // backgroundColor: const Color(0xFFEDF6FD),
           icon: Icon(_tabImages[i][0]),
           activeIcon: Icon(_tabImages[i][1]),
           title: Padding(

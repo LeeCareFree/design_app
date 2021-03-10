@@ -10,7 +10,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:bluespace/globalState/action.dart';
 import 'package:bluespace/globalState/store.dart';
-import 'package:bluespace/models/login_model.dart';
 import 'package:bluespace/models/user_info.dart';
 import 'package:bluespace/net/service_method.dart';
 import 'package:bluespace/utils/toast.dart';
@@ -37,7 +36,7 @@ void _onInit(Action action, Context<LoginPageState> ctx) {
   ctx.state.userFocusNode = FocusNode();
   ctx.state.pwdFocusNode = FocusNode();
   ctx.state.isPhoneLogin = true;
-  TickerProvider ticker = ctx.stfState as TickerProvider;
+  final Object ticker = ctx.stfState;
   ctx.state.submitAnimationController = AnimationController(
       vsync: ticker, duration: Duration(milliseconds: 1000));
   ctx.state.userTextController = TextEditingController();
@@ -110,14 +109,15 @@ Future _phoneNumSignIn(Action action, Context<LoginPageState> ctx) async {
 
   var data = await DioUtil.request('login', formData: formData);
   data = json.decode(data.toString());
-  print('1$data');
   if (data['code'] != 200) {
-    Toast.show(data['msg']);
+    Toast.show(data['msg'] ?? '请稍后再试！');
     ctx.state.submitAnimationController.reset();
   } else {
     ctx.state.submitAnimationController.reset();
     GlobalStore.store.dispatch(GlobalActionCreator.setUser(UserInfo(
-        username: data['data']['username'], token: data['data']['token'])));
+        username: data['data']['username'],
+        token: data['data']['token'],
+        uid: data['data']['uid'])));
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // token储存到本地
     prefs.setString('token', data['data']['token']);

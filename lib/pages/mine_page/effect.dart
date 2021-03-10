@@ -9,8 +9,8 @@ Effect<MineState> buildEffect() {
     Lifecycle.build: _onBuild,
     Lifecycle.dispose: _onDispose,
     MineAction.action: _onAction,
-    MineAction.login: _onLogin,
     MineAction.navigatorPush: _navigatorPush,
+    MineAction.login: _onLogin,
   });
 }
 
@@ -23,25 +23,28 @@ Future _navigatorPush(Action action, Context<MineState> ctx) async {
 }
 
 Future _onLogin(Action action, Context<MineState> ctx) async {
+  print('112');
   var r = (await Navigator.of(ctx.context).pushNamed('loginPage')) as Map;
   if (r == null) return;
   if (r['s'] == true) {
+    print('112${r['name']}');
     String name = r['name'];
-    String avatar = 'assets/images/avatar.png';
-    ctx.dispatch(MineActionCreator.onInit(name, avatar));
+    String avatar = ctx.state.user?.avatar;
+    String uid = ctx.state.user?.uid;
+    ctx.dispatch(MineActionCreator.onInit(name, avatar, uid));
   }
 }
 
 Future _onInit(Action action, Context<MineState> ctx) async {
-  print('111${ctx.state.userInfo}');
   if (ctx.state.animationController == null) {
     final Object ticker = ctx.stfState;
     ctx.state.animationController = AnimationController(
         vsync: ticker, duration: Duration(milliseconds: 1000));
   }
-  String name = ctx.state.userInfo?.username;
-  String avatar = 'assets/images/avatar.png';
-  ctx.dispatch(MineActionCreator.onInit(name, avatar));
+  String name = ctx.state.user?.username;
+  String avatar = ctx.state.user?.avatar;
+  String uid = ctx.state.user?.uid;
+  ctx.dispatch(MineActionCreator.onInit(name, avatar, uid));
 }
 
 void _onBuild(Action action, Context<MineState> ctx) {
