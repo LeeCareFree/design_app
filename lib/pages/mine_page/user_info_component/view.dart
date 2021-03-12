@@ -67,6 +67,7 @@ Widget buildView(
     isSignIn: state.name != null,
     user: state.user,
     name: state.name,
+    avatar: state.avatar,
     openMenu: _showMenu,
     onSignIn: () => dispatch(MineActionCreator.onLogin()),
     overlayStateKey: state.overlayStateKey,
@@ -77,6 +78,7 @@ class _Body extends StatelessWidget {
   final bool isSignIn;
   final UserInfo user;
   final String name;
+  final String avatar;
   final Key overlayStateKey;
   final Function openMenu;
   final Function onSignIn;
@@ -86,6 +88,7 @@ class _Body extends StatelessWidget {
       this.onSignIn,
       this.user,
       this.name,
+      this.avatar,
       this.overlayStateKey});
   @override
   Widget build(BuildContext context) {
@@ -95,7 +98,7 @@ class _Body extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(0, Adapt.px(30), 0, 25),
           child: isSignIn
               ? _UserInfo(
-                  profileUrl: 'http://192.168.0.103:3000/imgs/avatar.jpg',
+                  profileUrl: avatar,
                   userName: name,
                   openMenu: openMenu,
                   overlayStateKey: overlayStateKey)
@@ -159,7 +162,8 @@ class _UserInfo extends StatelessWidget {
                         ? null
                         : DecorationImage(
                             fit: BoxFit.cover,
-                            image: CachedNetworkImageProvider(profileUrl),
+                            image: NetworkImage(
+                                'http://192.168.0.103:3000/imgs/avatar.jpg'),
                           ),
                   ),
                 ),

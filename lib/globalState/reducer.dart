@@ -24,7 +24,6 @@ GlobalState _onAction(GlobalState state, Action action) {
 
 GlobalState _onSetUser(GlobalState state, Action action) {
   final UserInfo userInfo = action.payload;
-  print(action.payload);
   return state.clone()..userInfo = userInfo;
 }
 

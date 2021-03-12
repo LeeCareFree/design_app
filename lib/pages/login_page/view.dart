@@ -111,7 +111,7 @@ class _AppBar extends StatelessWidget {
       left: 0.0,
       right: 0.0,
       child: AppBar(
-        brightness: Brightness.dark,
+        brightness: Brightness.light,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         iconTheme: IconThemeData(color: Colors.white),

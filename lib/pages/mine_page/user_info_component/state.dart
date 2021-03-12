@@ -33,6 +33,7 @@ class UserInfoConnector extends ConnOp<MineState, UserInfoState> {
   UserInfoState get(MineState state) {
     UserInfoState substate = new UserInfoState();
     substate.name = state.name;
+    substate.avatar = state.avatar;
     return substate;
   }
 }

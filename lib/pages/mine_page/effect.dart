@@ -1,5 +1,6 @@
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart' hide Action;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'action.dart';
 import 'state.dart';
 
@@ -23,11 +24,9 @@ Future _navigatorPush(Action action, Context<MineState> ctx) async {
 }
 
 Future _onLogin(Action action, Context<MineState> ctx) async {
-  print('112');
   var r = (await Navigator.of(ctx.context).pushNamed('loginPage')) as Map;
   if (r == null) return;
   if (r['s'] == true) {
-    print('112${r['name']}');
     String name = r['name'];
     String avatar = ctx.state.user?.avatar;
     String uid = ctx.state.user?.uid;
@@ -41,9 +40,10 @@ Future _onInit(Action action, Context<MineState> ctx) async {
     ctx.state.animationController = AnimationController(
         vsync: ticker, duration: Duration(milliseconds: 1000));
   }
-  String name = ctx.state.user?.username;
-  String avatar = ctx.state.user?.avatar;
-  String uid = ctx.state.user?.uid;
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String name = prefs.getString('username');
+  String avatar = prefs.getString('avatar');
+  String uid = prefs.getString('uid');
   ctx.dispatch(MineActionCreator.onInit(name, avatar, uid));
 }
 

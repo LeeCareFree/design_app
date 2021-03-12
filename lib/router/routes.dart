@@ -36,6 +36,7 @@ class Routes {
               final GlobalBaseState newState = copy;
               newState.themeColor = appState.themeColor;
               newState.userInfo = appState.userInfo;
+              print('test${newState.userInfo}');
               return newState;
             }
           }

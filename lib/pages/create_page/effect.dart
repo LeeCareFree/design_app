@@ -1,7 +1,9 @@
-import 'package:bluespace/pages/create_page/components/image_picker_handler.dart';
+import 'dart:io';
+
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/cupertino.dart' hide Action;
 import 'package:image_picker/image_picker.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 import 'action.dart';
 import 'state.dart';
 
@@ -29,16 +31,46 @@ void _onInit(Action action, Context<CreateState> ctx) {
 }
 
 Future _onShowImgClicked(Action action, Context<CreateState> ctx) async {
+  List<Asset> resultList = <Asset>[];
   if (action.payload == '相机') {
-    // ctx.state.showImgAnimationController.forward();
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
-    var r = (await Navigator.of(ctx.context).pushNamed('publishPage')) as Map;
-    // cropImage(image);
+    resultList = await MultiImagePicker.pickImages(
+      maxImages: 9,
+      enableCamera: true,
+      selectedAssets: ctx.state.images,
+      cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
+      materialOptions: MaterialOptions(
+        startInAllView: true,
+        actionBarColor: "#abcdef",
+        actionBarTitle: "请选择",
+        allViewTitle: "所有图片",
+        useDetailsView: true,
+        selectCircleStrokeColor: "#000000",
+      ),
+    );
+    if (resultList != null) {
+      await Navigator.of(ctx.context)
+          .pushNamed('publishPage', arguments: {'images': resultList});
+    }
   } else if (action.payload == '相册') {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    var r = (await Navigator.of(ctx.context).pushNamed('publishPage')) as Map;
+    // var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    resultList = await MultiImagePicker.pickImages(
+      maxImages: 9,
+      enableCamera: true,
+      selectedAssets: ctx.state.images,
+      cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
+      materialOptions: MaterialOptions(
+        actionBarColor: "#abcdef",
+        actionBarTitle: "请选择",
+        allViewTitle: "所有图片",
+        useDetailsView: true,
+        selectCircleStrokeColor: "#000000",
+      ),
+    );
+    if (resultList != null) {
+      await Navigator.of(ctx.context)
+          .pushNamed('publishPage', arguments: {'images': resultList});
+    }
   }
-  // imagePicker.showDialog(context)
 }
 
 void _onDispose(Action action, Context<CreateState> ctx) {

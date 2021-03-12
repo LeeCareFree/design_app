@@ -120,11 +120,21 @@ Future _phoneNumSignIn(Action action, Context<LoginPageState> ctx) async {
         uid: data['data']['uid'])));
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // token储存到本地
-    prefs.setString('token', data['data']['token']);
-    ctx.state.submitAnimationController.reset();
-    Navigator.of(ctx.context)
-        .pop({'s': true, 'name': data['data']['username']});
-    Toast.show(data['msg']);
+    final setTokenResult =
+        await prefs.setString('token', data['data']['token']);
+    await prefs.setString('username', data['data']['username']);
+    await prefs.setString('uid', data['data']['uid']);
+    await prefs.setString('avatar', data['data']['avatar']);
+    if (setTokenResult) {
+      debugPrint('保存登录token成功');
+      ctx.state.submitAnimationController.reset();
+      Navigator.of(ctx.context)
+          .pop({'s': true, 'name': data['data']['username']});
+      Toast.show(data['msg']);
+    } else {
+      ctx.state.submitAnimationController.reset();
+      debugPrint('error, 保存登录token失败');
+    }
   }
 }
 

@@ -1,27 +1,19 @@
 import 'dart:io';
 
-import 'package:bluespace/pages/create_page/components/image_picker_handler.dart';
 import 'package:fish_redux/fish_redux.dart';
-import 'package:flutter/animation.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 
 class CreateState implements Cloneable<CreateState> {
-  ImagePickerHandler imagePicker;
-  // AnimationController showImgAnimationController;
-  File _image;
+  List<Asset> images = [];
   String selectedVal;
   @override
   CreateState clone() {
     return CreateState()
-      // ..showImgAnimationController = showImgAnimationController
-      ..imagePicker = imagePicker
-      ..selectedVal = selectedVal
-      .._image = _image;
+      ..images = images
+      ..selectedVal = selectedVal;
   }
 }
 
 CreateState initState(Map<String, dynamic> args) {
-  // state._image = null;
-  // ImagePickerHandler imagePicker;
-  // state.imagePicker = new ImagePickerHandler(state._listener);
-  return CreateState();
+  return CreateState()..images = [];
 }

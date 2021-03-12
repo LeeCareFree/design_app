@@ -15,8 +15,7 @@ import 'state.dart';
 Widget buildView(
     StartPageState state, Dispatch dispatch, ViewService viewService) {
   return Container(
-  //     child: Center(
-  //   child: Text('111'),
-  // )
-  );
+      child: Center(
+    child: Text('111'),
+  ));
 }

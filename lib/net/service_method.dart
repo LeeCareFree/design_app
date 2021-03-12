@@ -20,7 +20,7 @@ class DioUtil {
         (HttpClient client) {
       client.findProxy = (uri) {
         // return "PROXY 192.168.0.107:8899";
-        return "PROXY 192.168.0.104:8899";
+        return "PROXY 192.168.0.103:8899";
       };
     };
     try {
@@ -31,7 +31,7 @@ class DioUtil {
       Response response;
       dio.options.responseType = ResponseType.plain;
       dio.options.headers = httpHeaders;
-      tokenInter();
+      tokenInter(context, servicePath[url]);
 //  dio.options.contentType = ContentType.parse("application/json;charset=UTF-8")
       print(servicePath[url]);
       if (formData == null) {
@@ -93,17 +93,26 @@ class DioUtil {
     }
   }
 
-  static tokenInter() {
+  static tokenInter(context, url) {
     dio.interceptors.add(
       InterceptorsWrapper(onRequest: (RequestOptions options) {
         dio.lock();
         Future<dynamic> future = Future(() async {
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          return prefs.getString('token');
+          final token = prefs.getString('token') ?? '';
+          if (token == '') {
+            Navigator.of(context).pushNamed(
+              'loginPage',
+            );
+          } else {
+            return token;
+          }
         });
         return future.then((value) {
-          options.headers["token"] = value;
-          return options;
+          if (value != null) {
+            options.headers["Authorization"] = "Bearer $value";
+            return options;
+          }
         }).whenComplete(() => dio.unlock());
       }, onResponse: (Response response) {
         // 在返回响应数据之前做一些预处理

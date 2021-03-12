@@ -7,7 +7,11 @@
  * @FilePath: \bluespace\lib\pages\start_page\effect.dart
  */
 
+import 'dart:convert';
+
+import 'package:bluespace/net/service_method.dart';
 import 'package:bluespace/router/routes.dart';
+import 'package:bluespace/utils/toast.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,13 +31,15 @@ Effect<StartPageState> buildEffect() {
 void _onAction(Action action, Context<StartPageState> ctx) {}
 void _onInit(Action action, Context<StartPageState> ctx) async {
   ctx.state.pageController = PageController();
-  SharedPreferences.getInstance().then((_p) async {
-    final _isFirst = _p.getBool('isFirstTime') ?? true;
-    if (!_isFirst)
-      await _pushToMainPage(ctx.context);
-    else
-      ctx.dispatch(StartPageActionCreator.setIsFirst(_isFirst));
-  });
+  print('init');
+  // Navigator.of(ctx.context).pushNamed('loginPage');
+  // SharedPreferences.getInstance().then((_p) async {
+  //   final _isFirst = _p.getBool('isFirstTime') ?? true;
+  //   if (!_isFirst)
+  //     await _pushToMainPage(ctx.context);
+  //   else
+  //     ctx.dispatch(StartPageActionCreator.setIsFirst(_isFirst));
+  // });
 }
 
 void _onDispose(Action action, Context<StartPageState> ctx) {
@@ -41,8 +47,10 @@ void _onDispose(Action action, Context<StartPageState> ctx) {
 }
 
 void _onBuild(Action action, Context<StartPageState> ctx) {
-  Future.delayed(Duration(milliseconds: 0), () => _pushToMainPage(ctx.context));
+  Future.delayed(
+      Duration(milliseconds: 2000), () => _pushToMainPage(ctx.context));
 }
+
 void _onStart(Action action, Context<StartPageState> ctx) async {
   SharedPreferences.getInstance().then((_p) {
     _p.setBool('isFirstTime', false);

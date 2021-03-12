@@ -6,12 +6,18 @@
  * @Description: In User Settings Edit
  * @FilePath: \bluespace\lib\app.dart
  */
+import 'dart:convert';
+
+import 'package:bluespace/net/service_method.dart';
 import 'package:bluespace/router/routes.dart';
+import 'package:bluespace/utils/toast.dart';
 import 'package:flutter/material.dart' hide Action;
 
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class App extends StatefulWidget {
   App({Key key}) : super(key: key);
@@ -29,8 +35,11 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return OKToast(
       child: FlutterEasyLoading(
-        child: MaterialApp(
-          title: 'Movie',
+          child: ScreenUtilInit(
+        designSize: Size(750, 1334),
+        allowFontScaling: false,
+        builder: () => MaterialApp(
+          title: 'blueSpace',
           debugShowCheckedModeBanner: false,
           theme: _lightTheme,
           darkTheme: _darkTheme,
@@ -41,7 +50,7 @@ class _AppState extends State<App> {
             });
           },
         ),
-      ),
+      )),
     );
   }
 }
