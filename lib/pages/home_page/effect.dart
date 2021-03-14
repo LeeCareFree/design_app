@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-08 15:42:27
- * @LastEditTime: 2021-03-13 16:16:26
+ * @LastEditTime: 2021-03-14 15:48:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \design_app\lib\pages\home_page\effect.dart
@@ -47,7 +47,7 @@ Future _onInit(Action action, Context<HomeState> ctx) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final token = prefs.getString('token') ?? '';
   if (token != '') {
-    var data = await DioUtil.request('token', formData: {'token': token});
+    var data = await DioUtil.request('token');
     data = json.decode(data.toString());
     if (data['code'] != 200) {
       Toast.show(data['msg'] ?? '请登录！');

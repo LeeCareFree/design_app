@@ -28,19 +28,19 @@ class SlideShow {
 }
 
 class Data {
-  List<String> imgList;
+  String img;
   String title;
 
-  Data({this.imgList, this.title});
+  Data({this.img, this.title});
 
   Data.fromJson(Map<String, dynamic> json) {
-    imgList = json['imgList'].cast<String>();
+    img = json['img'];
     title = json['title'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['imgList'] = this.imgList;
+    data['img'] = this.img;
     data['title'] = this.title;
     return data;
   }

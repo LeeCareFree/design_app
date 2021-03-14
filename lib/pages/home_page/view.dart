@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:bluespace/style/themeStyle.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'action.dart';
 import 'state.dart';
@@ -40,7 +41,7 @@ Widget buildView(HomeState state, Dispatch dispatch, ViewService viewService) {
                         color: Color.fromRGBO(0, 0, 0, .3),
                       ),
               ),
-              PublishList()
+              ArticleList()
             ],
           ),
         ));
@@ -125,7 +126,7 @@ class SwiperDiy extends StatelessWidget {
             ),
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: NetworkImage("${swiperDataList[index].imgList[0]}"),
+                    image: NetworkImage("${swiperDataList[index].img}"),
                     fit: BoxFit.fill),
                 borderRadius: BorderRadius.all(Radius.circular(Adapt.px(10)))),
           );
@@ -145,10 +146,9 @@ class SwiperDiy extends StatelessWidget {
   }
 }
 
-class PublishList extends StatelessWidget {
-  PublishList({Key key}) : super(key: key);
-  final List list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  
+class ArticleList extends StatelessWidget {
+  ArticleList({Key key}) : super(key: key);
+  final List list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
   @override
   Widget build(BuildContext context) {
@@ -156,19 +156,98 @@ class PublishList extends StatelessWidget {
     return StaggeredGridView.countBuilder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      crossAxisCount: 4, 
+      crossAxisCount: 4,
       itemCount: list.length,
-      itemBuilder: (context,i){
-          return Container(
-            color: _theme.buttonColor,
-          );
-      }, 
-      staggeredTileBuilder: (index){
-        return StaggeredTile.count(2, index.isEven ? 2 : 1);  //第一个参数是横轴所占的单元数，第二个参数是主轴所占的单元数
-      },
-      padding: EdgeInsets.all(8),
-      mainAxisSpacing: 8.0,
-      crossAxisSpacing: 8.0,
+      itemBuilder: (context, i) => ArticleItem(),
+      staggeredTileBuilder: (index) => StaggeredTile.fit(2),
+      mainAxisSpacing: 1.0,
+      crossAxisSpacing: 1.0,
+    );
+  }
+}
+
+class ArticleItem extends StatelessWidget {
+  final String img;
+  final String title;
+  final String username;
+  final String avatar;
+  final String type;
+  final String coll;
+
+  ArticleItem(
+      {this.img, this.title, this.username, this.avatar, this.type, this.coll});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            color: Colors.pink,
+            height: ScreenUtil().setHeight(200),
+          ),
+          Container(
+            padding:
+                EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(20)),
+            margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(10)),
+            child: Text(
+              '这是标题',
+              style: TextStyle(
+                  fontSize: ScreenUtil().setSp(30),
+                  fontWeight: FontWeight.bold),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(
+                left: ScreenUtil().setWidth(20),
+                bottom: ScreenUtil().setWidth(10)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  backgroundColor: Colors.lightBlue,
+                  radius: ScreenUtil().setWidth(20),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                      left: ScreenUtil().setWidth(10),
+                      right: ScreenUtil().setWidth(10)),
+                  width: ScreenUtil().setWidth(180),
+                  child: Text(
+                    '这里是作者',
+                    style: TextStyle(fontSize: ScreenUtil().setSp(22)),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Container(
+                  color: Colors.teal,
+                  width: ScreenUtil().setWidth(80),
+                  alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.star_outline,
+                      size: ScreenUtil().setSp(38),
+                    ),
+                    0 == 0
+                        ? Text('')
+                        : Text(
+                            '11',
+                            style: TextStyle(fontSize: ScreenUtil().setSp(22)),
+                          )
+                  ],
+                ))
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-10-09 17:37:51
- * @LastEditTime: 2020-10-09 17:48:50
+ * @LastEditTime: 2021-03-14 15:43:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \bluespace\lib\pages\start_page\effect.dart
