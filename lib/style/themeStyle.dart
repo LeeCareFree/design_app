@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ThemeStyle {
   static final lightTheme = ThemeData.light().copyWith(
     tabBarTheme: TabBarTheme(labelColor: const Color(0xFF000000)),
-    backgroundColor: const Color(0xFFFFFFFF),
+    backgroundColor: const Color(0xFFEDF6FD),
     cardColor: const Color(0xFFFFFFFF),
     buttonColor: const Color.fromRGBO(46, 76, 114, 1),
     bottomAppBarColor: const Color.fromRGBO(46, 76, 114, 1),

@@ -31,7 +31,6 @@ dependencies:
   fish_redux: ^0.3.7
   fluro: ^1.6.3
   flutter_downloader: ^1.5.1
-  fluttertoast: ^7.1.1
   cached_network_image: ^2.3.2+1
   common_utils: ^1.2.1
   shared_preferences: ^0.5.12
@@ -39,11 +38,12 @@ dependencies:
   dio: ^3.0.10
   flustars: ^0.3.3
   sprintf: ^5.0.0
-  oktoast: ^2.3.2
   multi_image_picker: ^4.8.0
   image_picker: ^0.6.7+22
   flutter_swiper: ^1.1.6
   flutter_screenutil: ^4.0.3+3
+  shimmer: ^1.1.2
+  fluttertoast: ^7.1.8
 
 
 dev_dependencies:

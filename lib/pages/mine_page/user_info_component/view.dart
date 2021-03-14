@@ -162,8 +162,7 @@ class _UserInfo extends StatelessWidget {
                         ? null
                         : DecorationImage(
                             fit: BoxFit.cover,
-                            image: NetworkImage(
-                                'http://192.168.0.103:3000/imgs/avatar.jpg'),
+                            image: NetworkImage(profileUrl),
                           ),
                   ),
                 ),

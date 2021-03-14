@@ -139,8 +139,8 @@ class _ImagePanel extends StatelessWidget {
               child: TextField(
                 focusNode: contentFocusNode,
                 controller: contentTextController,
-                maxLines: 3,
-                maxLength: 30,
+                maxLines: 6,
+                maxLength: 300,
                 decoration: InputDecoration.collapsed(
                   hintText: '写下图片的介绍~',
                 ),

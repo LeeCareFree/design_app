@@ -10,13 +10,11 @@ import 'dart:convert';
 
 import 'package:bluespace/net/service_method.dart';
 import 'package:bluespace/router/routes.dart';
-import 'package:bluespace/utils/toast.dart';
 import 'package:flutter/material.dart' hide Action;
 
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class App extends StatefulWidget {
@@ -33,24 +31,46 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return OKToast(
-      child: FlutterEasyLoading(
-          child: ScreenUtilInit(
-        designSize: Size(750, 1334),
-        allowFontScaling: false,
-        builder: () => MaterialApp(
-          title: 'blueSpace',
-          debugShowCheckedModeBanner: false,
-          theme: _lightTheme,
-          darkTheme: _darkTheme,
-          home: routes.buildPage('startPage', null),
-          onGenerateRoute: (RouteSettings settings) {
-            return MaterialPageRoute<Object>(builder: (BuildContext context) {
-              return routes.buildPage(settings.name, settings.arguments);
-            });
-          },
-        ),
-      )),
+    return MaterialApp(
+      title: 'blueSpace',
+      debugShowCheckedModeBanner: false,
+      theme: _lightTheme,
+      darkTheme: _darkTheme,
+      home: routes.buildPage('startPage', null),
+      onGenerateRoute: (RouteSettings settings) {
+        return MaterialPageRoute<Object>(builder: (BuildContext context) {
+          return routes.buildPage(settings.name, settings.arguments);
+        });
+      },
     );
   }
 }
+
+// class _AppState extends State<App> {
+//   final AbstractRoutes routes = Routes.routes;
+//   final ThemeData _lightTheme = ThemeData.light();
+//   final ThemeData _darkTheme = ThemeData.dark();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return OKToast(
+//       child: FlutterEasyLoading(
+//           child: ScreenUtilInit(
+//         designSize: Size(750, 1334),
+//         allowFontScaling: false,
+//         builder: () => MaterialApp(
+//           title: 'blueSpace',
+//           debugShowCheckedModeBanner: false,
+//           theme: _lightTheme,
+//           darkTheme: _darkTheme,
+//           home: routes.buildPage('startPage', null),
+//           onGenerateRoute: (RouteSettings settings) {
+//             return MaterialPageRoute<Object>(builder: (BuildContext context) {
+//               return routes.buildPage(settings.name, settings.arguments);
+//             });
+//           },
+//         ),
+//       )),
+//     );
+//   }
+// }

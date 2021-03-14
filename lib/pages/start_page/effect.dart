@@ -11,7 +11,6 @@ import 'dart:convert';
 
 import 'package:bluespace/net/service_method.dart';
 import 'package:bluespace/router/routes.dart';
-import 'package:bluespace/utils/toast.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -47,8 +46,7 @@ void _onDispose(Action action, Context<StartPageState> ctx) {
 }
 
 void _onBuild(Action action, Context<StartPageState> ctx) {
-  Future.delayed(
-      Duration(milliseconds: 2000), () => _pushToMainPage(ctx.context));
+  Future.delayed(Duration(milliseconds: 0), () => _pushToMainPage(ctx.context));
 }
 
 void _onStart(Action action, Context<StartPageState> ctx) async {
@@ -64,7 +62,7 @@ Future _pushToMainPage(BuildContext context) async {
         return Routes.routes.buildPage('mainPage', {
           'pages': List<Widget>.unmodifiable([
             Routes.routes.buildPage('homePage', null),
-            Routes.routes.buildPage('sortPage', null),
+            Routes.routes.buildPage('articleDetailPage', null),
             Routes.routes.buildPage('createPage', null),
             Routes.routes.buildPage('likePage', null),
             Routes.routes.buildPage('minePage', null)

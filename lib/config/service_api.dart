@@ -3,6 +3,6 @@ const servicePath = {
   'login': serviceUrl + 'users/login',
   'register': serviceUrl + 'users/register',
   'slideshow': serviceUrl + 'homes/slideshow',
-  'publish': serviceUrl + 'publish/create',
+  'create': serviceUrl + 'articles/create',
   'token': serviceUrl + 'token/checkToken'
 };

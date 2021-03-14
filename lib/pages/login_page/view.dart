@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bluespace/style/themeStyle.dart';
 import 'package:bluespace/utils/adapt.dart';
-import 'package:bluespace/utils/toast.dart';
 import 'package:bluespace/components/app_cliper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fish_redux/fish_redux.dart';
@@ -14,12 +13,12 @@ import 'state.dart';
 
 Widget buildView(
     LoginPageState state, Dispatch dispatch, ViewService viewService) {
-  return Scaffold(
+  return new Scaffold(
     resizeToAvoidBottomInset: false,
     body: Stack(
       children: <Widget>[
         _BackGround(controller: state.animationController),
-        _LoginFrom(
+        _LoginBody(
           animationController: state.animationController,
           submitAnimationController: state.submitAnimationController,
           isPhoneLogin: state.isPhoneLogin,
@@ -120,7 +119,7 @@ class _AppBar extends StatelessWidget {
   }
 }
 
-class _LoginFrom extends StatelessWidget {
+class _LoginBody extends StatelessWidget {
   final Dispatch dispatch;
   final AnimationController animationController;
   final AnimationController submitAnimationController;
@@ -129,7 +128,7 @@ class _LoginFrom extends StatelessWidget {
   final FocusNode userFocusNode;
   final FocusNode pwdFocusNode;
   final bool isPhoneLogin;
-  const _LoginFrom({
+  const _LoginBody({
     this.dispatch,
     this.animationController,
     this.submitAnimationController,

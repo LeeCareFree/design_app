@@ -12,9 +12,9 @@ import 'package:bluespace/globalState/action.dart';
 import 'package:bluespace/globalState/store.dart';
 import 'package:bluespace/models/user_info.dart';
 import 'package:bluespace/net/service_method.dart';
-import 'package:bluespace/utils/toast.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/widgets.dart' hide Action;
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'action.dart';
 import 'state.dart';
@@ -97,7 +97,7 @@ Future _phoneNumSignIn(Action action, Context<LoginPageState> ctx) async {
       password.isEmpty ||
       !isPwd(password)) {
     ctx.state.submitAnimationController.reset();
-    Toast.show('请输入正确的手机号和密码！');
+    Fluttertoast.showToast(msg: '请输入正确的手机号和密码！');
     return;
   }
 
@@ -110,7 +110,7 @@ Future _phoneNumSignIn(Action action, Context<LoginPageState> ctx) async {
   var data = await DioUtil.request('login', formData: formData);
   data = json.decode(data.toString());
   if (data['code'] != 200) {
-    Toast.show(data['msg'] ?? '请稍后再试！');
+    Fluttertoast.showToast(msg: data['msg'] ?? '请稍后再试！');
     ctx.state.submitAnimationController.reset();
   } else {
     ctx.state.submitAnimationController.reset();
@@ -130,7 +130,7 @@ Future _phoneNumSignIn(Action action, Context<LoginPageState> ctx) async {
       ctx.state.submitAnimationController.reset();
       Navigator.of(ctx.context)
           .pop({'s': true, 'name': data['data']['username']});
-      Toast.show(data['msg']);
+      Fluttertoast.showToast(msg: data['msg']);
     } else {
       ctx.state.submitAnimationController.reset();
       debugPrint('error, 保存登录token失败');
@@ -157,7 +157,7 @@ Future _onSignUp(Action action, Context<LoginPageState> ctx) async {
       password.isEmpty ||
       !isPwd(password)) {
     ctx.state.submitAnimationController.reset();
-    Toast.show('请输入正确的手机号和密码！');
+    Fluttertoast.showToast(msg: '请输入正确的手机号和密码！');
     return;
   }
   Map<String, String> params = Map();

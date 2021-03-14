@@ -22,7 +22,8 @@ class Routes {
       'likePage': LikePage(),
       'minePage': MinePage(),
       'loginPage': LoginPage(),
-      'publishPage': PublishPage()
+      'publishPage': PublishPage(),
+      'articleDetailPage': ArticleDetailPage(),
     },
     visitor: (String path, Page<Object, dynamic> page) {
       if (page.isTypeof<GlobalBaseState>()) {

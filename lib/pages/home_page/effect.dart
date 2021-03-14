@@ -12,8 +12,8 @@ import 'package:fish_redux/fish_redux.dart';
 
 import 'package:bluespace/net/service_method.dart';
 import 'package:bluespace/models/slideshow_model.dart';
-import 'package:bluespace/utils/toast.dart';
 import 'package:flutter/cupertino.dart' hide Action;
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'action.dart';
@@ -37,7 +37,7 @@ Future _onGetBanner(Action action, Context<HomeState> ctx) async {
     List bannerList = slideShow.data;
     ctx.dispatch(HomeActionCreator.initBanner(bannerList));
   } else {
-    Toast.show(slideShow.msg ?? '获取轮播图失败!');
+    Fluttertoast.showToast(msg: slideShow.msg ?? '获取轮播图失败!');
   }
 }
 
@@ -48,7 +48,7 @@ Future _onInit(Action action, Context<HomeState> ctx) async {
     var data = await DioUtil.request('token', formData: {'token': token});
     data = json.decode(data.toString());
     if (data['code'] != 200) {
-      Toast.show(data['msg'] ?? '请登录！');
+      Fluttertoast.showToast(msg: data['msg'] ?? '请登录！');
       Future.delayed(Duration(milliseconds: 0),
           () => Navigator.of(ctx.context).pushNamed('loginPage'));
     } else {}

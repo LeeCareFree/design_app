@@ -15,7 +15,7 @@ Widget buildView(
       _MineListCell(
         title: '我的日记',
         icon: 'assets/images/diary.png',
-        // onTap: () => dispatch(SettingsActionCreator.adultContentTapped()),
+        onTap: () => dispatch(MineListActionCreator.toArticlePage()),
       ),
     ]),
     SizedBox(height: 5),

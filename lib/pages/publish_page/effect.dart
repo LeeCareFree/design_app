@@ -3,11 +3,11 @@ import 'dart:io';
 
 import 'package:bluespace/models/user_info.dart';
 import 'package:bluespace/net/service_method.dart';
-import 'package:bluespace/utils/toast.dart';
 import 'package:dio/dio.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/cupertino.dart' hide Action;
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 import 'package:http_parser/http_parser.dart';
@@ -62,7 +62,7 @@ Future _onPublish(Action action, Context<PublishState> ctx) async {
   String content = ctx.state.contentTextController.text;
   print(title);
   if (title == '' || content == '') {
-    Toast.show('标题和描述不能为空！');
+    Fluttertoast.showToast(msg: '标题和描述不能为空！');
   } else {
     List<MultipartFile> imageList = new List<MultipartFile>();
     for (int i = 0; i < ctx.state.images.length; i++) {
@@ -80,6 +80,8 @@ Future _onPublish(Action action, Context<PublishState> ctx) async {
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final uid = prefs.getString('uid') ?? '';
+    final username = prefs.getString('username') ?? '';
+    final avatar = prefs.getString('avatar') ?? '';
     FormData formData = new FormData.fromMap({
       //后端要用multipartFiles接收参数，否则为null
       // 图片
@@ -87,16 +89,18 @@ Future _onPublish(Action action, Context<PublishState> ctx) async {
       'uid': uid,
       'title': title,
       'detail': content,
-      "files": imageList
+      "files": imageList,
+      "username": username,
+      "avatar": avatar
     });
     // 使用 dio上传图片
-    var data = await DioUtil.request('publish',
+    var data = await DioUtil.request('create',
         formData: formData, context: ctx.context);
     data = json.decode(data.toString());
     if (data['code'] != 200) {
-      Toast.show(data['msg'] ?? '请稍后再试！');
+      Fluttertoast.showToast(msg: data['msg'] ?? '请稍后再试！');
     } else {
-      Toast.show('发布成功');
+      Fluttertoast.showToast(msg: '发布成功');
       Navigator.of(ctx.context).pop();
       // Navigator.of(ctx.context).pushNamed('homePage');
 
