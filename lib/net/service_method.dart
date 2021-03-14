@@ -20,7 +20,7 @@ class DioUtil {
         (HttpClient client) {
       client.findProxy = (uri) {
         // return "PROXY 192.168.0.107:8899";
-        return "PROXY 192.168.0.103:8899";
+        return "PROXY 192.168.0.102:8899";
       };
     };
     try {
@@ -98,6 +98,9 @@ class DioUtil {
       InterceptorsWrapper(onRequest: (RequestOptions options) {
         dio.lock();
         Future<dynamic> future = Future(() async {
+          if (url.contains('login') || url.contains('register')) {
+            return null;
+          }
           SharedPreferences prefs = await SharedPreferences.getInstance();
           final token = prefs.getString('token') ?? '';
           if (token == '') {
