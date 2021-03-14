@@ -98,6 +98,9 @@ class DioUtil {
       InterceptorsWrapper(onRequest: (RequestOptions options) {
         dio.lock();
         Future<dynamic> future = Future(() async {
+          if (url.contains('login') || url.contains('register')) {
+            return null;
+          }
           SharedPreferences prefs = await SharedPreferences.getInstance();
           final token = prefs.getString('token') ?? '';
           if (token == '') {
