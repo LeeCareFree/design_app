@@ -27,7 +27,7 @@ Widget buildView(MineState state, Dispatch dispatch, ViewService viewService) {
               ? SystemUiOverlayStyle.dark
               : SystemUiOverlayStyle.light,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: Adapt.px(40)),
+            padding: EdgeInsets.symmetric(horizontal: Adapt.width(40)),
             child: CustomScrollView(
               physics: BouncingScrollPhysics(),
               // scrollDirection: Axis.horizontal,
@@ -77,7 +77,7 @@ class _SecondPanel extends StatelessWidget {
         onTap: onTap,
         child: Container(
           margin: EdgeInsets.only(bottom: 25),
-          height: Adapt.px(220),
+          height: Adapt.height(220),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: Colors.blueGrey,
@@ -92,14 +92,14 @@ class _SecondPanel extends StatelessWidget {
                     Text('100',
                         style: TextStyle(
                           color: const Color(0xFFFFFFFF),
-                          fontSize: Adapt.px(24),
+                          fontSize: Adapt.sp(24),
                         )),
                     SizedBox(height: 5),
                     Text('发布',
                         style: TextStyle(
                             color: const Color(0xFFFFFFFF),
                             fontWeight: FontWeight.bold,
-                            fontSize: Adapt.px(28)))
+                            fontSize: Adapt.sp(28)))
                   ],
                 ),
                 Column(
@@ -108,14 +108,14 @@ class _SecondPanel extends StatelessWidget {
                     Text('80',
                         style: TextStyle(
                           color: const Color(0xFFFFFFFF),
-                          fontSize: Adapt.px(24),
+                          fontSize: Adapt.sp(24),
                         )),
                     SizedBox(height: 5),
                     Text('关注',
                         style: TextStyle(
                             color: const Color(0xFFFFFFFF),
                             fontWeight: FontWeight.bold,
-                            fontSize: Adapt.px(28)))
+                            fontSize: Adapt.sp(28)))
                   ],
                 ),
                 Column(
@@ -124,14 +124,14 @@ class _SecondPanel extends StatelessWidget {
                     Text('203',
                         style: TextStyle(
                           color: const Color(0xFFFFFFFF),
-                          fontSize: Adapt.px(24),
+                          fontSize: Adapt.sp(24),
                         )),
                     SizedBox(height: 5),
                     Text('收藏',
                         style: TextStyle(
                             color: const Color(0xFFFFFFFF),
                             fontWeight: FontWeight.bold,
-                            fontSize: Adapt.px(28)))
+                            fontSize: Adapt.sp(28)))
                   ],
                 ),
                 Icon(

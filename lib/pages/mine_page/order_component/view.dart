@@ -25,7 +25,7 @@ class _FeatureCell extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: Adapt.px(120),
+        width: Adapt.width(120),
         padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
         margin: EdgeInsets.fromLTRB(4, 10, 2, 10),
         child: Column(
@@ -33,8 +33,8 @@ class _FeatureCell extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: Adapt.px(60),
-              height: Adapt.px(60),
+              width: Adapt.width(60),
+              height: Adapt.height(60),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 image: icon != null
@@ -44,13 +44,13 @@ class _FeatureCell extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: Adapt.px(5),
+              height: Adapt.height(5),
             ),
             Text(
               title,
               style: TextStyle(
                   // color: Colors.white,
-                  fontSize: Adapt.px(24),
+                  fontSize: Adapt.sp(24),
                   fontWeight: FontWeight.w500),
             ),
           ],

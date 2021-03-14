@@ -31,18 +31,22 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'blueSpace',
-      debugShowCheckedModeBanner: false,
-      theme: _lightTheme,
-      darkTheme: _darkTheme,
-      home: routes.buildPage('startPage', null),
-      onGenerateRoute: (RouteSettings settings) {
-        return MaterialPageRoute<Object>(builder: (BuildContext context) {
-          return routes.buildPage(settings.name, settings.arguments);
-        });
-      },
-    );
+    return ScreenUtilInit(
+        designSize: Size(750, 1334),
+        allowFontScaling: false,
+        builder: () => MaterialApp(
+              title: 'blueSpace',
+              debugShowCheckedModeBanner: false,
+              theme: _lightTheme,
+              darkTheme: _darkTheme,
+              home: routes.buildPage('startPage', null),
+              onGenerateRoute: (RouteSettings settings) {
+                return MaterialPageRoute<Object>(
+                    builder: (BuildContext context) {
+                  return routes.buildPage(settings.name, settings.arguments);
+                });
+              },
+            ));
   }
 }
 

@@ -25,14 +25,14 @@ Widget buildView(
             children: <Widget>[
               _AppBar(),
               Positioned(
-                top: Adapt.px(100),
+                top: Adapt.height(100),
                 right: 15.0,
                 child: Container(
-                  width: Adapt.px(120),
-                  height: Adapt.px(80),
+                  width: Adapt.width(120),
+                  height: Adapt.height(80),
                   decoration: BoxDecoration(
                       color: Colors.blueGrey,
-                      borderRadius: BorderRadius.circular(Adapt.px(50))),
+                      borderRadius: BorderRadius.circular(Adapt.radius(50))),
                   child: TextButton(
                     onPressed: () =>
                         {dispatch(PublishActionCreator.onPublish())},
@@ -40,7 +40,7 @@ Widget buildView(
                       child: Text(
                         "发布",
                         style: TextStyle(
-                            fontSize: Adapt.px(32),
+                            fontSize: Adapt.sp(32),
                             // fontWeight: FontWeight.bold,
                             // letterSpacing: Adapt.px(10),
                             color: Colors.white),
@@ -50,7 +50,7 @@ Widget buildView(
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: Adapt.px(200)),
+                margin: EdgeInsets.only(top: Adapt.height(200)),
                 child: _ImagePanel(
                   dispatch: dispatch,
                   images: state.images,
@@ -103,14 +103,14 @@ class _ImagePanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.all(Adapt.px(30)),
+        padding: EdgeInsets.all(Adapt.height(30)),
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.all(Adapt.px(30)),
+              padding: EdgeInsets.all(Adapt.height(30)),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(Adapt.px(20))),
+                  borderRadius: BorderRadius.circular(Adapt.radius(20))),
               child: TextField(
                 controller: titleTextController,
                 focusNode: titleFocusNode,
@@ -121,7 +121,7 @@ class _ImagePanel extends StatelessWidget {
                 decoration: InputDecoration.collapsed(
                   hintText: '写下图片的标题~',
                   hintStyle: TextStyle(
-                      fontSize: Adapt.px(36), fontWeight: FontWeight.bold),
+                      fontSize: Adapt.sp(36), fontWeight: FontWeight.bold),
                 ),
                 onSubmitted: (s) {
                   titleFocusNode.nextFocus();
@@ -129,13 +129,13 @@ class _ImagePanel extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: Adapt.px(30),
+              height: Adapt.height(30),
             ),
             Container(
-              padding: EdgeInsets.all(Adapt.px(30)),
+              padding: EdgeInsets.all(Adapt.height(30)),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(Adapt.px(20))),
+                  borderRadius: BorderRadius.circular(Adapt.radius(20))),
               child: TextField(
                 focusNode: contentFocusNode,
                 controller: contentTextController,
@@ -148,7 +148,7 @@ class _ImagePanel extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: Adapt.px(30),
+              height: Adapt.height(30),
             ),
             Row(
               children: <Widget>[
@@ -156,17 +156,17 @@ class _ImagePanel extends StatelessWidget {
                   flex: 1,
                   child: Container(
                     padding: EdgeInsets.fromLTRB(
-                        Adapt.px(30), 0, Adapt.px(30), Adapt.px(80)),
+                        Adapt.width(30), 0, Adapt.width(30), Adapt.height(80)),
                     decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(Adapt.px(20))),
+                        borderRadius: BorderRadius.circular(Adapt.radius(20))),
                     child: images.length <= 0
                         ? Row(
                             children: [
                               Container(
-                                margin: EdgeInsets.only(top: Adapt.px(80)),
-                                width: Adapt.px(200),
-                                height: Adapt.px(200),
+                                margin: EdgeInsets.only(top: Adapt.height(80)),
+                                width: Adapt.width(200),
+                                height: Adapt.height(200),
                                 child: InkWell(
                                   onTap: () => {
                                     dispatch(
@@ -250,7 +250,7 @@ class _ImagePanel extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: Adapt.px(30),
+              height: Adapt.height(30),
             ),
           ],
         ));

@@ -21,7 +21,6 @@ class Routes {
       'createPage': CreatePage(),
       'likePage': LikePage(),
       'minePage': MinePage(),
-      'loginPage': LoginPage(),
       'publishPage': PublishPage(),
       'articleDetailPage': ArticleDetailPage(),
     },

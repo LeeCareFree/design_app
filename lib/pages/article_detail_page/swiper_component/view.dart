@@ -40,11 +40,11 @@ class _SwiperPanelState extends State<_SwiperPanel> {
 
   @override
   Widget build(BuildContext context) {
-    final _padding = Adapt.px(40);
+    final _padding = Adapt.height(40);
     final _width = Adapt.screenW() - _padding * 2;
     final _height = _width * 9 / 16;
     return Container(
-      height: _height + Adapt.px(30),
+      height: _height + Adapt.height(30),
       child: Column(
         children: [
           SizedBox(
@@ -68,7 +68,7 @@ class _SwiperPanelState extends State<_SwiperPanel> {
               },
             ),
           ),
-          SizedBox(height: Adapt.px(20)),
+          SizedBox(height: Adapt.height(20)),
           _SwiperPagination(
             lenght: widget.backdrops.length,
             currentIndex: _currentIndex,
@@ -86,10 +86,10 @@ class _SwiperPagination extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _theme = ThemeStyle.getTheme(context);
-    final _cellWidth = Adapt.px(20);
-    final _height = Adapt.px(6);
+    final _cellWidth = Adapt.width(20);
+    final _height = Adapt.height(6);
     final _width =
-        lenght > 0 ? _cellWidth * lenght + Adapt.px(10) * (lenght - 1) : 0.0;
+        lenght > 0 ? _cellWidth * lenght + Adapt.width(10) * (lenght - 1) : 0.0;
     return Container(
         width: _width,
         height: _height,
@@ -97,7 +97,7 @@ class _SwiperPagination extends StatelessWidget {
           alignment: Alignment.center,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
-            separatorBuilder: (_, __) => SizedBox(width: Adapt.px(10)),
+            separatorBuilder: (_, __) => SizedBox(width: Adapt.width(10)),
             itemCount: lenght,
             itemBuilder: (_, index) {
               return AnimatedContainer(
@@ -123,7 +123,7 @@ class _BackDropCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _theme = ThemeStyle.getTheme(context);
-    final _padding = Adapt.px(40);
+    final _padding = Adapt.height(40);
     final _width = Adapt.screenW() - _padding * 2;
     final _height = _width * 9 / 16;
     return Container(
@@ -132,7 +132,7 @@ class _BackDropCell extends StatelessWidget {
       width: _width,
       decoration: BoxDecoration(
         color: _theme.primaryColorDark,
-        borderRadius: BorderRadius.circular(Adapt.px(25)),
+        borderRadius: BorderRadius.circular(Adapt.radius(25)),
         image: imageUrl != null
             ? DecorationImage(
                 fit: BoxFit.cover,

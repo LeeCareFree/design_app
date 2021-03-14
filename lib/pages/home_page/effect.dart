@@ -49,6 +49,7 @@ Future _onInit(Action action, Context<HomeState> ctx) async {
   if (token != '') {
     var data = await DioUtil.request('token');
     data = json.decode(data.toString());
+    print(data);
     if (data['code'] != 200) {
       Fluttertoast.showToast(msg: data['msg'] ?? '请登录！');
       Future.delayed(Duration(milliseconds: 0),

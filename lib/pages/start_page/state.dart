@@ -1,17 +1,35 @@
 import 'package:fish_redux/fish_redux.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/animation.dart';
+import 'package:flutter/cupertino.dart';
 
-class StartPageState implements Cloneable<StartPageState> {
+class StartState implements Cloneable<StartState> {
+  AnimationController animationController;
+  String user = '';
+  String pwd = '';
+  TextEditingController userTextController;
+  TextEditingController passwordTextController;
+  AnimationController submitAnimationController;
+  FocusNode userFocusNode;
+  FocusNode pwdFocusNode;
+  bool isPhoneLogin;
   PageController pageController;
-  bool isFirstTime;
   @override
-  StartPageState clone() {
-    return StartPageState()
-      ..pageController = pageController
-      ..isFirstTime = isFirstTime;
+  StartState clone() {
+    return StartState()
+      ..user = user
+      ..pwd = pwd
+      ..pwdFocusNode = pwdFocusNode
+      ..userFocusNode = userFocusNode
+      ..userTextController = userTextController
+      ..passwordTextController = passwordTextController
+      ..submitAnimationController = submitAnimationController
+      ..animationController = animationController
+      ..isPhoneLogin = isPhoneLogin
+      ..pageController = pageController;
+    ;
   }
 }
 
-StartPageState initState(Map<String, dynamic> args) {
-  return StartPageState();
+StartState initState(Map<String, dynamic> args) {
+  return StartState();
 }

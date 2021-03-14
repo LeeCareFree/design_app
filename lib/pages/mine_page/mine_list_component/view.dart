@@ -85,8 +85,8 @@ class _MineListCell extends StatelessWidget {
         onTap: onTap,
         child: Row(children: [
           Container(
-            width: Adapt.px(60),
-            height: Adapt.px(60),
+            width: Adapt.width(60),
+            height: Adapt.height(60),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               image: icon != null
@@ -97,7 +97,7 @@ class _MineListCell extends StatelessWidget {
           SizedBox(width: 15),
           Text(
             title,
-            style: TextStyle(fontSize: Adapt.px(26)),
+            style: TextStyle(fontSize: Adapt.sp(26)),
           ),
           Spacer(),
           Icon(

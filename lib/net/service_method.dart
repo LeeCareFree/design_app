@@ -43,11 +43,12 @@ class DioUtil {
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.data);
+        print(responseData);
         // print(responseData['status'].toString() == '401');
 
         //判断是否有权限，
-        if (responseData['status'].toString() == '401') {
-          print(responseData['status']);
+        if (responseData['code'].toString() == '401') {
+          print(responseData['code']);
 
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.clear();

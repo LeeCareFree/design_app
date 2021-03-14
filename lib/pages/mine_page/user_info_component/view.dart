@@ -95,7 +95,7 @@ class _Body extends StatelessWidget {
     return SliverToBoxAdapter(
       child: SafeArea(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(0, Adapt.px(30), 0, 25),
+          padding: EdgeInsets.fromLTRB(0, Adapt.height(30), 0, 25),
           child: isSignIn
               ? _UserInfo(
                   profileUrl: avatar,
@@ -121,9 +121,8 @@ class _UserInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _theme = ThemeStyle.getTheme(context);
-    final _avatarSize = Adapt.px(80);
-    final _avatarMargin = Adapt.px(5);
-    final _avatarRadius = Adapt.px(20);
+    final _avatarMargin = Adapt.height(5);
+    final _avatarRadius = Adapt.radius(20);
     return Row(
       children: [
         Column(
@@ -152,8 +151,8 @@ class _UserInfo extends StatelessWidget {
               child: GestureDetector(
                 onTap: openMenu,
                 child: Container(
-                  width: _avatarSize,
-                  height: _avatarSize,
+                  width: Adapt.width(80),
+                  height: Adapt.height(80),
                   margin: EdgeInsets.all(_avatarMargin),
                   decoration: BoxDecoration(
                     color: Colors.grey,
@@ -169,7 +168,7 @@ class _UserInfo extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: _avatarSize - _avatarMargin),
+              margin: EdgeInsets.only(left: Adapt.height(80) - _avatarMargin),
               width: 10,
               height: 10,
               decoration: BoxDecoration(
@@ -191,7 +190,7 @@ class _SignInPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     final _iconColor = const Color(0xFF717171);
     return Container(
-      height: Adapt.px(90),
+      height: Adapt.height(90),
       child: Row(children: [
         Icon(
           Icons.notifications,
@@ -209,7 +208,7 @@ class _SignInPanel extends StatelessWidget {
               ),
               child: Row(children: [
                 Text('登录'),
-                SizedBox(width: Adapt.px(15)),
+                SizedBox(width: Adapt.width(15)),
                 Icon(
                   Icons.people,
                   color: _iconColor,

@@ -10,9 +10,9 @@ import 'action.dart';
 import 'state.dart';
 
 Widget buildView(HomeState state, Dispatch dispatch, ViewService viewService) {
-  if (state.bannerList.length == 0) {
-    dispatch(HomeActionCreator.getBanner());
-  }
+  // if (state.bannerList.length == 0) {
+  //   dispatch(HomeActionCreator.getBanner());
+  // }
 
   return Builder(builder: (context) {
     final ThemeData _theme = ThemeStyle.getTheme(context);
@@ -30,14 +30,14 @@ Widget buildView(HomeState state, Dispatch dispatch, ViewService viewService) {
           child: Column(
             children: <Widget>[
               Container(
-                padding:
-                    EdgeInsets.only(top: Adapt.px(10), bottom: Adapt.px(20)),
+                padding: EdgeInsets.only(
+                    top: Adapt.height(10), bottom: Adapt.height(20)),
                 child: state.bannerList.length != 0
                     ? SwiperDiy(swiperDataList: state.bannerList)
                     : Container(
                         margin: EdgeInsets.all(5),
-                        width: Adapt.px(750),
-                        height: Adapt.px(400),
+                        width: Adapt.width(750),
+                        height: Adapt.height(400),
                         color: Color.fromRGBO(0, 0, 0, .3),
                       ),
               ),
@@ -57,10 +57,10 @@ class _SearchBar extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.only(left: Adapt.px(30), right: Adapt.px(30)),
-        height: Adapt.px(70),
+        padding: EdgeInsets.only(left: Adapt.width(30), right: Adapt.width(30)),
+        height: Adapt.height(70),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(Adapt.px(40)),
+          borderRadius: BorderRadius.circular(Adapt.radius(40)),
           color: Colors.white,
         ),
         child: Row(
@@ -69,14 +69,14 @@ class _SearchBar extends StatelessWidget {
               Icons.search,
               color: Colors.grey,
             ),
-            SizedBox(width: Adapt.px(20)),
+            SizedBox(width: Adapt.width(20)),
             SizedBox(
-              width: Adapt.screenW() - Adapt.px(200),
+              width: Adapt.screenW() - Adapt.width(200),
               child: Text(
                 '搜索',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: Colors.grey, fontSize: Adapt.px(28)),
+                style: TextStyle(color: Colors.grey, fontSize: Adapt.sp(28)),
               ),
             ),
           ],
@@ -96,8 +96,8 @@ class SwiperDiy extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData _theme = ThemeStyle.getTheme(context);
     return Container(
-      width: Adapt.px(750),
-      height: Adapt.px(400),
+      width: Adapt.width(750),
+      height: Adapt.height(400),
       child: Swiper(
         itemBuilder: (BuildContext context, int index) {
           return Container(
@@ -105,8 +105,8 @@ class SwiperDiy extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Container(
-                  width: Adapt.px(750),
-                  height: Adapt.px(80),
+                  width: Adapt.width(750),
+                  height: Adapt.height(80),
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(5, 3, 5, 0),
                     child: Text(
@@ -119,8 +119,8 @@ class SwiperDiy extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Color.fromRGBO(0, 0, 0, 0.5),
                       borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(Adapt.px(10)),
-                          bottomRight: Radius.circular(Adapt.px(10)))),
+                          bottomLeft: Radius.circular(Adapt.radius(10)),
+                          bottomRight: Radius.circular(Adapt.radius(10)))),
                 )
               ],
             ),
@@ -128,7 +128,8 @@ class SwiperDiy extends StatelessWidget {
                 image: DecorationImage(
                     image: NetworkImage("${swiperDataList[index].img}"),
                     fit: BoxFit.fill),
-                borderRadius: BorderRadius.all(Radius.circular(Adapt.px(10)))),
+                borderRadius:
+                    BorderRadius.all(Radius.circular(Adapt.radius(10)))),
           );
         },
         itemCount: swiperDataList.length,
@@ -225,24 +226,25 @@ class ArticleItem extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  color: Colors.teal,
-                  width: ScreenUtil().setWidth(80),
-                  alignment: Alignment.center,
+                    color: Colors.teal,
+                    width: ScreenUtil().setWidth(80),
+                    alignment: Alignment.center,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.star_outline,
-                      size: ScreenUtil().setSp(38),
-                    ),
-                    0 == 0
-                        ? Text('')
-                        : Text(
-                            '11',
-                            style: TextStyle(fontSize: ScreenUtil().setSp(22)),
-                          )
-                  ],
-                ))
+                      children: [
+                        Icon(
+                          Icons.star_outline,
+                          size: ScreenUtil().setSp(38),
+                        ),
+                        0 == 0
+                            ? Text('')
+                            : Text(
+                                '11',
+                                style:
+                                    TextStyle(fontSize: ScreenUtil().setSp(22)),
+                              )
+                      ],
+                    ))
               ],
             ),
           )

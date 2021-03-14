@@ -32,28 +32,28 @@ void showProgress(BuildContext context) async {
           child: Builder(builder: (BuildContext context) {
             return Center(
               child: Container(
-                width: Adapt.px(120),
-                height: Adapt.px(120),
+                width: Adapt.width(120),
+                height: Adapt.height(120),
                 decoration: BoxDecoration(
                   image: DecorationImage(
                       image: ImageUtils.getAssetImage('ico_loading_bg'),
                       fit: BoxFit.fill),
                 ),
                 child: Container(
-                  margin: EdgeInsets.only(top: Adapt.px(25)),
+                  margin: EdgeInsets.only(top: Adapt.height(25)),
                   child: Column(
                     children: <Widget>[
                       LoadImage(
                         'loading',
                         format: 'gif',
-                        width: Adapt.px(100),
-                        height: Adapt.px(40),
+                        width: Adapt.width(100),
+                        height: Adapt.height(40),
                       ),
                       Text(
                         '加载中...',
                         style: TextStyle(
                           decoration: TextDecoration.none,
-                          fontSize: Adapt.px(14),
+                          fontSize: Adapt.sp(14),
                           color: MyColors.textGrayColor,
                           fontWeight: FontWeight.normal,
                         ),

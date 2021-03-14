@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:bluespace/style/themeStyle.dart';
 import 'package:bluespace/utils/adapt.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 
 import 'action.dart';
 import 'state.dart';
@@ -15,10 +18,20 @@ Widget buildView(
         backgroundColor: _theme.backgroundColor,
         appBar: AppBar(
           iconTheme: _theme.iconTheme,
-          elevation: 0.0,
+          elevation: 3.0,
           backgroundColor: _theme.backgroundColor,
           brightness: _theme.brightness,
           actions: [
+            Row(
+              children: [
+                _UserInfoWidget(
+                  avatar: state.avatar ??
+                      'http://192.168.0.105:3000/imgs/avatar.jpg',
+                  username: state.username ?? 'test',
+                  theme: _theme,
+                ),
+              ],
+            ),
             IconButton(
                 icon: const Icon(Icons.more_vert),
                 onPressed: () =>
@@ -26,23 +39,19 @@ Widget buildView(
           ],
         ),
         body: ListView(
-          padding: EdgeInsets.symmetric(vertical: Adapt.px(30)),
+          padding: EdgeInsets.symmetric(vertical: Adapt.height(30)),
           physics: BouncingScrollPhysics(),
           shrinkWrap: true,
           children: [
             viewService.buildComponent('swiper'),
-            _UserInfoWidget(
-              avatar:
-                  state.avatar ?? 'http://192.168.0.105:3000/imgs/avatar.jpg',
-              username: state.username ?? 'test',
-              theme: _theme,
-            ),
+
             _ArticleWidget(
               title: state.title ?? '这是标题',
               content: state.content ??
                   '这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容',
               time: state.time ?? '2021年3月13日 17.00',
-            )
+            ),
+            _FloatRow()
             // viewService.buildComponent('title'),
             // viewService.buildComponent('cast'),
             // viewService.buildComponent('season'),
@@ -64,13 +73,7 @@ class _UserInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(
-          Adapt.px(35), Adapt.px(25), Adapt.px(35), Adapt.px(25)),
-      padding: EdgeInsets.all(Adapt.px(10)),
-      decoration: BoxDecoration(
-        color: theme.cardColor,
-        borderRadius: BorderRadius.circular(Adapt.px(20)),
-      ),
+      // margin: EdgeInsets.only(left: Adapt.px(0)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -80,35 +83,37 @@ class _UserInfoWidget extends StatelessWidget {
             child: Image.network(
               avatar,
               fit: BoxFit.cover,
-              width: 50,
-              height: 50,
+              width: 35,
+              height: 35,
               // color: Colors.black
             ),
           ),
           SizedBox(
-            width: Adapt.px(40),
+            width: Adapt.width(10),
           ),
           Text(
             username,
-            style:
-                TextStyle(fontSize: Adapt.px(38), fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontSize: Adapt.sp(38),
+                color: Colors.black,
+                fontWeight: FontWeight.bold),
           ),
           SizedBox(
-            width: Adapt.px(280),
+            width: Adapt.width(260),
           ),
           Container(
-            width: Adapt.px(100),
-            height: Adapt.px(60),
+            width: Adapt.width(100),
+            height: Adapt.height(60),
             decoration: BoxDecoration(
                 color: Colors.blueGrey,
-                borderRadius: BorderRadius.circular(Adapt.px(50))),
+                borderRadius: BorderRadius.circular(Adapt.radius(50))),
             child: Container(
                 child: TextButton(
                     onPressed: () => {},
                     child: Text(
                       "关注",
                       style: TextStyle(
-                          fontSize: Adapt.px(24),
+                          fontSize: Adapt.sp(24),
                           fontWeight: FontWeight.bold,
                           // letterSpacing: Adapt.px(10),
                           color: Colors.white),
@@ -128,33 +133,35 @@ class _ArticleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(Adapt.px(35), 0, Adapt.px(35), Adapt.px(35)),
-      padding: EdgeInsets.all(Adapt.px(10)),
+      margin: EdgeInsets.fromLTRB(
+          Adapt.width(35), 0, Adapt.width(35), Adapt.height(35)),
+      padding: EdgeInsets.all(Adapt.height(10)),
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(bottom: Adapt.px(25)),
+            margin: EdgeInsets.only(bottom: Adapt.height(25)),
             child: Row(
               children: [
                 Text(
                   title,
                   style: TextStyle(
-                      fontSize: Adapt.px(38), fontWeight: FontWeight.bold),
+                      fontSize: Adapt.sp(38), fontWeight: FontWeight.bold),
                 ),
               ],
             ),
           ),
           Text(
             content,
-            style: TextStyle(fontSize: Adapt.px(34), letterSpacing: 2.0),
+            style: TextStyle(fontSize: Adapt.sp(34), letterSpacing: 2.0),
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(0, Adapt.px(30), 0, Adapt.px(30)),
+            margin:
+                EdgeInsets.fromLTRB(0, Adapt.height(30), 0, Adapt.height(30)),
             child: Row(
               children: [
                 Text(
                   '发布于 $time',
-                  style: TextStyle(fontSize: Adapt.px(24), color: Colors.grey),
+                  style: TextStyle(fontSize: Adapt.sp(24), color: Colors.grey),
                 )
               ],
             ),
@@ -167,5 +174,44 @@ class _ArticleWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class _FloatRow extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+        bottom: 0.0,
+        child: Row(
+          children: [
+            InkWell(
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/images/like.png')),
+                ),
+              ),
+            ),
+            InkWell(
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/images/like.png')),
+                ),
+              ),
+            ),
+            InkWell(
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/images/like.png')),
+                ),
+              ),
+            ),
+          ],
+        ));
   }
 }

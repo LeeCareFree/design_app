@@ -5,16 +5,15 @@ import 'reducer.dart';
 import 'state.dart';
 import 'view.dart';
 
-class StartPage extends Page<StartState, Map<String, dynamic>>
-    with TickerProviderMixin<StartState> {
+class StartPage extends Page<StartPageState, Map<String, dynamic>> {
   StartPage()
       : super(
           initState: initState,
           effect: buildEffect(),
           reducer: buildReducer(),
           view: buildView,
-          dependencies: Dependencies<StartState>(
-              adapter: null, slots: <String, Dependent<StartState>>{}),
-          middleware: <Middleware<StartState>>[],
+          dependencies: Dependencies<StartPageState>(
+              adapter: null, slots: <String, Dependent<StartPageState>>{}),
+          middleware: <Middleware<StartPageState>>[],
         );
 }

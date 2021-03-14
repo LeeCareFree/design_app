@@ -17,15 +17,15 @@ class UserMenu extends StatelessWidget {
     final double _width = 200;
     final double _arrowSize = 15.0;
     return Positioned(
-      top: Adapt.px(130) + Adapt.padTopH(),
-      right: Adapt.px(40),
+      top: Adapt.height(130) + Adapt.padTopH(),
+      right: Adapt.width(40),
       width: _width,
       child: Material(
         color: Colors.transparent,
         child: Stack(
           children: [
             Container(
-              padding: EdgeInsets.only(right: Adapt.px(35)),
+              padding: EdgeInsets.only(right: Adapt.width(35)),
               alignment: Alignment.bottomRight,
               child: ClipPath(
                 clipper: ArrowClipper(),

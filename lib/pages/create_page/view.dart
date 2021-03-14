@@ -19,20 +19,20 @@ Widget buildView(
             ? SystemUiOverlayStyle.dark
             : SystemUiOverlayStyle.light,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: Adapt.px(40)),
+          padding: EdgeInsets.symmetric(horizontal: Adapt.width(40)),
           child: CustomScrollView(
             physics: BouncingScrollPhysics(),
             slivers: [
               SliverGrid.count(
                 crossAxisCount: 2,
-                mainAxisSpacing: Adapt.px(35),
-                crossAxisSpacing: Adapt.px(35),
+                mainAxisSpacing: Adapt.height(35),
+                crossAxisSpacing: Adapt.width(35),
                 childAspectRatio: 1.2,
                 children: [
-                  SizedBox(height: Adapt.px(10)),
-                  SizedBox(height: Adapt.px(10)),
-                  SizedBox(height: Adapt.px(10)),
-                  SizedBox(height: Adapt.px(10)),
+                  SizedBox(height: Adapt.height(10)),
+                  SizedBox(height: Adapt.height(10)),
+                  SizedBox(height: Adapt.height(10)),
+                  SizedBox(height: Adapt.height(10)),
                   _FeaturesCell(
                     title: '发布装修',
                     subTitle: '寻找心仪的设计',
@@ -101,14 +101,14 @@ class _FeaturesCell extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: Adapt.px(32),
+                    fontSize: Adapt.sp(32),
                     fontWeight: FontWeight.w800,
                   ),
                 ),
                 Text(
                   subTitle,
                   style: TextStyle(
-                    fontSize: Adapt.px(22),
+                    fontSize: Adapt.sp(22),
                     fontWeight: FontWeight.w600,
                     color: const Color(0xFF717171),
                   ),
@@ -116,9 +116,9 @@ class _FeaturesCell extends StatelessWidget {
               ],
             ),
             Container(
-              margin: EdgeInsets.only(left: Adapt.px(15)),
-              width: Adapt.px(100),
-              height: Adapt.px(80),
+              margin: EdgeInsets.only(left: Adapt.height(15)),
+              width: Adapt.width(100),
+              height: Adapt.height(80),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 image: icon != null
@@ -129,7 +129,7 @@ class _FeaturesCell extends StatelessWidget {
                     : null,
               ),
             ),
-            SizedBox(height: Adapt.px(10)),
+            SizedBox(height: Adapt.height(10)),
           ],
         ),
       ),
