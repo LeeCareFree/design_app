@@ -43,23 +43,7 @@ Future _onGetBanner(Action action, Context<HomeState> ctx) async {
   }
 }
 
-Future _onInit(Action action, Context<HomeState> ctx) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  final token = prefs.getString('token') ?? '';
-  if (token != '') {
-    var data = await DioUtil.request('token');
-    data = json.decode(data.toString());
-    print(data);
-    if (data['code'] != 200) {
-      Fluttertoast.showToast(msg: data['msg'] ?? '请登录！');
-      Future.delayed(Duration(milliseconds: 0),
-          () => Navigator.of(ctx.context).pushNamed('loginPage'));
-    } else {}
-  } else {
-    Future.delayed(Duration(milliseconds: 0),
-        () => Navigator.of(ctx.context).pushNamed('loginPage'));
-  }
-}
+Future _onInit(Action action, Context<HomeState> ctx) async {}
 
 Future _onSearchBarTapped(Action action, Context<HomeState> ctx) async {
   await showSearch(context: ctx.context, delegate: SearchBarDelegate());

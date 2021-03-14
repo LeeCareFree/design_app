@@ -27,8 +27,8 @@ Effect<StartState> buildEffect() {
 
 void _onAction(Action action, Context<StartState> ctx) {}
 Future _onBuild(Action action, Context<StartState> ctx) async {
-  // Future.delayed(Duration(milliseconds: 150),
-  //     () => ctx.state.animationController.forward());
+  Future.delayed(
+      Duration(milliseconds: 0), () => ctx.state.animationController.forward());
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final token = prefs.getString('token') ?? '';
   if (token != '') {
@@ -74,7 +74,7 @@ void _onInit(Action action, Context<StartState> ctx) {
   ctx.state.userTextController = TextEditingController();
   ctx.state.passwordTextController = TextEditingController();
   ctx.state.animationController = AnimationController(
-      vsync: ticker, duration: Duration(milliseconds: 2000));
+      vsync: ticker, duration: Duration(milliseconds: 1000));
 }
 
 void _onDispose(Action action, Context<StartState> ctx) {
@@ -155,8 +155,8 @@ Future _phoneNumSignIn(Action action, Context<StartState> ctx) async {
     if (setTokenResult) {
       debugPrint('保存登录token成功');
       ctx.state.submitAnimationController.reset();
-      Navigator.of(ctx.context)
-          .pop({'s': true, 'name': data['data']['username']});
+      Future.delayed(
+          Duration(milliseconds: 0), () => _pushToMainPage(ctx.context));
       Fluttertoast.showToast(msg: data['msg']);
     } else {
       ctx.state.submitAnimationController.reset();

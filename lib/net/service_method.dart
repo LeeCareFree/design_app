@@ -54,7 +54,7 @@ class DioUtil {
           prefs.clear();
 
           //在这里跳转，点赞功能会出问题：总是跳转。改成更改登录状态
-          Navigator.of(context).pushNamed('login_page');
+          // Navigator.of(context).pushNamed('login_page');
 
           // Provider.of<IsLoginModal>(context).changeLoginState(false);
           loading = false;

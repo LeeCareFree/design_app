@@ -44,6 +44,7 @@ Future _onInit(Action action, Context<MineState> ctx) async {
   String name = prefs.getString('username');
   String avatar = prefs.getString('avatar');
   String uid = prefs.getString('uid');
+  print(name);
   ctx.dispatch(MineActionCreator.onInit(name, avatar, uid));
 }
 
