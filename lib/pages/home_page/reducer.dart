@@ -8,6 +8,7 @@ Reducer<HomeState> buildReducer() {
     <Object, Reducer<HomeState>>{
       HomeAction.action: _onAction,
       HomeAction.initBanner: _onInitBanner,
+      HomeAction.initArticle: _onInitArticle
     },
   );
 }
@@ -20,5 +21,11 @@ HomeState _onAction(HomeState state, Action action) {
 HomeState _onInitBanner(HomeState state, Action action) {
   final HomeState newState = state.clone();
   newState..bannerList = action.payload;
+  return newState;
+}
+
+HomeState _onInitArticle(HomeState state, Action action) {
+  final HomeState newState = state.clone();
+  newState..articleList = action.payload;
   return newState;
 }
