@@ -20,7 +20,7 @@ Widget buildView(HomeState state, Dispatch dispatch, ViewService viewService) {
         appBar: AppBar(
           backgroundColor: _theme.bottomAppBarColor,
           brightness: Brightness.light,
-          elevation: 0.0,
+          elevation: 3.0,
           title: _SearchBar(
             onTap: () => dispatch(HomeActionCreator.onSearchBarTapped()),
           ),

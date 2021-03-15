@@ -39,11 +39,11 @@ class _SwiperDiyState extends State<_SwiperDiy> {
     final ThemeData _theme = ThemeStyle.getTheme(context);
     return Container(
         width: Adapt.width(750),
-        height: Adapt.height(400),
+        height: Adapt.height(360),
         child: Column(
           children: [
             SizedBox(
-              height: Adapt.height(370),
+              height: Adapt.height(320),
               child: Swiper(
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
