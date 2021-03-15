@@ -38,30 +38,34 @@ Widget buildView(
                       dispatch(ArticleDetailActionCreator.openMenu()))
             ],
           ),
-          body: SingleChildScrollView(
-            // padding: EdgeInsets.symmetric(vertical: Adapt.height(30)),
-            // physics: BouncingScrollPhysics(),
-            // shrinkWrap: true,
-            child: Stack(
-              children: <Widget>[
-                viewService.buildComponent('swiper'),
-
-                _ArticleWidget(
-                  title: state.title ?? '这是标题',
-                  content: state.content ??
-                      '这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容',
-                  time: state.time ?? '2021年3月13日 17.00',
+          bottomNavigationBar: (_FixedRow()),
+          body: ListView(
+              // padding: EdgeInsets.symmetric(vertical: Adapt.height(30)),
+              // physics: BouncingScrollPhysics(),
+              // shrinkWrap: true,
+              children: [
+                SizedBox(
+                  height: Adapt.height(30),
                 ),
-                _FloatRow()
-                // viewService.buildComponent('title'),
-                // viewService.buildComponent('cast'),
-                // viewService.buildComponent('season'),
-                // viewService.buildComponent('lastEpisode'),
-                // viewService.buildComponent('keyword'),
-                // viewService.buildComponent('recommendation'),
-              ],
-            ),
-          ));
+                viewService.buildComponent('swiper'),
+                Stack(
+                  children: <Widget>[
+                    _ArticleWidget(
+                      title: state.title ?? '这是标题',
+                      content: state.content ??
+                          '这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容',
+                      time: state.time ?? '2021年3月13日 17.00',
+                    ),
+                    // _FixedRow()
+                    // viewService.buildComponent('title'),
+                    // viewService.buildComponent('cast'),
+                    // viewService.buildComponent('season'),
+                    // viewService.buildComponent('lastEpisode'),
+                    // viewService.buildComponent('keyword'),
+                    // viewService.buildComponent('recommendation'),
+                  ],
+                ),
+              ]));
     },
   );
 }
@@ -135,8 +139,7 @@ class _ArticleWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.fromLTRB(
-          Adapt.width(35), 0, Adapt.width(35), Adapt.height(35)),
-      padding: EdgeInsets.all(Adapt.height(10)),
+          Adapt.height(20), 0, Adapt.height(20), Adapt.height(20)),
       child: Column(
         children: [
           Container(
@@ -153,7 +156,7 @@ class _ArticleWidget extends StatelessWidget {
           ),
           Text(
             content,
-            style: TextStyle(fontSize: Adapt.sp(34), letterSpacing: 2.0),
+            style: TextStyle(fontSize: Adapt.sp(34), letterSpacing: 1.0),
           ),
           Container(
             margin:
@@ -178,41 +181,93 @@ class _ArticleWidget extends StatelessWidget {
   }
 }
 
-class _FloatRow extends StatelessWidget {
+class _FixedRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-        bottom: 0.0,
-        // right: 0.0,
-        // left: 0.0,
+    FocusNode blankNode = FocusNode();
+    return Container(
         width: Adapt.screenW(),
         height: Adapt.height(100),
-        child: Row(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border(
+                top: BorderSide(width: Adapt.width(1), color: Colors.grey))),
+        child: Flex(
+          direction: Axis.horizontal,
+          // mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            InkWell(
+            Expanded(
+              flex: 1,
               child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage('assets/images/like.png')),
+                  margin: EdgeInsets.only(left: Adapt.width(30)),
+                  decoration: BoxDecoration(
+                      color: Colors.grey[50],
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(Adapt.radius(50))),
+                  height: Adapt.height(60),
+                  child: GestureDetector(
+                      onTap: () {
+                        FocusScope.of(context).requestFocus(blankNode);
+                      },
+                      child: Form(
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "评论一下...",
+                            hintStyle: TextStyle(
+                              fontSize: Adapt.sp(30),
+                              height: Adapt.height(2),
+                            ),
+                          ),
+                        ),
+                      ))),
+            ),
+            Expanded(
+              flex: 0,
+              child: Container(
+                child: Row(
+                  children: [
+                    IconButton(
+                        icon: Icon(
+                          Icons.favorite_border,
+                          size: Adapt.height(50),
+                        ),
+                        onPressed: () => {}),
+                    Text('6.6万'),
+                  ],
                 ),
               ),
             ),
-            InkWell(
+            Expanded(
+              flex: 0,
               child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage('assets/images/like.png')),
+                child: Row(
+                  children: [
+                    IconButton(
+                        icon: Icon(
+                          Icons.star_border_outlined,
+                          size: Adapt.height(50),
+                        ),
+                        onPressed: () => {}),
+                    Text('6.6万'),
+                  ],
                 ),
               ),
             ),
-            InkWell(
+            Expanded(
+              flex: 0,
               child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage('assets/images/like.png')),
+                margin: EdgeInsets.only(right: Adapt.width(30)),
+                child: Row(
+                  children: [
+                    IconButton(
+                        icon: Icon(
+                          Icons.sms_outlined,
+                          size: Adapt.height(50),
+                        ),
+                        onPressed: () => {}),
+                    Text('6.6万'),
+                  ],
                 ),
               ),
             ),

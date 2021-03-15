@@ -127,7 +127,7 @@ class _BackDropCell extends StatelessWidget {
     final _width = Adapt.screenW() - _padding * 2;
     final _height = _width * 9 / 16;
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: _padding),
+      margin: EdgeInsets.fromLTRB(Adapt.width(20), 0, Adapt.width(20), 0),
       height: _height,
       width: _width,
       decoration: BoxDecoration(

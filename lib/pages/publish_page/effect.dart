@@ -80,8 +80,6 @@ Future _onPublish(Action action, Context<PublishState> ctx) async {
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final uid = prefs.getString('uid') ?? '';
-    final username = prefs.getString('username') ?? '';
-    final avatar = prefs.getString('avatar') ?? '';
     FormData formData = new FormData.fromMap({
       //后端要用multipartFiles接收参数，否则为null
       // 图片
@@ -90,8 +88,6 @@ Future _onPublish(Action action, Context<PublishState> ctx) async {
       'title': title,
       'detail': content,
       "files": imageList,
-      "username": username,
-      "avatar": avatar
     });
     // 使用 dio上传图片
     var data = await DioUtil.request('create',
