@@ -15,52 +15,53 @@ Widget buildView(
     builder: (context) {
       final _theme = ThemeStyle.getTheme(context);
       return Scaffold(
-        backgroundColor: _theme.backgroundColor,
-        appBar: AppBar(
-          iconTheme: _theme.iconTheme,
-          elevation: 3.0,
           backgroundColor: _theme.backgroundColor,
-          brightness: _theme.brightness,
-          actions: [
-            Row(
-              children: [
-                _UserInfoWidget(
-                  avatar: state.avatar ??
-                      'http://192.168.0.105:3000/imgs/avatar.jpg',
-                  username: state.username ?? 'test',
-                  theme: _theme,
+          appBar: AppBar(
+            iconTheme: _theme.iconTheme,
+            elevation: 3.0,
+            backgroundColor: _theme.backgroundColor,
+            brightness: _theme.brightness,
+            actions: [
+              Row(
+                children: [
+                  _UserInfoWidget(
+                    avatar: state.avatar ??
+                        'http://192.168.0.105:3000/imgs/avatar.jpg',
+                    username: state.username ?? 'test',
+                    theme: _theme,
+                  ),
+                ],
+              ),
+              IconButton(
+                  icon: const Icon(Icons.more_vert),
+                  onPressed: () =>
+                      dispatch(ArticleDetailActionCreator.openMenu()))
+            ],
+          ),
+          body: SingleChildScrollView(
+            // padding: EdgeInsets.symmetric(vertical: Adapt.height(30)),
+            // physics: BouncingScrollPhysics(),
+            // shrinkWrap: true,
+            child: Stack(
+              children: <Widget>[
+                viewService.buildComponent('swiper'),
+
+                _ArticleWidget(
+                  title: state.title ?? '这是标题',
+                  content: state.content ??
+                      '这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容',
+                  time: state.time ?? '2021年3月13日 17.00',
                 ),
+                _FloatRow()
+                // viewService.buildComponent('title'),
+                // viewService.buildComponent('cast'),
+                // viewService.buildComponent('season'),
+                // viewService.buildComponent('lastEpisode'),
+                // viewService.buildComponent('keyword'),
+                // viewService.buildComponent('recommendation'),
               ],
             ),
-            IconButton(
-                icon: const Icon(Icons.more_vert),
-                onPressed: () =>
-                    dispatch(ArticleDetailActionCreator.openMenu()))
-          ],
-        ),
-        body: ListView(
-          padding: EdgeInsets.symmetric(vertical: Adapt.height(30)),
-          physics: BouncingScrollPhysics(),
-          shrinkWrap: true,
-          children: [
-            viewService.buildComponent('swiper'),
-
-            _ArticleWidget(
-              title: state.title ?? '这是标题',
-              content: state.content ??
-                  '这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容',
-              time: state.time ?? '2021年3月13日 17.00',
-            ),
-            _FloatRow()
-            // viewService.buildComponent('title'),
-            // viewService.buildComponent('cast'),
-            // viewService.buildComponent('season'),
-            // viewService.buildComponent('lastEpisode'),
-            // viewService.buildComponent('keyword'),
-            // viewService.buildComponent('recommendation'),
-          ],
-        ),
-      );
+          ));
     },
   );
 }
@@ -103,7 +104,7 @@ class _UserInfoWidget extends StatelessWidget {
           ),
           Container(
             width: Adapt.width(100),
-            height: Adapt.height(60),
+            height: Adapt.height(50),
             decoration: BoxDecoration(
                 color: Colors.blueGrey,
                 borderRadius: BorderRadius.circular(Adapt.radius(50))),
@@ -182,6 +183,10 @@ class _FloatRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned(
         bottom: 0.0,
+        // right: 0.0,
+        // left: 0.0,
+        width: Adapt.screenW(),
+        height: Adapt.height(100),
         child: Row(
           children: [
             InkWell(

@@ -19,6 +19,7 @@ Effect<StartState> buildEffect() {
     StartAction.getUserInfo: _getUserInfo,
     StartAction.signUp: _onSignUp,
     StartAction.weixinSignin: _onWeixinSignin,
+    StartAction.onJump: _onJump,
     Lifecycle.initState: _onInit,
     Lifecycle.build: _onBuild,
     Lifecycle.dispose: _onDispose
@@ -26,25 +27,33 @@ Effect<StartState> buildEffect() {
 }
 
 void _onAction(Action action, Context<StartState> ctx) {}
-Future _onBuild(Action action, Context<StartState> ctx) async {
-  Future.delayed(
-      Duration(milliseconds: 0), () => ctx.state.animationController.forward());
+void _onJump(Action action, Context<StartState> ctx) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final token = prefs.getString('token') ?? '';
+  print(token);
   if (token != '') {
     var data = await DioUtil.request('token');
     data = json.decode(data.toString());
     print(data);
     if (data['code'] != 200) {
+      StartActionCreator.onCheckIsLogin(false);
       Fluttertoast.showToast(msg: data['msg'] ?? '请登录！');
     } else {
       Fluttertoast.showToast(msg: data['msg'] ?? '登录成功！');
-      Future.delayed(
-          Duration(milliseconds: 0), () => _pushToMainPage(ctx.context));
+      Future.delayed(Duration(seconds: 3), () => _pushToMainPage(ctx.context));
     }
   } else {
+    print(ctx.state.isLogin);
+    Future.delayed(Duration(seconds: 0),
+        () => ctx.dispatch(StartActionCreator.onCheckIsLogin(false)));
+    print(ctx.state.isLogin);
     Fluttertoast.showToast(msg: '请登录！');
   }
+}
+
+Future _onBuild(Action action, Context<StartState> ctx) async {
+  Future.delayed(
+      Duration(milliseconds: 0), () => ctx.state.animationController.forward());
 }
 
 Future _pushToMainPage(BuildContext context) async {
@@ -63,7 +72,7 @@ Future _pushToMainPage(BuildContext context) async {
       settings: RouteSettings(name: 'mainPage')));
 }
 
-void _onInit(Action action, Context<StartState> ctx) {
+void _onInit(Action action, Context<StartState> ctx) async {
   ctx.state.pageController = PageController();
   ctx.state.userFocusNode = FocusNode();
   ctx.state.pwdFocusNode = FocusNode();
@@ -75,6 +84,26 @@ void _onInit(Action action, Context<StartState> ctx) {
   ctx.state.passwordTextController = TextEditingController();
   ctx.state.animationController = AnimationController(
       vsync: ticker, duration: Duration(milliseconds: 1000));
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final token = prefs.getString('token') ?? '';
+  if (token != '') {
+    var data = await DioUtil.request('token');
+    data = json.decode(data.toString());
+    print(data);
+    if (data['code'] != 200) {
+      StartActionCreator.onCheckIsLogin(false);
+      Fluttertoast.showToast(msg: data['msg'] ?? '请登录！');
+    } else {
+      Fluttertoast.showToast(msg: data['msg'] ?? '登录成功！');
+      Future.delayed(Duration(seconds: 3), () => _pushToMainPage(ctx.context));
+    }
+  } else {
+    print(ctx.state.isLogin);
+    Future.delayed(Duration(seconds: 3),
+        () => ctx.dispatch(StartActionCreator.onCheckIsLogin(false)));
+    print(ctx.state.isLogin);
+    Fluttertoast.showToast(msg: '请登录！');
+  }
 }
 
 void _onDispose(Action action, Context<StartState> ctx) {

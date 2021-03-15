@@ -7,7 +7,9 @@ enum StartAction {
   getUserInfo,
   signUp,
   weixinSignin,
-  switchLoginMode
+  switchLoginMode,
+  onJump,
+  onCheckIsLogin
 }
 
 class StartActionCreator {
@@ -33,5 +35,13 @@ class StartActionCreator {
 
   static Action switchLoginMode() {
     return const Action(StartAction.switchLoginMode);
+  }
+
+  static Action onCheckIsLogin(bool isLogin) {
+    return Action(StartAction.onCheckIsLogin, payload: isLogin);
+  }
+
+  static Action onJump() {
+    return Action(StartAction.onJump);
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,6 +15,7 @@ class StartState implements Cloneable<StartState> {
   FocusNode pwdFocusNode;
   bool isPhoneLogin;
   PageController pageController;
+  bool isLogin = true;
   @override
   StartState clone() {
     return StartState()
@@ -25,8 +28,8 @@ class StartState implements Cloneable<StartState> {
       ..submitAnimationController = submitAnimationController
       ..animationController = animationController
       ..isPhoneLogin = isPhoneLogin
+      ..isLogin = isLogin
       ..pageController = pageController;
-    ;
   }
 }
 

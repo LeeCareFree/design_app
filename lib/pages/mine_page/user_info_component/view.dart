@@ -17,6 +17,7 @@ import 'package:bluespace/utils/overlay_entry_manage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../utils/adapt.dart';
 import '../action.dart';
 
@@ -28,7 +29,9 @@ Widget buildView(
     overlayEntry = null;
   }
 
-  void _showMenu() {
+  void _showMenu() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
     OverlayEntry menuOverlayEntry;
     menuOverlayEntry = OverlayEntry(
       builder: (context) {
