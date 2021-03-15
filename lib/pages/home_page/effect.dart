@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-08 15:42:27
- * @LastEditTime: 2021-03-14 15:48:39
+ * @LastEditTime: 2021-03-15 11:01:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \design_app\lib\pages\home_page\effect.dart
@@ -25,7 +25,8 @@ Effect<HomeState> buildEffect() {
     HomeAction.action: _onAction,
     HomeAction.getBanner: _onGetBanner,
     Lifecycle.initState: _onInit,
-    HomeAction.searchBarTapped: _onSearchBarTapped
+    HomeAction.searchBarTapped: _onSearchBarTapped,
+    HomeAction.getArticleList: _onGetArticleList
   });
 }
 
@@ -43,7 +44,23 @@ Future _onGetBanner(Action action, Context<HomeState> ctx) async {
   }
 }
 
-Future _onInit(Action action, Context<HomeState> ctx) async {}
+Future _onInit(Action action, Context<HomeState> ctx) async {
+  ctx.dispatch(HomeActionCreator.getBanner());
+  ctx.dispatch(HomeActionCreator.getArticleList());
+}
+
+Future _onGetArticleList(Action action, Context<HomeState> ctx) async {
+  var response = await DioUtil.request('articlelist');
+  var dataJson = json.decode(response.toString());
+  
+  if(dataJson['code'] == 200) {
+    List articleList = dataJson['data'];
+    ctx.dispatch(HomeActionCreator.initArticle(articleList));
+  } else {
+    Fluttertoast.showToast(msg: dataJson['msg'] ?? '获取文章列表失败!');
+  }
+  
+}
 
 Future _onSearchBarTapped(Action action, Context<HomeState> ctx) async {
   await showSearch(context: ctx.context, delegate: SearchBarDelegate());

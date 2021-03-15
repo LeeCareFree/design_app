@@ -4,5 +4,6 @@ const servicePath = {
   'register': serviceUrl + 'users/register',
   'slideshow': serviceUrl + 'homes/slideshow',
   'create': serviceUrl + 'articles/create',
+  'articlelist': serviceUrl + 'articles/getlist',
   'token': serviceUrl + 'token/checkToken'
 };

@@ -1,20 +1,22 @@
 import 'package:fish_redux/fish_redux.dart';
-import 'package:bluespace/models/slideshow_model.dart';
 
 class HomeState implements Cloneable<HomeState> {
   
   List bannerList;
+  List articleList;
 
-  HomeState({this.bannerList});
+  HomeState({this.bannerList, this.articleList});
 
   @override
   HomeState clone() {
     return HomeState()
-      ..bannerList = bannerList;
+      ..bannerList = bannerList
+      ..articleList = articleList;
   }
 }
 
 HomeState initState(Map<String, dynamic> args) {
   return HomeState()
-    ..bannerList = new List();
+    ..bannerList = new List()
+    ..articleList = new List();
 }

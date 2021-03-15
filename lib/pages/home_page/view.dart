@@ -1,7 +1,6 @@
 import 'package:bluespace/utils/adapt.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:bluespace/style/themeStyle.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,9 +30,9 @@ Widget buildView(HomeState state, Dispatch dispatch, ViewService viewService) {
             children: <Widget>[
               Container(
                 padding: EdgeInsets.only(
-                    top: Adapt.height(10), bottom: Adapt.height(20)),
+                    top: Adapt.height(10), bottom: Adapt.height(10)),
                 child: state.bannerList.length != 0
-                    ? SwiperDiy(swiperDataList: state.bannerList)
+                    ? viewService.buildComponent('swiper')
                     : Container(
                         margin: EdgeInsets.all(5),
                         width: Adapt.width(750),
@@ -41,7 +40,7 @@ Widget buildView(HomeState state, Dispatch dispatch, ViewService viewService) {
                         color: Color.fromRGBO(0, 0, 0, .3),
                       ),
               ),
-              ArticleList()
+              ArticleList(articleList: state.articleList)
             ],
           ),
         ));
@@ -86,70 +85,10 @@ class _SearchBar extends StatelessWidget {
   }
 }
 
-// 轮播图
-class SwiperDiy extends StatelessWidget {
-  final List swiperDataList;
-
-  SwiperDiy({Key key, this.swiperDataList}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final ThemeData _theme = ThemeStyle.getTheme(context);
-    return Container(
-      width: Adapt.width(750),
-      height: Adapt.height(400),
-      child: Swiper(
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  width: Adapt.width(750),
-                  height: Adapt.height(80),
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(5, 3, 5, 0),
-                    child: Text(
-                      "${swiperDataList[index].title}",
-                      style: TextStyle(color: Colors.white),
-                      softWrap: false,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                      color: Color.fromRGBO(0, 0, 0, 0.5),
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(Adapt.radius(10)),
-                          bottomRight: Radius.circular(Adapt.radius(10)))),
-                )
-              ],
-            ),
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: NetworkImage("${swiperDataList[index].img}"),
-                    fit: BoxFit.fill),
-                borderRadius:
-                    BorderRadius.all(Radius.circular(Adapt.radius(10)))),
-          );
-        },
-        itemCount: swiperDataList.length,
-        pagination: SwiperPagination(
-            margin: EdgeInsets.only(top: 10),
-            builder: DotSwiperPaginationBuilder(
-              color: Colors.white70,
-              activeColor: _theme.buttonColor,
-            )),
-        autoplay: true,
-        viewportFraction: 0.8,
-        scale: 0.9,
-      ),
-    );
-  }
-}
-
 class ArticleList extends StatelessWidget {
-  ArticleList({Key key}) : super(key: key);
-  final List list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+  final List articleList;
+
+  ArticleList({Key key, this.articleList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -158,8 +97,17 @@ class ArticleList extends StatelessWidget {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       crossAxisCount: 4,
-      itemCount: list.length,
-      itemBuilder: (context, i) => ArticleItem(),
+      itemCount: articleList.length,
+      itemBuilder: (context, i) => ArticleItem(
+        img: articleList[i]['imgList'] != null
+            ? '${articleList[i]['imgList'][0]}'
+            : '${articleList[i]['cover']}',
+        title: '${articleList[i]['title']}',
+        username: '${articleList[i]['username']}',
+        avatar: '${articleList[i]['avatar']}',
+        type: '${articleList[i]['type']}',
+        coll: '${articleList[i]['coll']}',
+      ),
       staggeredTileBuilder: (index) => StaggeredTile.fit(2),
       mainAxisSpacing: 1.0,
       crossAxisSpacing: 1.0,
@@ -186,15 +134,20 @@ class ArticleItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            color: Colors.pink,
-            height: ScreenUtil().setHeight(200),
+            height: type == '2' ? Adapt.height(300) : Adapt.height(250),
+            width: Adapt.width(750),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(Adapt.width(5)),
+                    topRight: Radius.circular(Adapt.width(5))),
+                image: DecorationImage(
+                    image: NetworkImage(img), fit: BoxFit.fill)),
           ),
           Container(
-            padding:
-                EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(20)),
-            margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(10)),
+            padding: EdgeInsets.symmetric(horizontal: Adapt.width(20)),
+            margin: EdgeInsets.symmetric(vertical: Adapt.width(10)),
             child: Text(
-              '这是标题',
+              '$title',
               style: TextStyle(
                   fontSize: ScreenUtil().setSp(30),
                   fontWeight: FontWeight.bold),
@@ -203,45 +156,41 @@ class ArticleItem extends StatelessWidget {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(
-                left: ScreenUtil().setWidth(20),
-                bottom: ScreenUtil().setWidth(10)),
+            padding:
+                EdgeInsets.only(left: Adapt.width(20), bottom: Adapt.width(10)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CircleAvatar(
-                  backgroundColor: Colors.lightBlue,
-                  radius: ScreenUtil().setWidth(20),
+                  backgroundImage: NetworkImage(avatar),
+                  radius: Adapt.width(20),
                 ),
                 Container(
                   margin: EdgeInsets.only(
-                      left: ScreenUtil().setWidth(10),
-                      right: ScreenUtil().setWidth(10)),
-                  width: ScreenUtil().setWidth(180),
+                      left: Adapt.width(10), right: Adapt.width(10)),
+                  width: Adapt.width(180),
                   child: Text(
-                    '这里是作者',
-                    style: TextStyle(fontSize: ScreenUtil().setSp(22)),
+                    '$username',
+                    style: TextStyle(fontSize: Adapt.sp(22)),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 Container(
-                    color: Colors.teal,
-                    width: ScreenUtil().setWidth(80),
+                    width: Adapt.width(80),
                     alignment: Alignment.center,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
                           Icons.star_outline,
-                          size: ScreenUtil().setSp(38),
+                          size: Adapt.sp(38),
                         ),
-                        0 == 0
+                        coll.toString() == '0'
                             ? Text('')
                             : Text(
-                                '11',
-                                style:
-                                    TextStyle(fontSize: ScreenUtil().setSp(22)),
+                                '$coll',
+                                style: TextStyle(fontSize: Adapt.sp(22)),
                               )
                       ],
                     ))
