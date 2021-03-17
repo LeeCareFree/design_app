@@ -117,7 +117,7 @@ class _ImagePanel extends StatelessWidget {
                 keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.next,
                 maxLines: 1,
-                maxLength: 10,
+                maxLength: 15,
                 decoration: InputDecoration.collapsed(
                   hintText: '写下图片的标题~',
                   hintStyle: TextStyle(

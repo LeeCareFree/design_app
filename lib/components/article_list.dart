@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-15 18:14:14
- * @LastEditTime: 2021-03-15 18:16:32
+ * @LastEditTime: 2021-03-16 14:16:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \design_app\lib\components\article_list.dart
@@ -24,15 +24,21 @@ class ArticleList extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       crossAxisCount: 4,
       itemCount: articleList.length,
-      itemBuilder: (context, i) => ArticleItem(
-        img: articleList[i]['imgList'] != null
-            ? '${articleList[i]['imgList'][0]}'
-            : '${articleList[i]['cover']}',
-        title: '${articleList[i]['title']}',
-        username: '${articleList[i]['username']}',
-        avatar: '${articleList[i]['avatar']}',
-        type: '${articleList[i]['type']}',
-        coll: '${articleList[i]['coll']}',
+      itemBuilder: (context, i) => InkWell(
+        onTap: () {
+          Navigator.of(context).pushNamed('articleDetailPage', arguments: {'aid': articleList[i]['aid']});
+        },
+        child: ArticleItem(
+          img: articleList[i]['imgList'] != null
+              ? '${articleList[i]['imgList'][0]}'
+              : '${articleList[i]['cover']}',
+          title: '${articleList[i]['title']}',
+          username: articleList[i]['user']['nickname'] ??
+              articleList[i]['user']['username'],
+          avatar: '${articleList[i]['user']['avatar']}',
+          type: '${articleList[i]['type']}',
+          coll: '${articleList[i]['coll']}',
+        ),
       ),
       staggeredTileBuilder: (index) => StaggeredTile.fit(2),
       mainAxisSpacing: 1.0,
@@ -75,8 +81,7 @@ class ArticleItem extends StatelessWidget {
             child: Text(
               '$title',
               style: TextStyle(
-                  fontSize: Adapt.sp(30),
-                  fontWeight: FontWeight.bold),
+                  fontSize: Adapt.sp(30), fontWeight: FontWeight.bold),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
