@@ -19,8 +19,8 @@ class DioUtil {
     (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
         (HttpClient client) {
       client.findProxy = (uri) {
-        // return "PROXY 192.168.0.107:8899";
-        return "PROXY 192.168.0.102:8899";
+        return "PROXY 192.168.0.105:8899";
+        // return "PROXY 192.168.0.102:8899";
       };
     };
     try {

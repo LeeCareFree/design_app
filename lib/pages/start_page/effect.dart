@@ -40,7 +40,7 @@ void _onJump(Action action, Context<StartState> ctx) async {
       Fluttertoast.showToast(msg: data['msg'] ?? '请登录！');
     } else {
       Fluttertoast.showToast(msg: data['msg'] ?? '登录成功！');
-      Future.delayed(Duration(seconds: 3), () => _pushToMainPage(ctx.context));
+      Future.delayed(Duration(seconds: 0), () => _pushToMainPage(ctx.context));
     }
   } else {
     print(ctx.state.isLogin);

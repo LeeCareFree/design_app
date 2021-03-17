@@ -134,11 +134,14 @@ class _SecondPanel extends StatelessWidget {
                             fontSize: Adapt.sp(28)))
                   ],
                 ),
-                Icon(
-                  Icons.keyboard_arrow_right,
-                  color: const Color(0xFFFFFFFF),
-                  size: 30,
-                ),
+                IconButton(
+                    icon: Icon(
+                      Icons.keyboard_arrow_right,
+                      color: const Color(0xFFFFFFFF),
+                      size: 30,
+                    ),
+                    onPressed: () =>
+                        {Navigator.of(context).pushNamed('personalPage')})
               ]),
         ),
       ),

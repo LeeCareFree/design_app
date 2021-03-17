@@ -23,6 +23,7 @@ class Routes {
       'minePage': MinePage(),
       'publishPage': PublishPage(),
       'articleDetailPage': ArticleDetailPage(),
+      'personalPage': PersonalPage(),
     },
     visitor: (String path, Page<Object, dynamic> page) {
       if (page.isTypeof<GlobalBaseState>()) {
