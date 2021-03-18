@@ -13,12 +13,7 @@ class SwiperConnector extends ConnOp<ArticleDetailState, SwiperState> {
   @override
   SwiperState get(ArticleDetailState state) {
     SwiperState substate = new SwiperState();
-    // substate.backdrops = state.imagesmodel?.backdrops;
-    substate.backdrops = [
-      'http://192.168.0.105:3000/upload/publish/1.jpeg',
-      'http://192.168.0.105:3000/upload/publish/2.jpeg',
-      'http://192.168.0.105:3000/upload/publish/3.jpeg'
-    ];
+    substate.backdrops = state.articleInfo?.imgList;
     return substate;
   }
 }

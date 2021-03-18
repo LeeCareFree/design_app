@@ -6,15 +6,21 @@ class PersonalState implements Cloneable<PersonalState> {
   String bgPic;
   AnimationController animationController;
   ScrollController scrollController;
+  TabController tabController;
+  bool isShowTitle = false;
   @override
   PersonalState clone() {
     return PersonalState()
       ..bgPic = bgPic
       ..animationController = animationController
-      ..scrollController = scrollController;
+      ..tabController = tabController
+      ..scrollController = scrollController
+      ..isShowTitle = isShowTitle;
   }
 }
 
 PersonalState initState(Map<String, dynamic> args) {
-  return PersonalState();
+  PersonalState state = new PersonalState();
+  // state.scrollController.addListener(() {});
+  return state;
 }

@@ -178,7 +178,8 @@ Future _phoneNumSignIn(Action action, Context<StartState> ctx) async {
     // token储存到本地
     final setTokenResult =
         await prefs.setString('token', data['data']['token']);
-    await prefs.setString('username', data['data']['username']);
+    await prefs.setString(
+        'username', data['data']['nickname'] ?? data['data']['username']);
     await prefs.setString('uid', data['data']['uid']);
     await prefs.setString('avatar', data['data']['avatar']);
     if (setTokenResult) {

@@ -42,7 +42,7 @@ class _SwiperPanelState extends State<_SwiperPanel> {
   Widget build(BuildContext context) {
     final _padding = Adapt.height(40);
     final _width = Adapt.screenW() - _padding * 2;
-    final _height = _width * 9 / 16;
+    final _height = _width * 9 / 6;
     return Container(
       height: _height + Adapt.height(30),
       child: Column(
@@ -52,8 +52,12 @@ class _SwiperPanelState extends State<_SwiperPanel> {
             child: Swiper(
               itemCount: widget.backdrops.length,
               autoplay: true,
+              autoplayDisableOnInteraction: true,
               onIndexChanged: _setCurrectIndex,
               itemWidth: Adapt.screenW(),
+              onTap: (index) {
+                print(index);
+              },
               itemBuilder: (context, index) {
                 // if (index == 0 && widget.videos.length > 0) {
                 //   return _VideoCell(

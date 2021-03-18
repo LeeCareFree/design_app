@@ -1,9 +1,13 @@
 import 'dart:ui';
 
+import 'package:bluespace/components/asperctRaioImage.dart';
+import 'package:bluespace/components/loading.dart';
+import 'package:bluespace/models/article_detail.dart';
 import 'package:bluespace/style/themeStyle.dart';
 import 'package:bluespace/utils/adapt.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 import 'action.dart';
@@ -25,9 +29,8 @@ Widget buildView(
               Row(
                 children: [
                   _UserInfoWidget(
-                    avatar: state.avatar ??
-                        'http://192.168.0.105:3000/imgs/avatar.jpg',
-                    username: state.username ?? 'test',
+                    avatar: state.articleInfo?.user?.avatar ?? '',
+                    username: state.articleInfo?.user?.nickname ?? '',
                     theme: _theme,
                   ),
                 ],
@@ -38,35 +41,72 @@ Widget buildView(
                       dispatch(ArticleDetailActionCreator.openMenu()))
             ],
           ),
-          bottomNavigationBar: (_FixedRow()),
-          body: SingleChildScrollView(
-              // padding: EdgeInsets.symmetric(vertical: Adapt.height(30)),
-              // physics: BouncingScrollPhysics(),
-              // shrinkWrap: true,
-              child: Column(children: [
-            SizedBox(
-              height: Adapt.height(30),
-            ),
-            viewService.buildComponent('swiper'),
-            _ArticleWidget(
-              title: state.title ?? '这是标题',
-              content: state.content ??
-                  '这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容',
-              time: state.time ?? '2021年3月13日 17.00',
-            ),
-            // _FixedRow()
-            // viewService.buildComponent('title'),
-            // viewService.buildComponent('cast'),
-            // viewService.buildComponent('season'),
-            // viewService.buildComponent('lastEpisode'),
-            // viewService.buildComponent('keyword'),
-            // viewService.buildComponent('recommendation'),
-            _CommentWidget(
-              avatar:
-                  state.avatar ?? 'http://192.168.0.105:3000/imgs/avatar.jpg',
-              commentCount: 666,
-            )
-          ])));
+          bottomNavigationBar: (!state.isLoading
+              ? _FixedRow(
+                  controller: state.commentTextController,
+                  commentFocusNode: state.commentFocusNode,
+                  dispatch: dispatch,
+                  articleDetail: state.articleInfo,
+                  isColl: state.isColl,
+                  isLike: state.isLike,
+                )
+              : null),
+          body: Stack(
+            children: [
+              state.isLoading
+                  ? LoadingLayout(
+                      title: '加载中...',
+                      show: true,
+                    )
+                  : GestureDetector(
+                      onTap: () {
+                        FocusScopeNode currentFocus = FocusScope.of(context);
+                        if (!currentFocus.hasPrimaryFocus &&
+                            currentFocus.focusedChild != null) {
+                          FocusManager.instance.primaryFocus.unfocus();
+                        }
+                      },
+                      child: SingleChildScrollView(
+                          // padding: EdgeInsets.symmetric(vertical: Adapt.height(30)),
+                          // physics: BouncingScrollPhysics(),
+                          // shrinkWrap: true,
+                          child: Column(children: [
+                        SizedBox(
+                          height: Adapt.height(10),
+                        ),
+                        viewService.buildComponent('swiper'),
+                        // AsperctRaioImage.network(state.articleInfo?.imgList[0],
+                        //     builder: (context, snapshot, url) {
+                        //   return Column(
+                        //     crossAxisAlignment: CrossAxisAlignment.start,
+                        //     children: <Widget>[
+                        //       Container(
+                        //         width: snapshot.data.width.toDouble() / 4,
+                        //         height: snapshot.data.height.toDouble() / 4,
+                        //         decoration: BoxDecoration(
+                        //           image: DecorationImage(
+                        //               image: NetworkImage(url), fit: BoxFit.cover),
+                        //         ),
+                        //       )
+                        //     ],
+                        //   );
+                        // }),
+                        _ArticleWidget(
+                          title: state.articleInfo.title,
+                          content: state.articleInfo.detail,
+                          time: state.articleInfo.createtime,
+                        ),
+                        _CommentWidget(
+                          avatar: state.avatar,
+                          commentList: state.articleInfo.comments,
+                          controller: state.commentTextController,
+                          commentFocusNode: state.commentFocusNode,
+                          commentLikeCount: state.commentLikeCount,
+                          dispatch: dispatch,
+                        ),
+                      ])))
+            ],
+          ));
     },
   );
 }
@@ -79,7 +119,7 @@ class _UserInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // margin: EdgeInsets.only(left: Adapt.px(0)),
+      margin: EdgeInsets.only(left: Adapt.width(120)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -95,7 +135,7 @@ class _UserInfoWidget extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: Adapt.width(10),
+            width: Adapt.width(15),
           ),
           Text(
             username,
@@ -105,7 +145,7 @@ class _UserInfoWidget extends StatelessWidget {
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(
-            width: Adapt.width(260),
+            width: Adapt.width(150),
           ),
           Container(
             width: Adapt.width(100),
@@ -183,9 +223,21 @@ class _ArticleWidget extends StatelessWidget {
 }
 
 class _FixedRow extends StatelessWidget {
+  final TextEditingController controller;
+  final ArticleDetail articleDetail;
+  final FocusNode commentFocusNode;
+  final Dispatch dispatch;
+  final bool isLike;
+  final bool isColl;
+  const _FixedRow(
+      {this.controller,
+      this.commentFocusNode,
+      this.dispatch,
+      this.isLike,
+      this.isColl,
+      this.articleDetail});
   @override
   Widget build(BuildContext context) {
-    FocusNode blankNode = FocusNode();
     return Container(
         width: Adapt.screenW(),
         height: Adapt.height(100),
@@ -200,33 +252,31 @@ class _FixedRow extends StatelessWidget {
             Expanded(
               flex: 2,
               child: Container(
-                  margin: EdgeInsets.only(left: Adapt.width(30)),
-                  decoration: BoxDecoration(
-                      color: Colors.grey[50],
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(Adapt.radius(50))),
-                  height: Adapt.height(60),
-                  child: GestureDetector(
-                      onTap: () {
-                        FocusScope.of(context).requestFocus(blankNode);
-                      },
-                      child: Form(
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.fromLTRB(
-                                Adapt.width(20),
-                                Adapt.height(5),
-                                Adapt.width(10),
-                                Adapt.height(28)),
-                            border: InputBorder.none,
-                            hintText: "评论一下...",
-                            hintStyle: TextStyle(
-                              fontSize: Adapt.sp(30),
-                              height: Adapt.height(2),
-                            ),
-                          ),
-                        ),
-                      ))),
+                margin: EdgeInsets.only(left: Adapt.width(30)),
+                decoration: BoxDecoration(
+                    color: Colors.grey[50],
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(Adapt.radius(50))),
+                height: Adapt.height(60),
+                child: TextField(
+                  onSubmitted: (s) =>
+                      {dispatch(ArticleDetailActionCreator.pubilshComment())},
+                  controller: controller,
+                  onEditingComplete: () =>
+                      {dispatch(ArticleDetailActionCreator.completeComment())},
+                  focusNode: commentFocusNode,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.fromLTRB(Adapt.width(20),
+                        Adapt.height(5), Adapt.width(10), Adapt.height(28)),
+                    border: InputBorder.none,
+                    hintText: "评论一下...",
+                    hintStyle: TextStyle(
+                      fontSize: Adapt.sp(30),
+                      height: Adapt.height(2),
+                    ),
+                  ),
+                ),
+              ),
             ),
             Expanded(
               flex: 0,
@@ -236,15 +286,29 @@ class _FixedRow extends StatelessWidget {
                     Container(
                       width: Adapt.width(70),
                       margin: EdgeInsets.only(right: Adapt.width(10)),
-                      child: IconButton(
-                          icon: Icon(
-                            Icons.favorite_border_outlined,
-                            size: Adapt.height(50),
-                          ),
-                          onPressed: () => {}),
+                      child: isLike
+                          ? IconButton(
+                              icon: Icon(
+                                Icons.favorite,
+                                color: Colors.red[400],
+                                size: Adapt.height(50),
+                              ),
+                              onPressed: () => {
+                                    dispatch(
+                                        ArticleDetailActionCreator.cancelLike())
+                                  })
+                          : IconButton(
+                              icon: Icon(
+                                Icons.favorite_border_outlined,
+                                size: Adapt.height(50),
+                              ),
+                              onPressed: () => {
+                                    dispatch(
+                                        ArticleDetailActionCreator.likeHandle())
+                                  }),
                     ),
                     Text(
-                      '6.6万',
+                      articleDetail?.like.toString(),
                       style: TextStyle(fontSize: Adapt.sp(28)),
                     ),
                   ],
@@ -259,15 +323,29 @@ class _FixedRow extends StatelessWidget {
                     Container(
                       width: Adapt.width(70),
                       margin: EdgeInsets.only(right: Adapt.width(10)),
-                      child: IconButton(
-                          icon: Icon(
-                            Icons.star_border_outlined,
-                            size: Adapt.height(50),
-                          ),
-                          onPressed: () => {}),
+                      child: isColl
+                          ? IconButton(
+                              icon: Icon(
+                                Icons.star,
+                                color: Colors.red[400],
+                                size: Adapt.height(50),
+                              ),
+                              onPressed: () => {
+                                    dispatch(
+                                        ArticleDetailActionCreator.cancelColl())
+                                  })
+                          : IconButton(
+                              icon: Icon(
+                                Icons.star_border_outlined,
+                                size: Adapt.height(50),
+                              ),
+                              onPressed: () => {
+                                    dispatch(
+                                        ArticleDetailActionCreator.collHandle())
+                                  }),
                     ),
                     Text(
-                      '6.6万',
+                      articleDetail?.coll.toString(),
                       style: TextStyle(fontSize: Adapt.sp(28)),
                     ),
                   ],
@@ -291,7 +369,7 @@ class _FixedRow extends StatelessWidget {
                           onPressed: () => {}),
                     ),
                     Text(
-                      '6.6万',
+                      articleDetail?.comments?.length.toString(),
                       style: TextStyle(fontSize: Adapt.sp(28)),
                     ),
                   ],
@@ -304,9 +382,19 @@ class _FixedRow extends StatelessWidget {
 }
 
 class _CommentWidget extends StatelessWidget {
-  final int commentCount;
+  final List commentList;
   final String avatar;
-  const _CommentWidget({this.commentCount, this.avatar});
+  final TextEditingController controller;
+  final FocusNode commentFocusNode;
+  final Dispatch dispatch;
+  final int commentLikeCount;
+  const _CommentWidget(
+      {this.avatar,
+      this.commentList,
+      this.controller,
+      this.commentFocusNode,
+      this.dispatch,
+      this.commentLikeCount});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -316,7 +404,7 @@ class _CommentWidget extends StatelessWidget {
           Row(
             children: [
               Text(
-                '共$commentCount条评论',
+                '共 ${commentList.length} 条评论',
                 style: TextStyle(color: Colors.grey, fontSize: Adapt.sp(24)),
               ),
             ],
@@ -342,64 +430,39 @@ class _CommentWidget extends StatelessWidget {
                 Expanded(
                   flex: 8,
                   child: Container(
-                      margin: EdgeInsets.only(left: Adapt.width(30)),
-                      decoration: BoxDecoration(
-                          color: Colors.grey[50],
-                          border: Border.all(color: Colors.grey),
-                          borderRadius:
-                              BorderRadius.circular(Adapt.radius(50))),
-                      height: Adapt.height(60),
-                      child: GestureDetector(
-                          onTap: () {
-                            // FocusScope.of(context).requestFocus(blankNode);
-                          },
-                          child: Form(
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.fromLTRB(
-                                    Adapt.width(20),
-                                    Adapt.height(5),
-                                    Adapt.width(10),
-                                    Adapt.height(27)),
-                                border: InputBorder.none,
-                                hintText: "评论一下...",
-                                hintStyle: TextStyle(
-                                  fontSize: Adapt.sp(30),
-                                  height: Adapt.height(2),
-                                ),
-                              ),
-                            ),
-                          ))),
+                    margin: EdgeInsets.only(left: Adapt.width(30)),
+                    decoration: BoxDecoration(
+                        color: Colors.grey[50],
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(Adapt.radius(50))),
+                    height: Adapt.height(60),
+                    child: TextField(
+                      onSubmitted: (s) => {
+                        dispatch(ArticleDetailActionCreator.pubilshComment())
+                      },
+                      controller: controller,
+                      focusNode: commentFocusNode,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(Adapt.width(20),
+                            Adapt.height(5), Adapt.width(10), Adapt.height(27)),
+                        border: InputBorder.none,
+                        hintText: "评论一下...",
+                        hintStyle: TextStyle(
+                          fontSize: Adapt.sp(30),
+                          height: Adapt.height(2),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
-          _CommentListWidget([
-            {
-              'avatar': 'http://192.168.0.105:3000/imgs/avatar.jpg',
-              'nickname': '你的名字',
-              'content': '你的评论',
-              'time': '03-16'
-            },
-            {
-              'avatar': 'http://192.168.0.105:3000/imgs/avatar.jpg',
-              'nickname': '你的名字',
-              'content': '你的评论',
-              'time': '03-16'
-            },
-            {
-              'avatar': 'http://192.168.0.105:3000/imgs/avatar.jpg',
-              'nickname': '你的名字',
-              'content': '你的评论',
-              'time': '03-16'
-            },
-            {
-              'avatar': 'http://192.168.0.105:3000/imgs/avatar.jpg',
-              'nickname': '你的名字',
-              'content': '你的评论',
-              'time': '03-16'
-            }
-          ])
+          _CommentListWidget(
+            commentList: commentList,
+            dispatch: dispatch,
+            commentLikeCount: commentLikeCount,
+          )
         ],
       ),
     );
@@ -407,13 +470,15 @@ class _CommentWidget extends StatelessWidget {
 }
 
 class _CommentListWidget extends StatelessWidget {
-  final List commentList;
-  const _CommentListWidget(this.commentList);
+  final List<Comments> commentList;
+  final Dispatch dispatch;
+  final int commentLikeCount;
+  const _CommentListWidget(
+      {this.commentList, this.dispatch, this.commentLikeCount});
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: Adapt.height(110) * commentList.length,
-      margin: EdgeInsets.only(top: Adapt.height(20)),
+      margin: EdgeInsets.fromLTRB(0, Adapt.height(20), 0, Adapt.height(20)),
       child: ListView.separated(
           physics: NeverScrollableScrollPhysics(),
           itemCount: commentList.length,
@@ -421,98 +486,153 @@ class _CommentListWidget extends StatelessWidget {
                 height: Adapt.height(30),
                 color: Color(0xFFFFFFFF),
               ),
+          shrinkWrap: true,
           itemBuilder: (BuildContext context, int index) {
-            return Container(
-                padding: EdgeInsets.only(bottom: Adapt.height(10)),
-                decoration: BoxDecoration(
-                    border: Border(
-                        bottom:
-                            BorderSide(width: 1, color: Color(0xffe5e5e5)))),
-                child: Flex(
-                    direction: Axis.horizontal,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: ClipOval(
-                          child: Image.network(
-                            commentList[index]['avatar'] ??
-                                'http://192.168.0.105:3000/imgs/avatar.jpg',
-                            fit: BoxFit.cover,
-                            width: 35,
-                            height: 35,
-                            // color: Colors.black
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: Adapt.width(40),
-                      ),
-                      Expanded(
-                          flex: 7,
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    '${commentList[index]['nickname'] ?? commentList[index].username}' ??
-                                        'test',
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: Adapt.sp(24)),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: Adapt.height(5),
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text('${commentList[index]['content']}' ??
-                                      'test'),
-                                  SizedBox(
-                                    width: Adapt.width(10),
-                                  ),
-                                  Text(
-                                    '${commentList[index]['time']}' ?? '03-16',
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: Adapt.sp(24)),
-                                  )
-                                ],
-                              )
-                            ],
-                          )),
-                      Expanded(
-                        flex: 1,
+            return GestureDetector(
+              onLongPress: () => {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return Container(
+                        height: Adapt.height(400),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(right: Adapt.width(25)),
-                              width: Adapt.width(40),
-                              height: Adapt.height(40),
-                              child: IconButton(
-                                  icon: Icon(
-                                    Icons.favorite_border,
-                                    size: Adapt.height(30),
-                                  ),
-                                  onPressed: () => {}),
+                          children: <Widget>[
+                            ListTile(
+                              leading: Icon(Icons.delete_outline),
+                              title: Text("删除"),
+                              onTap: () => {
+                                dispatch(
+                                    ArticleDetailActionCreator.deleteComment(
+                                        commentList[index].cid))
+                              },
                             ),
-                            SizedBox(
-                              height: Adapt.height(5),
+                            ListTile(
+                              leading: Icon(Icons.copy),
+                              title: Text("复制"),
+                              onTap: () => Navigator.pop(context),
                             ),
-                            Text(
-                              '666',
-                              style: TextStyle(
-                                  color: Colors.grey, fontSize: Adapt.sp(24)),
+                            ListTile(
+                              leading:
+                                  Icon(Icons.report_gmailerrorred_outlined),
+                              title: Text("举报"),
+                              onTap: () => {
+                                Fluttertoast.showToast(msg: '举报成功！'),
+                                Navigator.pop(context)
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.cancel_outlined),
+                              title: Text("取消"),
+                              onTap: () => Navigator.pop(context),
                             ),
                           ],
                         ),
-                      )
-                    ]));
+                      );
+                    })
+              },
+              child: Container(
+                  padding: EdgeInsets.only(bottom: Adapt.height(10)),
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom:
+                              BorderSide(width: 1, color: Color(0xffe5e5e5)))),
+                  child: Flex(
+                      direction: Axis.horizontal,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: ClipOval(
+                            child: Image.network(
+                              commentList[index].user?.avatar,
+                              fit: BoxFit.cover,
+                              width: 35,
+                              height: 35,
+                              // color: Colors.black
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: Adapt.width(40),
+                        ),
+                        Expanded(
+                            flex: 8,
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      '${commentList[index].user?.nickname ?? commentList[index].user?.username}' ??
+                                          'test',
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: Adapt.sp(24)),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: Adapt.height(5),
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                          '${commentList[index].content}' ??
+                                              'test'),
+                                    ),
+                                    Text(
+                                      '03-16',
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: Adapt.sp(24)),
+                                    ),
+                                    SizedBox(
+                                      width: Adapt.width(20),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            )),
+                        // Expanded(
+                        //   flex: 1,
+                        //   child: Column(
+                        //     mainAxisAlignment: MainAxisAlignment.center,
+                        //     crossAxisAlignment: CrossAxisAlignment.center,
+                        //     children: [
+                        //       Container(
+                        //         margin: EdgeInsets.fromLTRB(
+                        //             0, 0, Adapt.width(25), Adapt.width(10)),
+                        //         width: Adapt.width(40),
+                        //         height: Adapt.height(40),
+                        //         child: IconButton(
+                        //             icon: Icon(
+                        //               Icons.favorite_border,
+                        //               size: Adapt.height(30),
+                        //               color: commentLikeCount > 1
+                        //                   ? Colors.red
+                        //                   : '',
+                        //             ),
+                        //             onPressed: () => {
+                        //                   dispatch(ArticleDetailActionCreator
+                        //                       .likeComment(
+                        //                           commentList[index].cid))
+                        //                 }),
+                        //       ),
+                        //       // SizedBox(
+                        //       //   height: Adapt.height(5),
+                        //       // ),
+                        //       Text(
+                        //         commentLikeCount.toString(),
+                        //         style: TextStyle(
+                        //             color: Colors.black54,
+                        //             fontSize: Adapt.sp(24)),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // )
+                      ])),
+            );
           }),
     );
   }

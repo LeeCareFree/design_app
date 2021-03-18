@@ -1,6 +1,7 @@
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart' hide Action;
+import 'package:flutter/material.dart' hide Action;
 import 'action.dart';
 import 'state.dart';
 
@@ -19,6 +20,7 @@ void _onInit(Action action, Context<PersonalState> ctx) {
   ctx.state.animationController = AnimationController(
       vsync: ticker, duration: Duration(milliseconds: 2000));
   ctx.state.scrollController = ScrollController();
+  ctx.state.tabController = TabController(length: 3, vsync: ticker);
 }
 
 void _onDispose(Action action, Context<PersonalState> ctx) {

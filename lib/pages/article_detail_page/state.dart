@@ -1,31 +1,43 @@
 import 'dart:math';
 
+import 'package:bluespace/models/article_detail.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ArticleDetailState implements Cloneable<ArticleDetailState> {
-  String username;
   String avatar;
-  String title;
-  String content;
-  String time;
   String aid;
+  String uid;
+  int commentLikeCount;
+  bool isLoading;
+  ArticleDetail articleInfo;
+  FocusNode commentFocusNode;
+  TextEditingController commentTextController;
+  bool isLike;
+  bool isColl;
   @override
   ArticleDetailState clone() {
     return ArticleDetailState()
-      ..username = username
       ..avatar = avatar
-      ..title = title
-      ..content = content
-      ..time = time
-      ..aid = aid;
+      ..aid = aid
+      ..uid = uid
+      ..isLoading = isLoading
+      ..isLike = isLike
+      ..isColl = isColl
+      ..commentLikeCount = commentLikeCount
+      ..articleInfo = articleInfo
+      ..commentFocusNode = commentFocusNode
+      ..commentTextController = commentTextController;
   }
 }
 
 ArticleDetailState initState(Map<String, dynamic> args) {
   ArticleDetailState state = new ArticleDetailState();
-  state.aid = args['aid'] ?? 'c5b208bc-63f8-4f2d-8b35-fcda91ecf52f';
-  print(state.aid);
+  state.aid = args['aid'];
+  state.commentLikeCount = 0;
+  state.isLoading = true;
+  state.isLike = false;
+  state.isColl = false;
   return state;
 }
