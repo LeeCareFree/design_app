@@ -1,5 +1,6 @@
 import 'package:bluespace/components/article_list.dart';
 import 'package:bluespace/components/backdrop.dart';
+import 'package:bluespace/components/stickTabBarDelegate.dart';
 import 'package:bluespace/style/themeStyle.dart';
 import 'package:bluespace/utils/adapt.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -25,6 +26,8 @@ Widget buildView(
               SliverPersistentHeader(
                 pinned: true,
                 delegate: StickyTabBarDelegate(
+                    child: PreferredSize(
+                  preferredSize: Size.fromHeight(40),
                   child: TabBar(
                     labelColor: Colors.black,
                     controller: state.tabController,
@@ -40,7 +43,7 @@ Widget buildView(
                       Tab(text: '点赞'),
                     ],
                   ),
-                ),
+                )),
               ),
               SliverPersistentHeader(
                 pinned: true,
@@ -115,7 +118,7 @@ Widget buildView(
                       },
                       {
                         "imgList": [
-                          "http://192.168.0.102:3000/upload/publish/1615876262049.jpg"
+                          "http://192.168.0.105:3000/upload/publish/1615876262049.jpg"
                         ],
                         "type": "2",
                         "aid": "b0007136-bd14-41c6-81bb-3aa9756523be",
@@ -141,29 +144,6 @@ Widget buildView(
       );
     },
   );
-}
-
-class StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
-  final TabBar child;
-
-  StickyTabBarDelegate({@required this.child});
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return this.child;
-  }
-
-  @override
-  double get maxExtent => this.child.preferredSize.height;
-
-  @override
-  double get minExtent => this.child.preferredSize.height;
-
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-    return true;
-  }
 }
 
 class StickyDividerDelegate extends SliverPersistentHeaderDelegate {

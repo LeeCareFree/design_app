@@ -31,7 +31,7 @@ void _onInit(Action action, Context<CreateState> ctx) {
 }
 
 Future _onShowImgClicked(Action action, Context<CreateState> ctx) async {
-  List<Asset> resultList = <Asset>[];
+  List<Asset> resultList = [];
   if (action.payload == '相机') {
     resultList = await MultiImagePicker.pickImages(
       maxImages: 9,
@@ -47,29 +47,31 @@ Future _onShowImgClicked(Action action, Context<CreateState> ctx) async {
         selectCircleStrokeColor: "#000000",
       ),
     );
-    if (resultList != null) {
+    if (resultList.length >= 1) {
       await Navigator.of(ctx.context)
           .pushNamed('publishPage', arguments: {'images': resultList});
     }
   } else if (action.payload == '相册') {
     // var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    resultList = await MultiImagePicker.pickImages(
-      maxImages: 9,
-      enableCamera: true,
-      selectedAssets: ctx.state.images,
-      cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
-      materialOptions: MaterialOptions(
-        actionBarColor: "#abcdef",
-        actionBarTitle: "请选择",
-        allViewTitle: "所有图片",
-        useDetailsView: true,
-        selectCircleStrokeColor: "#000000",
-      ),
-    );
-    if (resultList != null) {
-      await Navigator.of(ctx.context)
-          .pushNamed('publishPage', arguments: {'images': resultList});
-    }
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: 9,
+        enableCamera: true,
+        selectedAssets: ctx.state.images,
+        cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
+        materialOptions: MaterialOptions(
+          actionBarColor: "#abcdef",
+          actionBarTitle: "请选择",
+          allViewTitle: "所有图片",
+          useDetailsView: true,
+          selectCircleStrokeColor: "#000000",
+        ),
+      );
+      if (resultList.length >= 1) {
+        await Navigator.of(ctx.context)
+            .pushNamed('publishPage', arguments: {'images': resultList});
+      }
+    } catch (e) {}
   }
 }
 

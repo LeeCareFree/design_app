@@ -37,7 +37,8 @@ Widget buildView(
                     title: '发布装修',
                     subTitle: '寻找心仪的设计',
                     icon: 'assets/images/publish.png',
-                    onTap: () => {},
+                    onTap: () =>
+                        {Navigator.of(context).pushNamed('decoratePage')},
                   ),
                   _FeaturesCell(
                     title: '写日记',
@@ -117,8 +118,8 @@ class _FeaturesCell extends StatelessWidget {
             ),
             Container(
               margin: EdgeInsets.only(left: Adapt.height(15)),
-              width: Adapt.width(100),
-              height: Adapt.height(80),
+              width: Adapt.width(80),
+              height: Adapt.height(60),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 image: icon != null

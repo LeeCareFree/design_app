@@ -51,7 +51,7 @@ void _onOpenGallery(Action action, Context<PublishState> ctx) async {
         //选择图片超过限制弹出提示
         selectionLimitReachedText: "最多选择9张照片"),
   );
-  if (resultList != null) {
+  if (resultList.length >= 1) {
     ctx.dispatch(PublishActionCreator.upDateImages(resultList));
   }
 }

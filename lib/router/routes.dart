@@ -24,6 +24,7 @@ class Routes {
       'publishPage': PublishPage(),
       'articleDetailPage': ArticleDetailPage(),
       'personalPage': PersonalPage(),
+      'decoratePage': DecoratePage(),
     },
     visitor: (String path, Page<Object, dynamic> page) {
       if (page.isTypeof<GlobalBaseState>()) {

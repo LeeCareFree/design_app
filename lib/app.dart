@@ -33,8 +33,16 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
         designSize: Size(750, 1334),
-        allowFontScaling: false,
-        builder: () => MaterialApp(
+        allowFontScaling: true,
+        builder: () => GestureDetector(
+            onTap: () {
+              FocusScopeNode currentFocus = FocusScope.of(context);
+              if (!currentFocus.hasPrimaryFocus &&
+                  currentFocus.focusedChild != null) {
+                FocusManager.instance.primaryFocus.unfocus();
+              }
+            },
+            child: MaterialApp(
               title: 'blueSpace',
               debugShowCheckedModeBanner: false,
               theme: _lightTheme,
@@ -46,7 +54,7 @@ class _AppState extends State<App> {
                   return routes.buildPage(settings.name, settings.arguments);
                 });
               },
-            ));
+            )));
   }
 }
 
