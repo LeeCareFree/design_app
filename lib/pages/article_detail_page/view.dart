@@ -119,52 +119,62 @@ class _UserInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: Adapt.width(120)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+      // margin: EdgeInsets.only(left: Adapt.width(120)),
+      width: Adapt.width(500),
+      child: Flex(
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
+        direction: Axis.horizontal,
         children: [
           // 用户头像
-          ClipOval(
-            child: Image.network(
-              avatar,
-              fit: BoxFit.cover,
-              width: 35,
-              height: 35,
-              // color: Colors.black
-            ),
-          ),
-          SizedBox(
-            width: Adapt.width(15),
-          ),
-          Text(
-            username,
-            style: TextStyle(
-                fontSize: Adapt.sp(38),
-                color: Colors.black,
-                fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
-            width: Adapt.width(150),
-          ),
-          Container(
-            width: Adapt.width(100),
-            height: Adapt.height(50),
-            decoration: BoxDecoration(
-                color: Colors.blueGrey,
-                borderRadius: BorderRadius.circular(Adapt.radius(50))),
-            child: Container(
-                child: TextButton(
-                    onPressed: () => {},
-                    child: Text(
-                      "关注",
-                      style: TextStyle(
-                          fontSize: Adapt.sp(24),
-                          fontWeight: FontWeight.bold,
-                          // letterSpacing: Adapt.px(10),
-                          color: Colors.white),
-                    ))),
-          ),
+          Expanded(
+              flex: 2,
+              child: Container(
+                margin: EdgeInsets.only(right: Adapt.width(20)),
+                child: ClipOval(
+                  child: Image.network(
+                    avatar,
+                    fit: BoxFit.cover,
+                    // width: 35,
+                    // height: 35,
+                    // color: Colors.black
+                  ),
+                ),
+              )),
+          // Expanded(
+          //     flex: 1,
+          //     child: SizedBox(
+          //       width: Adapt.width(5),
+          //     )),
+          Expanded(
+              flex: 6,
+              child: Text(
+                username,
+                style: TextStyle(
+                    fontSize: Adapt.sp(32),
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500),
+              )),
+          Expanded(
+              flex: 2,
+              child: Container(
+                width: Adapt.width(100),
+                height: Adapt.height(50),
+                decoration: BoxDecoration(
+                    color: Colors.blueGrey,
+                    borderRadius: BorderRadius.circular(Adapt.radius(50))),
+                child: Container(
+                    child: TextButton(
+                        onPressed: () => {},
+                        child: Text(
+                          "关注",
+                          style: TextStyle(
+                              fontSize: Adapt.sp(24),
+                              fontWeight: FontWeight.bold,
+                              // letterSpacing: Adapt.px(10),
+                              color: Colors.white),
+                        ))),
+              )),
         ],
       ),
     );

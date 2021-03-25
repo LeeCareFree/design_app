@@ -33,4 +33,5 @@ void _onInit(Action action, Context<DecorateState> ctx) {
   ctx.state.scrollController = ScrollController();
   ctx.state.tabController = TabController(length: 3, vsync: ticker);
   ctx.state.numberController = TextEditingController();
+  ctx.state.needsController = TextEditingController();
 }

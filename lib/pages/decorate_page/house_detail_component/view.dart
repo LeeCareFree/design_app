@@ -1,3 +1,4 @@
+import 'package:bluespace/components/CustomReorderableListView.dart';
 import 'package:bluespace/style/themeStyle.dart';
 import 'package:bluespace/utils/adapt.dart';
 import 'package:fish_redux/fish_redux.dart';
@@ -13,6 +14,7 @@ Widget buildView(
   return Container(
     margin: EdgeInsets.all(Adapt.height(10)),
     width: Adapt.screenW(),
+    // height: Adapt.screenH(),
     child: SingleChildScrollView(
       child: Column(
         children: [
@@ -89,7 +91,7 @@ Widget buildView(
                   border: Border(
                       bottom: BorderSide(
                           color: Colors.grey[200], width: Adapt.height(3)))),
-              padding: EdgeInsets.only(bottom: Adapt.height(30)),
+              padding: EdgeInsets.only(bottom: Adapt.height(15)),
               width: Adapt.screenW() - Adapt.width(100),
               child: TextField(
                 controller: state.titleController,
@@ -126,63 +128,80 @@ Widget buildView(
             height: Adapt.height(2),
             color: Colors.grey,
           ),
-          SizedBox(
-            height: Adapt.height(20),
-          ),
-          _SpaceList(
-            title: '户型图',
-            subtitle: '请上传户型图并写下描述',
-            controller: state.houseTypeController,
-            dispatch: dispatch,
-          ),
-          _SpaceList(
-            title: '客厅',
-            subtitle: '请上传客厅图并写下描述',
-            controller: state.houseTypeController,
-            dispatch: dispatch,
-          ),
-          _SpaceList(
-            title: '厨房',
-            subtitle: '请上传厨房图并写下描述',
-            controller: state.houseTypeController,
-            dispatch: dispatch,
-          ),
-          _SpaceList(
-            title: '主卧',
-            subtitle: '请上传主卧图并写下描述',
-            controller: state.houseTypeController,
-            dispatch: dispatch,
-          ),
-          _SpaceList(
-            title: '次卧',
-            subtitle: '请上传次卧图并写下描述',
-            controller: state.houseTypeController,
-            dispatch: dispatch,
-          ),
-          _SpaceList(
-            title: '卫生间',
-            subtitle: '请上传卫生间图并写下描述',
-            controller: state.houseTypeController,
-            dispatch: dispatch,
-          ),
-          _SpaceList(
-            title: '书房',
-            subtitle: '请上传书房图并写下描述',
-            controller: state.houseTypeController,
-            dispatch: dispatch,
-          ),
-          _SpaceList(
-            title: '阳台',
-            subtitle: '请上传阳台图并写下描述',
-            controller: state.houseTypeController,
-            dispatch: dispatch,
-          ),
-          _SpaceList(
-            title: '走廊',
-            subtitle: '请上传走廊图并写下描述',
-            controller: state.houseTypeController,
-            dispatch: dispatch,
-          ),
+          CustomReorderableListView(list: [
+            _SpaceList(
+              title: '户型图',
+              subtitle: '请上传户型图并写下描述',
+              controller: state.houseTypeController,
+              imgs: state.houseTypeImages,
+              onTap: () =>
+                  dispatch(HouseDetailActionCreator.selectImgs('houseType')),
+            ),
+            _SpaceList(
+              title: '客厅',
+              subtitle: '请上传客厅图并写下描述',
+              controller: state.parlourController,
+              imgs: state.parlourImages,
+              onTap: () =>
+                  dispatch(HouseDetailActionCreator.selectImgs('parlour')),
+            ),
+            _SpaceList(
+              title: '厨房',
+              subtitle: '请上传厨房图并写下描述',
+              controller: state.kitchenController,
+              imgs: state.kitchenImages,
+              onTap: () =>
+                  dispatch(HouseDetailActionCreator.selectImgs('kitchen')),
+            ),
+            _SpaceList(
+              title: '主卧',
+              subtitle: '请上传主卧图并写下描述',
+              controller: state.masterBedroomController,
+              imgs: state.masterBedroomImages,
+              onTap: () => dispatch(
+                  HouseDetailActionCreator.selectImgs('masterBedroom')),
+            ),
+            _SpaceList(
+              title: '次卧',
+              subtitle: '请上传次卧图并写下描述',
+              controller: state.secondBedroomController,
+              imgs: state.secondBedroomImages,
+              onTap: () => dispatch(
+                  HouseDetailActionCreator.selectImgs('secondBedroom')),
+            ),
+            _SpaceList(
+              title: '卫生间',
+              subtitle: '请上传卫生间图并写下描述',
+              controller: state.toiletController,
+              imgs: state.toiletImages,
+              onTap: () =>
+                  dispatch(HouseDetailActionCreator.selectImgs('toilet')),
+            ),
+            _SpaceList(
+              title: '书房',
+              subtitle: '请上传书房图并写下描述',
+              controller: state.studyRoomController,
+              imgs: state.studyRoomImages,
+              onTap: () =>
+                  dispatch(HouseDetailActionCreator.selectImgs('studyRoom')),
+            ),
+            _SpaceList(
+              title: '阳台',
+              subtitle: '请上传阳台图并写下描述',
+              controller: state.balconyController,
+              imgs: state.balconyImages,
+              onTap: () =>
+                  dispatch(HouseDetailActionCreator.selectImgs('balcony')),
+            ),
+            _SpaceList(
+              title: '走廊',
+              subtitle: '请上传走廊图并写下描述',
+              controller: state.corridorController,
+              imgs: state.corridorImages,
+              onTap: () =>
+                  dispatch(HouseDetailActionCreator.selectImgs('corridor')),
+            ),
+          ])
         ],
       ),
     ),
@@ -191,24 +210,22 @@ Widget buildView(
 
 class _SpaceList extends StatelessWidget {
   final String title;
-  final String imgUrl;
+  final List<Asset> imgs;
   final Function onTap;
   final String subtitle;
   final TextEditingController controller;
   final bool isShow;
-  final Dispatch dispatch;
-  const _SpaceList(
-      {this.imgUrl,
-      this.onTap,
-      this.title,
-      this.subtitle,
-      this.controller,
-      this.isShow,
-      this.dispatch});
+  const _SpaceList({
+    this.imgs,
+    this.onTap,
+    this.title,
+    this.subtitle,
+    this.controller,
+    this.isShow,
+  });
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: Adapt.height(320),
         padding: EdgeInsets.fromLTRB(0, Adapt.height(20), 0, Adapt.height(20)),
         decoration: BoxDecoration(
             border: Border(bottom: BorderSide(color: Colors.grey[300]))),
@@ -237,28 +254,79 @@ class _SpaceList extends StatelessWidget {
                 ),
                 Expanded(
                     flex: 10,
-                    child: InkWell(
-                      onTap: onTap,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey)),
-                            padding: EdgeInsets.all(Adapt.height(10)),
-                            child: Icon(
-                              Icons.add,
-                              size: Adapt.height(50),
-                              color: Colors.grey,
+                    child: imgs != null
+                        ? Container(
+                            height: Adapt.height(80),
+                            child: Row(
+                              children: [
+                                ListView(
+                                  reverse: true,
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  children: imgs
+                                      .map((asset) => Container(
+                                            margin: EdgeInsets.fromLTRB(
+                                                Adapt.width(10),
+                                                0,
+                                                Adapt.width(10),
+                                                0),
+                                            child: AssetThumb(
+                                              asset: asset,
+                                              width: 100,
+                                              height: 100,
+                                            ),
+                                          ))
+                                      .toList(),
+                                ),
+                                imgs.length >= 4
+                                    ? Container()
+                                    : InkWell(
+                                        onTap: onTap,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Colors.grey)),
+                                              padding: EdgeInsets.all(
+                                                  Adapt.height(10)),
+                                              child: Icon(
+                                                Icons.add,
+                                                size: Adapt.height(60),
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                              ],
+                            ))
+                        : InkWell(
+                            onTap: onTap,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.grey)),
+                                  padding: EdgeInsets.all(Adapt.height(10)),
+                                  child: Icon(
+                                    Icons.add,
+                                    size: Adapt.height(50),
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: Adapt.width(20),
+                                ),
+                              ],
                             ),
-                          ),
-                          SizedBox(
-                            width: Adapt.width(20),
-                          ),
-                        ],
-                      ),
-                    )),
+                          )),
               ],
             ),
             SizedBox(
@@ -279,7 +347,7 @@ class _SpaceList extends StatelessWidget {
                     width: Adapt.screenW() - Adapt.width(60),
                     child: TextField(
                       controller: controller,
-                      maxLines: 2,
+                      maxLines: 1,
                       maxLength: 300,
                       decoration: InputDecoration(
                           helperText: '至多输入300字',

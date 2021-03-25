@@ -6,10 +6,19 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 class HouseDetailState implements Cloneable<HouseDetailState> {
   TextEditingController titleController;
   TextEditingController houseTypeController;
+  TextEditingController parlourController;
+  TextEditingController kitchenController;
+  TextEditingController masterBedroomController;
+  TextEditingController secondBedroomController;
+  TextEditingController studyRoomController;
+  TextEditingController toiletController;
+  TextEditingController balconyController;
+  TextEditingController corridorController;
   FocusNode titleFocusNode;
   Asset titleImage;
-  List<Asset> titleImages = [];
   List<Asset> houseTypeImages = [];
+  List<Asset> titleImages = [];
+
   List<Asset> parlourImages = [];
   List<Asset> kitchenImages = [];
   List<Asset> masterBedroomImages = [];
@@ -24,9 +33,9 @@ class HouseDetailState implements Cloneable<HouseDetailState> {
       ..houseTypeController = houseTypeController
       ..titleController = titleController
       ..titleFocusNode = titleFocusNode
+      ..houseTypeImages = houseTypeImages
       ..titleImage = titleImage
       ..titleImages = titleImages
-      ..houseTypeImages = houseTypeImages
       ..parlourImages = parlourImages
       ..kitchenImages = kitchenImages
       ..masterBedroomImages = masterBedroomImages
@@ -34,7 +43,15 @@ class HouseDetailState implements Cloneable<HouseDetailState> {
       ..studyRoomImages = studyRoomImages
       ..toiletImages = toiletImages
       ..balconyImages = balconyImages
-      ..corridorImages = corridorImages;
+      ..corridorImages = corridorImages
+      ..parlourController = parlourController
+      ..kitchenController = kitchenController
+      ..masterBedroomController = masterBedroomController
+      ..secondBedroomController = secondBedroomController
+      ..studyRoomController = studyRoomController
+      ..toiletController = toiletController
+      ..balconyController = balconyController
+      ..corridorController = corridorController;
   }
 }
 
@@ -51,6 +68,7 @@ class HouseDetailConnector extends ConnOp<DecorateState, HouseDetailState> {
     substate.parlourImages = state.parlourImages;
     substate.secondBedroomImages = state.secondBedroomImages;
     substate.studyRoomImages = state.studyRoomImages;
+    substate.toiletImages = state.toiletImages;
     return substate;
   }
 
@@ -65,6 +83,7 @@ class HouseDetailConnector extends ConnOp<DecorateState, HouseDetailState> {
     state.parlourImages = subState.parlourImages;
     state.secondBedroomImages = subState.secondBedroomImages;
     state.studyRoomImages = subState.studyRoomImages;
+    state.toiletImages = subState.toiletImages;
     state.houseDetailState = subState;
   }
 }

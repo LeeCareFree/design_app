@@ -8,10 +8,14 @@ class DecorateState implements Cloneable<DecorateState> {
   ScrollController scrollController;
   TabController tabController;
   TextEditingController numberController;
+  TextEditingController needsController;
   String houseType;
   String houseArea;
   String houseLocation;
   String houseBudget;
+  String houseStyle;
+  String duration;
+  String maisonette;
   Asset titleImage;
   List<Asset> houseTypeImages;
   List<Asset> parlourImages;
@@ -27,10 +31,14 @@ class DecorateState implements Cloneable<DecorateState> {
   DecorateState clone() {
     return DecorateState()
       ..numberController = numberController
+      ..needsController = needsController
       ..houseType = houseType
       ..houseArea = houseArea
       ..houseLocation = houseLocation
       ..houseBudget = houseBudget
+      ..houseStyle = houseStyle
+      ..duration = duration
+      ..maisonette = maisonette
       ..tabController = tabController
       ..houseDetailState = houseDetailState
       ..scrollController = scrollController

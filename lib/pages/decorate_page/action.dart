@@ -6,14 +6,20 @@ enum DecorateAction {
   selectHouseType,
   selectHouseArea,
   selectHouseLocation,
+  updateMaisonette,
   updataHouseLocation,
   updataHouseArea,
-  updataHouseBudget
+  updataHouseBudget,
+  updateNeeds,
 }
 
 class DecorateActionCreator {
   static Action onAction() {
     return const Action(DecorateAction.action);
+  }
+
+  static Action updateMaisonette(String maisonette) {
+    return Action(DecorateAction.updateMaisonette, payload: maisonette);
   }
 
   static Action selectHouseType(String houseType) {
@@ -38,5 +44,9 @@ class DecorateActionCreator {
 
   static Action updataHouseBudget(String houseBudget) {
     return Action(DecorateAction.updataHouseBudget, payload: houseBudget);
+  }
+
+  static Action updateNeeds(String need, String type) {
+    return Action(DecorateAction.updateNeeds, payload: [need, type]);
   }
 }

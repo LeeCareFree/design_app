@@ -10,9 +10,6 @@ class HouseDetailComponent extends Component<HouseDetailState> {
       : super(
           effect: buildEffect(),
           reducer: buildReducer(),
-          shouldUpdate: (o, n) {
-            return o.titleImage != n.titleImage;
-          },
           view: buildView,
           dependencies: Dependencies<HouseDetailState>(
               adapter: null, slots: <String, Dependent<HouseDetailState>>{}),

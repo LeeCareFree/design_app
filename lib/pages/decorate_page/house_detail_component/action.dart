@@ -6,7 +6,9 @@ enum HouseDetailAction {
   action,
   setTitlePicture,
   upDateTitleImages,
-  setIsshowDesc
+  setIsshowDesc,
+  selectImgs,
+  updateImgs,
 }
 
 class HouseDetailActionCreator {
@@ -24,5 +26,13 @@ class HouseDetailActionCreator {
 
   static Action setIsshowDesc(bool isShowDesc) {
     return Action(HouseDetailAction.setIsshowDesc, payload: isShowDesc);
+  }
+
+  static Action selectImgs(String type) {
+    return Action(HouseDetailAction.selectImgs, payload: type);
+  }
+
+  static Action updateImgs(List<Asset> houseTypeImgs, String type) {
+    return Action(HouseDetailAction.updateImgs, payload: [houseTypeImgs, type]);
   }
 }

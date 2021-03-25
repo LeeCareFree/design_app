@@ -84,7 +84,7 @@ class _CustomAppBarState extends State<_CustomAppBar> {
       ],
       backgroundColor: _theme.bottomAppBarColor,
       stretch: true, //是否可拉伸伸展
-      stretchTriggerOffset: Adapt.width(100), //触发拉伸偏移量
+      stretchTriggerOffset: Adapt.height(100), //触发拉伸偏移量
       centerTitle: true,
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
@@ -102,7 +102,6 @@ class _CustomAppBarState extends State<_CustomAppBar> {
         stretchModes: const <StretchMode>[
           StretchMode.zoomBackground,
           StretchMode.fadeTitle,
-          StretchMode.blurBackground
         ],
       ),
     );
