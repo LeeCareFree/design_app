@@ -1,11 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2021-03-15 18:14:14
- * @LastEditTime: 2021-03-16 14:16:26
+ * @LastEditTime: 2021-03-18 17:55:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \design_app\lib\components\article_list.dart
  */
+import 'package:bluespace/models/article_list_data.dart';
 import 'package:flutter/material.dart';
 import 'package:bluespace/utils/adapt.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -24,22 +25,24 @@ class ArticleList extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       crossAxisCount: 4,
       itemCount: articleList.length,
-      itemBuilder: (context, i) => InkWell(
-        onTap: () {
-          Navigator.of(context).pushNamed('articleDetailPage', arguments: {'aid': articleList[i]['aid']});
-        },
-        child: ArticleItem(
-          img: articleList[i]['imgList'] != null
-              ? '${articleList[i]['imgList'][0]}'
-              : '${articleList[i]['cover']}',
-          title: '${articleList[i]['title']}',
-          username: articleList[i]['user']['nickname'] ??
-              articleList[i]['user']['username'],
-          avatar: '${articleList[i]['user']['avatar']}',
-          type: '${articleList[i]['type']}',
-          coll: '${articleList[i]['coll']}',
-        ),
-      ),
+      itemBuilder: (context, i) {
+        final ArticleListData item = ArticleListData.fromJson(articleList[i]);
+        return InkWell(
+          onTap: () {
+            Navigator.of(context)
+                .pushNamed('articleDetailPage', arguments: {'aid': item.aid});
+          },
+          child: ArticleItem(
+            img: item.imgList != null ? item.imgList[0] : item.cover,
+            title: item.title,
+            username: item.user.nickname ??
+                item.user.username,
+            avatar: item.user.avatar,
+            type: item.type,
+            coll: item.coll,
+          ),
+        );
+      },
       staggeredTileBuilder: (index) => StaggeredTile.fit(2),
       mainAxisSpacing: 1.0,
       crossAxisSpacing: 1.0,
@@ -53,7 +56,7 @@ class ArticleItem extends StatelessWidget {
   final String username;
   final String avatar;
   final String type;
-  final String coll;
+  final int coll;
 
   ArticleItem(
       {this.img, this.title, this.username, this.avatar, this.type, this.coll});
@@ -121,7 +124,7 @@ class ArticleItem extends StatelessWidget {
                             size: Adapt.sp(38),
                           ),
                         ),
-                        coll.toString() == '0'
+                        coll == 0
                             ? Text('')
                             : Text(
                                 '$coll',

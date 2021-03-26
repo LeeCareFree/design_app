@@ -9,9 +9,6 @@ import 'action.dart';
 import 'state.dart';
 
 Widget buildView(HomeState state, Dispatch dispatch, ViewService viewService) {
-  // if (state.bannerList.length == 0) {
-  //   dispatch(HomeActionCreator.getBanner());
-  // }
 
   return Builder(builder: (context) {
     final ThemeData _theme = ThemeStyle.getTheme(context);
