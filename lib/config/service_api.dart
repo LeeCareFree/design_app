@@ -1,4 +1,5 @@
-const serviceUrl = 'http://192.168.0.105:3000/api/';
+// const serviceUrl = 'http://192.168.0.105:3000/api/';
+const serviceUrl = 'http://192.168.0.102:3000/api/';
 const servicePath = {
   'login': serviceUrl + 'users/login',
   'register': serviceUrl + 'users/register',
@@ -15,4 +16,5 @@ const servicePath = {
   'addOperation': serviceUrl + 'users/operation/add',
   // 取消点赞收藏文章
   'canceloperation': serviceUrl + 'users/operation/cancel',
+  'searchArticle': serviceUrl + 'search/article',
 };
