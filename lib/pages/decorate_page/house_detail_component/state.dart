@@ -5,6 +5,7 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 
 class HouseDetailState implements Cloneable<HouseDetailState> {
   TextEditingController titleController;
+  TextEditingController detailController;
   TextEditingController houseTypeController;
   TextEditingController parlourController;
   TextEditingController kitchenController;
@@ -32,6 +33,7 @@ class HouseDetailState implements Cloneable<HouseDetailState> {
     return HouseDetailState()
       ..houseTypeController = houseTypeController
       ..titleController = titleController
+      ..detailController = detailController
       ..titleFocusNode = titleFocusNode
       ..houseTypeImages = houseTypeImages
       ..titleImage = titleImage
@@ -59,6 +61,7 @@ class HouseDetailConnector extends ConnOp<DecorateState, HouseDetailState> {
   @override
   HouseDetailState get(DecorateState state) {
     HouseDetailState substate = new HouseDetailState();
+    substate.titleController = state.titleController;
     substate.titleImage = state.titleImage;
     substate.balconyImages = state.balconyImages;
     substate.corridorImages = state.corridorImages;
@@ -74,6 +77,7 @@ class HouseDetailConnector extends ConnOp<DecorateState, HouseDetailState> {
 
   @override
   void set(DecorateState state, HouseDetailState subState) {
+    state.titleController = subState.titleController;
     state.titleImage = subState.titleImage;
     state.balconyImages = subState.balconyImages;
     state.corridorImages = subState.corridorImages;

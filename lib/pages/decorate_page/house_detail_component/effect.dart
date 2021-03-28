@@ -97,6 +97,7 @@ void _onInit(Action action, Context<HouseDetailState> ctx) {
   ctx.state..titleFocusNode = FocusNode();
   ctx.state.titleController = TextEditingController();
   ctx.state.houseTypeController = TextEditingController();
+  ctx.state.detailController = TextEditingController();
 }
 
 void _onAction(Action action, Context<HouseDetailState> ctx) {}

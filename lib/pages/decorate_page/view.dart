@@ -38,7 +38,8 @@ Widget buildView(
               borderRadius: BorderRadius.circular(Adapt.radius(50)),
               color: Colors.blueGrey),
           child: TextButton(
-              onPressed: () => {},
+              onPressed: () =>
+                  {dispatch(DecorateActionCreator.publishArticle())},
               child: Text(
                 '发布',
                 style: TextStyle(color: Colors.white),

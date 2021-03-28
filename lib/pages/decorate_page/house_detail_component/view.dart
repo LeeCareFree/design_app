@@ -1,4 +1,5 @@
 import 'package:bluespace/components/CustomReorderableListView.dart';
+import 'package:bluespace/pages/decorate_page/action.dart';
 import 'package:bluespace/style/themeStyle.dart';
 import 'package:bluespace/utils/adapt.dart';
 import 'package:fish_redux/fish_redux.dart';
@@ -95,6 +96,8 @@ Widget buildView(
               width: Adapt.screenW() - Adapt.width(100),
               child: TextField(
                 controller: state.titleController,
+                onSubmitted: (s) =>
+                    dispatch(DecorateActionCreator.publishArticle()),
                 style: TextStyle(color: Colors.black),
                 maxLength: 30,
                 decoration: InputDecoration(
@@ -102,6 +105,55 @@ Widget buildView(
                     border: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey)),
                     labelText: '标题',
+                    labelStyle: TextStyle(color: Colors.grey),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black))),
+              )),
+          SizedBox(
+            height: Adapt.height(10),
+          ),
+          Container(
+            height: Adapt.height(80),
+            child: Row(children: [
+              Icon(Icons.new_releases_rounded,
+                  color: Colors.red, size: Adapt.height(15)),
+              SizedBox(
+                width: Adapt.width(30),
+              ),
+              Text(
+                '介绍',
+                style: TextStyle(
+                    fontSize: Adapt.sp(36), fontWeight: FontWeight.w400),
+              )
+            ]),
+          ),
+          SizedBox(
+            height: Adapt.height(10),
+          ),
+          Divider(
+            height: Adapt.height(2),
+            color: Colors.grey,
+          ),
+          SizedBox(
+            height: Adapt.height(30),
+          ),
+          Container(
+              decoration: BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(
+                          color: Colors.grey[200], width: Adapt.height(3)))),
+              padding: EdgeInsets.only(bottom: Adapt.height(15)),
+              width: Adapt.screenW() - Adapt.width(100),
+              child: TextField(
+                controller: state.detailController,
+                style: TextStyle(color: Colors.black),
+                maxLength: 300,
+                maxLines: 3,
+                decoration: InputDecoration(
+                    helperText: '至多输入300字',
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: '介绍',
                     labelStyle: TextStyle(color: Colors.grey),
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black))),

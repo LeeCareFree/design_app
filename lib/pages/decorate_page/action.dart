@@ -11,11 +11,16 @@ enum DecorateAction {
   updataHouseArea,
   updataHouseBudget,
   updateNeeds,
+  publishArticle
 }
 
 class DecorateActionCreator {
   static Action onAction() {
     return const Action(DecorateAction.action);
+  }
+
+  static Action publishArticle() {
+    return const Action(DecorateAction.publishArticle);
   }
 
   static Action updateMaisonette(String maisonette) {

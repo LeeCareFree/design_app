@@ -7,6 +7,7 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 class DecorateState implements Cloneable<DecorateState> {
   ScrollController scrollController;
   TabController tabController;
+  TextEditingController titleController;
   TextEditingController numberController;
   TextEditingController needsController;
   String houseType;
@@ -32,6 +33,7 @@ class DecorateState implements Cloneable<DecorateState> {
     return DecorateState()
       ..numberController = numberController
       ..needsController = needsController
+      ..titleController = titleController
       ..houseType = houseType
       ..houseArea = houseArea
       ..houseLocation = houseLocation
