@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-15 18:14:14
- * @LastEditTime: 2021-03-18 17:55:53
+ * @LastEditTime: 2021-03-29 18:41:40
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \design_app\lib\components\article_list.dart
@@ -19,7 +19,6 @@ class ArticleList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData _theme = ThemeStyle.getTheme(context);
     return StaggeredGridView.countBuilder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
@@ -29,17 +28,22 @@ class ArticleList extends StatelessWidget {
         final ArticleListData item = ArticleListData.fromJson(articleList[i]);
         return InkWell(
           onTap: () {
-            Navigator.of(context)
-                .pushNamed('articleDetailPage', arguments: {'aid': item.aid});
+            Navigator.of(context).pushNamed('articleDetailPage', arguments: [
+              {'aid': item.aid},
+              {'type': item.type}
+            ]);
           },
           child: ArticleItem(
-            img: item.imgList != null ? item.imgList[0] : item.cover,
+            img: item.type == '2' ? item.imgList[0] : item.cover,
             title: item.title,
-            username: item.user.nickname ??
-                item.user.username,
+            username: item.user.nickname ?? item.user.username,
             avatar: item.user.avatar,
             type: item.type,
             coll: item.coll,
+            doorModel: item.doorModel,
+            area: item.area,
+            cost: item.cost,
+            location: item.location,
           ),
         );
       },
@@ -56,13 +60,27 @@ class ArticleItem extends StatelessWidget {
   final String username;
   final String avatar;
   final String type;
+  final String doorModel;
+  final String area;
+  final String cost;
+  final String location;
   final int coll;
 
   ArticleItem(
-      {this.img, this.title, this.username, this.avatar, this.type, this.coll});
+      {this.img,
+      this.title,
+      this.username,
+      this.avatar,
+      this.type,
+      this.coll,
+      this.doorModel,
+      this.area,
+      this.cost,
+      this.location});
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData _theme = ThemeStyle.getTheme(context);
     return Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,6 +96,42 @@ class ArticleItem extends StatelessWidget {
                 image: DecorationImage(
                     image: NetworkImage(img), fit: BoxFit.fill)),
           ),
+          type == '1'
+              ? Container(
+                  padding: EdgeInsets.symmetric(horizontal: Adapt.width(10)),
+                  margin: EdgeInsets.only(top: Adapt.width(10)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.house_outlined,
+                            color: _theme.buttonColor,
+                            size: Adapt.height(25),
+                          ),
+                          Text(
+                            '$doorModel·$area·$cost',
+                            style: TextStyle(
+                                fontSize: Adapt.sp(25), color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Icon(Icons.location_on_outlined,
+                              color: _theme.buttonColor,
+                              size: Adapt.height(25)),
+                          Text('$location',
+                              style: TextStyle(
+                                  fontSize: Adapt.sp(22), color: Colors.grey),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis),
+                        ],
+                      )
+                    ],
+                  ))
+              : '',
           Container(
             padding: EdgeInsets.symmetric(horizontal: Adapt.width(20)),
             margin: EdgeInsets.symmetric(vertical: Adapt.width(10)),

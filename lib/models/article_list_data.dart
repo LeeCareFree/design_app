@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-18 14:20:40
- * @LastEditTime: 2021-03-18 14:25:09
+ * @LastEditTime: 2021-03-29 17:58:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \design_app\lib\models\article_list_data.dart
@@ -13,6 +13,10 @@ class ArticleListData {
   String title;
   String detail;
   String cover;
+  String doorModel;
+  String area;
+  String cost;
+  String location;
   int like;
   int coll;
   String createtime;
@@ -25,6 +29,10 @@ class ArticleListData {
       this.title,
       this.detail,
       this.cover,
+      this.doorModel,
+      this.area,
+      this.cost,
+      this.location,
       this.like,
       this.coll,
       this.createtime,
@@ -37,6 +45,10 @@ class ArticleListData {
     title = json['title'];
     detail = json['detail'];
     cover = json['cover'];
+    doorModel = json['doorModel'];
+    area = json['area'];
+    cost = json['cost'];
+    location = json['location'];
     like = json['like'];
     coll = json['coll'];
     createtime = json['createtime'];
@@ -51,6 +63,10 @@ class ArticleListData {
     data['title'] = this.title;
     data['detail'] = this.detail;
     data['cover'] = this.cover;
+    data['doorModel'] = this.doorModel;
+    data['area'] = this.area;
+    data['cost'] = this.cost;
+    data['location'] = this.location;
     data['like'] = this.like;
     data['coll'] = this.coll;
     data['createtime'] = this.createtime;
