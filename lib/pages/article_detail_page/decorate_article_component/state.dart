@@ -1,12 +1,12 @@
-import 'package:bluespace/models/decorate_article.dart';
+import 'package:bluespace/models/article_detail.dart';
 import 'package:bluespace/pages/article_detail_page/state.dart';
 import 'package:fish_redux/fish_redux.dart';
 
 class DecorateArticleState implements Cloneable<DecorateArticleState> {
-  DecorateArticle decorateArticle;
+  ArticleInfo articleInfo;
   @override
   DecorateArticleState clone() {
-    return DecorateArticleState()..decorateArticle = decorateArticle;
+    return DecorateArticleState()..articleInfo = articleInfo;
   }
 }
 
@@ -15,7 +15,7 @@ class DecorateArticleConnector
   @override
   DecorateArticleState get(ArticleDetailState state) {
     DecorateArticleState substate = new DecorateArticleState();
-    substate.decorateArticle = state.decorateArticle;
+    substate.articleInfo = state.articleInfo;
     return substate;
   }
 }

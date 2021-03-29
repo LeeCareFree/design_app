@@ -8,17 +8,12 @@ Widget ItemFitWidthNetImage(String url, double fitWidth) {
     //计算缩放
     double scale = snapshot.data.width.toDouble() / fitWidth;
     double fitHeight = snapshot.data.height.toDouble() / scale;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          width: fitWidth,
-          height: fitHeight,
-          decoration: BoxDecoration(
-            image: DecorationImage(image: NetworkImage(url), fit: BoxFit.cover),
-          ),
-        )
-      ],
+    return Container(
+      width: fitWidth,
+      height: fitHeight,
+      decoration: BoxDecoration(
+        image: DecorationImage(image: NetworkImage(url), fit: BoxFit.cover),
+      ),
     );
   });
 }

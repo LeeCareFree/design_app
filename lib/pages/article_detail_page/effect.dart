@@ -122,7 +122,7 @@ Future _onGetArticle(Action action, Context<ArticleDetailState> ctx) async {
       formData: {'aid': ctx.state.aid}, context: ctx.context);
   var dataJson = json.decode(response.toString());
   if (dataJson['code'] == 200) {
-    ArticleDetail articleDetail = new ArticleDetail.fromJson(dataJson['data']);
+    ArticleInfo articleDetail = new ArticleInfo.fromJson(dataJson['data']);
     ctx.dispatch(ArticleDetailActionCreator.initArticle(articleDetail));
     ctx.dispatch(ArticleDetailActionCreator.setLoading(false));
   } else {

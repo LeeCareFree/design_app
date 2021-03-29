@@ -24,7 +24,15 @@ ArticleDetailState _onAction(ArticleDetailState state, Action action) {
 
 ArticleDetailState _onInitArticle(ArticleDetailState state, Action action) {
   final ArticleDetailState newState = state.clone();
-  newState..articleInfo = action.payload;
+  switch (state.articleType) {
+    case '1':
+      newState..articleInfo = action.payload;
+      break;
+    case '2':
+      newState..articleInfo = action.payload;
+      break;
+  }
+
   return newState;
 }
 

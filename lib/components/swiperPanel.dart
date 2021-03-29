@@ -1,30 +1,18 @@
 import 'package:bluespace/style/themeStyle.dart';
 import 'package:bluespace/utils/adapt.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fish_redux/fish_redux.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
-import 'action.dart';
-import 'state.dart';
-
-Widget buildView(
-    SwiperState state, Dispatch dispatch, ViewService viewService) {
-  return _SwiperPanel(
-    backdrops: state.backdrops,
-    // videos: state.videos,
-  );
-}
-
-class _SwiperPanel extends StatefulWidget {
+class SwiperPanel extends StatefulWidget {
   // final List<VideoResult> videos;
   final List<String> backdrops;
-  const _SwiperPanel({this.backdrops});
+  const SwiperPanel({this.backdrops});
   @override
-  _SwiperPanelState createState() => _SwiperPanelState();
+  SwiperPanelState createState() => SwiperPanelState();
 }
 
-class _SwiperPanelState extends State<_SwiperPanel> {
+class SwiperPanelState extends State<SwiperPanel> {
   int _currentIndex;
   @override
   void initState() {

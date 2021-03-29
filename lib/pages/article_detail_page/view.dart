@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:bluespace/components/asperctRaioImage.dart';
 import 'package:bluespace/components/loading.dart';
+import 'package:bluespace/components/swiperPanel.dart';
 import 'package:bluespace/models/article_detail.dart';
 import 'package:bluespace/style/themeStyle.dart';
 import 'package:bluespace/utils/adapt.dart';
@@ -67,7 +68,6 @@ Widget buildView(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                               viewService.buildComponent('decorateArticle'),
-                              // 1
                               _CommentWidget(
                                 avatar: state.avatar,
                                 commentList: state.articleInfo.comments,
@@ -132,7 +132,9 @@ Widget buildView(
                                 SizedBox(
                                   height: Adapt.height(10),
                                 ),
-                                viewService.buildComponent('swiper'),
+                                SwiperPanel(
+                                  backdrops: state.articleInfo.imgList,
+                                ),
                                 _ArticleWidget(
                                   title: state.articleInfo.title,
                                   content: state.articleInfo.detail,
@@ -279,7 +281,7 @@ class _ArticleWidget extends StatelessWidget {
 
 class _FixedRow extends StatelessWidget {
   final TextEditingController controller;
-  final ArticleDetail articleDetail;
+  final ArticleInfo articleDetail;
   final FocusNode commentFocusNode;
   final Dispatch dispatch;
   final bool isLike;

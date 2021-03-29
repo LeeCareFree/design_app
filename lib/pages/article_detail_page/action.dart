@@ -65,7 +65,7 @@ class ArticleDetailActionCreator {
     return Action(ArticleDetailAction.openMenu);
   }
 
-  static Action initArticle(ArticleDetail articleDetail) {
+  static Action initArticle(var articleDetail) {
     return Action(ArticleDetailAction.initArticle, payload: articleDetail);
   }
 
