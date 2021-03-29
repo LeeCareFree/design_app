@@ -21,7 +21,7 @@ Widget buildView(StartState state, Dispatch dispatch, ViewService viewService) {
               new Container(
                 color: Colors.white,
                 child: new Image.network(
-                  'http://192.168.0.103:3000/upload/publish/launch_image.jpg',
+                  'http://8.129.214.128:3001/upload/publish/launch_image.jpg',
                   fit: BoxFit.cover,
                 ),
                 constraints: new BoxConstraints.expand(),

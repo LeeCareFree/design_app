@@ -60,7 +60,6 @@ Future _onPublish(Action action, Context<PublishState> ctx) async {
   UserInfo userInfo;
   String title = ctx.state.titleTextController.text;
   String content = ctx.state.contentTextController.text;
-  print(title);
   if (title == '' || content == '') {
     Fluttertoast.showToast(msg: '标题和描述不能为空！');
   } else {
@@ -97,9 +96,8 @@ Future _onPublish(Action action, Context<PublishState> ctx) async {
       Fluttertoast.showToast(msg: data['msg'] ?? '请稍后再试！');
     } else {
       Fluttertoast.showToast(msg: '发布成功');
-      Navigator.of(ctx.context).pop();
-      // Navigator.of(ctx.context).pushNamed('homePage');
-
+      Navigator.of(ctx.context).pushNamed('articleDetailPage',
+          arguments: {'aid': data['data']['aid']});
     }
   }
 }

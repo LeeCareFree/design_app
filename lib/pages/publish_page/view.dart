@@ -25,11 +25,11 @@ Widget buildView(
             children: <Widget>[
               _AppBar(),
               Positioned(
-                top: Adapt.height(100),
+                top: Adapt.height(80),
                 right: 15.0,
                 child: Container(
                   width: Adapt.width(120),
-                  height: Adapt.height(80),
+                  height: Adapt.height(60),
                   decoration: BoxDecoration(
                       color: Colors.blueGrey,
                       borderRadius: BorderRadius.circular(Adapt.radius(50))),
@@ -50,7 +50,7 @@ Widget buildView(
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: Adapt.height(200)),
+                margin: EdgeInsets.only(top: Adapt.height(130)),
                 child: _ImagePanel(
                   dispatch: dispatch,
                   images: state.images,
@@ -107,7 +107,7 @@ class _ImagePanel extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.all(Adapt.height(30)),
+              padding: EdgeInsets.all(Adapt.width(30)),
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(Adapt.radius(20))),
@@ -129,7 +129,7 @@ class _ImagePanel extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: Adapt.height(30),
+              height: Adapt.height(20),
             ),
             Container(
               padding: EdgeInsets.all(Adapt.height(30)),
@@ -148,7 +148,7 @@ class _ImagePanel extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: Adapt.height(30),
+              height: Adapt.height(20),
             ),
             Row(
               children: <Widget>[

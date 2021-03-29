@@ -76,10 +76,10 @@ Widget buildView(
                     ArticleList(articleList: [
                       {
                         "imgList": [
-                          "http://192.168.0.103:3000/upload/publish/Screenshot_20210314_133432.jpg",
-                          "http://192.168.0.103:3000/upload/publish/Screenshot_20210314_133455.jpg",
-                          "http://192.168.0.103:3000/upload/publish/Screenshot_20210314_133044.jpg",
-                          "http://192.168.0.103:3000/upload/publish/Screenshot_20210314_133329.jpg"
+                          "http://8.129.214.128:3001/upload/publish/Screenshot_20210314_133432.jpg",
+                          "http://8.129.214.128:3001/upload/publish/Screenshot_20210314_133455.jpg",
+                          "http://8.129.214.128:3001/upload/publish/Screenshot_20210314_133044.jpg",
+                          "http://8.129.214.128:3001/upload/publish/Screenshot_20210314_133329.jpg"
                         ],
                         "type": "2",
                         "aid": "89fd7397-055b-4ac6-8fff-9a5820f90e62",
@@ -92,13 +92,13 @@ Widget buildView(
                         "user": {
                           "username": "17324220167",
                           "nickname": "用户lxsu0l",
-                          "avatar": "http://192.168.0.103:3000/imgs/avatar.jpg",
+                          "avatar": "http://8.129.214.128:3001/imgs/avatar.jpg",
                           "uid": "1fbebca0-867b-4f7e-80c0-144f080ed644"
                         }
                       },
                       {
                         "imgList": [
-                          "http://192.168.0.103:3000/upload/publish/IMG_20210316_143537.jpg",
+                          "http:/8.129.214.128:3001/upload/publish/IMG_20210316_143537.jpg",
                           "http://localhost:3000/upload/publish/IMG_20210207_131117.jpg"
                         ],
                         "type": "2",
@@ -112,13 +112,13 @@ Widget buildView(
                         "user": {
                           "username": "17324220167",
                           "nickname": "用户lxsu0l",
-                          "avatar": "http://192.168.0.103:3000/imgs/avatar.jpg",
+                          "avatar": "http://8.129.214.128:3001/imgs/avatar.jpg",
                           "uid": "1fbebca0-867b-4f7e-80c0-144f080ed644"
                         }
                       },
                       {
                         "imgList": [
-                          "http://192.168.0.103:3000/upload/publish/1615876262049.jpg"
+                          "http://8.129.214.128:3001/upload/publish/1615876262049.jpg"
                         ],
                         "type": "2",
                         "aid": "b0007136-bd14-41c6-81bb-3aa9756523be",
@@ -130,7 +130,7 @@ Widget buildView(
                         "user": {
                           "username": "17324220167",
                           "nickname": "用户lxsu0l",
-                          "avatar": "http://192.168.0.103:3000/imgs/avatar.jpg",
+                          "avatar": "http://8.129.214.128:3001/imgs/avatar.jpg",
                           "uid": "1fbebca0-867b-4f7e-80c0-144f080ed644"
                         }
                       }

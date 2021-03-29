@@ -68,7 +68,7 @@ class _CustomAppBarState extends State<_CustomAppBar> {
       title: showBar
           ? ClipOval(
               child: Image.network(
-                'http://192.168.0.103:3000/avatar/lee.jpg',
+                'http://8.129.214.128:3001/avatar/lee.jpg',
                 fit: BoxFit.cover,
                 width: 35,
                 height: 35,
@@ -94,7 +94,7 @@ class _CustomAppBarState extends State<_CustomAppBar> {
             image: DecorationImage(
                 fit: BoxFit.cover,
                 image: CachedNetworkImageProvider(
-                  'http://192.168.0.103:3000/upload/publish/Screenshot_20210314_133329.jpg',
+                  'http://8.129.214.128:3001/upload/publish/Screenshot_20210314_133329.jpg',
                 )),
           ),
           child: _UserInfoWidget(),
@@ -130,7 +130,7 @@ class _UserInfoWidget extends StatelessWidget {
           children: [
             ClipOval(
               child: Image.network(
-                'http://192.168.0.103:3000/imgs/avatar.jpg',
+                'http://8.129.214.128:3001/imgs/avatar.jpg',
                 fit: BoxFit.cover,
                 width: 100,
                 height: 100,

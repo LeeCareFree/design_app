@@ -21,67 +21,66 @@ Widget buildView(
       switch (state.articleType) {
         case '1':
           return Scaffold(
-              backgroundColor: _theme.backgroundColor,
-              appBar: AppBar(
-                iconTheme: _theme.iconTheme,
-                elevation: 3.0,
-                backgroundColor: _theme.bottomAppBarColor,
-                brightness: _theme.brightness,
-                actions: [
-                  Row(
-                    children: [
-                      _UserInfoWidget(
-                        avatar: state.articleInfo?.user?.avatar ?? '',
-                        username: state.articleInfo?.user?.nickname ?? '',
-                        theme: _theme,
-                      ),
-                    ],
-                  ),
-                  IconButton(
-                      icon: const Icon(Icons.more_vert),
-                      onPressed: () =>
-                          dispatch(ArticleDetailActionCreator.openMenu()))
-                ],
-              ),
-              bottomNavigationBar: (!state.isLoading
-                  ? _FixedRow(
-                      controller: state.commentTextController,
-                      commentFocusNode: state.commentFocusNode,
-                      dispatch: dispatch,
-                      articleDetail: state.articleInfo,
-                      isColl: state.isColl,
-                      isLike: state.isLike,
+            backgroundColor: _theme.backgroundColor,
+            appBar: AppBar(
+              iconTheme: _theme.iconTheme,
+              elevation: 3.0,
+              backgroundColor: _theme.bottomAppBarColor,
+              brightness: _theme.brightness,
+              actions: [
+                Row(
+                  children: [
+                    _UserInfoWidget(
+                      avatar: state.articleInfo?.user?.avatar ?? '',
+                      username: state.articleInfo?.user?.nickname ?? '',
+                      theme: _theme,
+                    ),
+                  ],
+                ),
+                IconButton(
+                    icon: const Icon(Icons.more_vert),
+                    onPressed: () =>
+                        dispatch(ArticleDetailActionCreator.openMenu()))
+              ],
+            ),
+            bottomNavigationBar: (!state.isLoading
+                ? _FixedRow(
+                    controller: state.commentTextController,
+                    commentFocusNode: state.commentFocusNode,
+                    dispatch: dispatch,
+                    articleDetail: state.articleInfo,
+                    isColl: state.isColl,
+                    isLike: state.isLike,
+                  )
+                : null),
+            body: Stack(children: [
+              state.isLoading
+                  ? LoadingLayout(
+                      title: '加载中...',
+                      show: true,
                     )
-                  : null),
-              body: Stack(
-                children: [
-                  state.isLoading
-                      ? LoadingLayout(
-                          title: '加载中...',
-                          show: true,
-                        )
-                      : SingleChildScrollView(
-                          child: Column(children: [
-                          SizedBox(
-                            height: Adapt.height(10),
-                          ),
-                          viewService.buildComponent('swiper'),
-                          _ArticleWidget(
-                            title: state.articleInfo.title,
-                            content: state.articleInfo.detail,
-                            time: state.articleInfo.createtime,
-                          ),
-                          _CommentWidget(
-                            avatar: state.avatar,
-                            commentList: state.articleInfo.comments,
-                            controller: state.commentTextController,
-                            commentFocusNode: state.commentFocusNode,
-                            commentLikeCount: state.commentLikeCount,
-                            dispatch: dispatch,
-                          ),
-                        ]))
-                ],
-              ));
+                  : CustomScrollView(
+                      physics: BouncingScrollPhysics(),
+                      slivers: [
+                        SliverToBoxAdapter(
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                              viewService.buildComponent('decorateArticle'),
+                              // 1
+                              _CommentWidget(
+                                avatar: state.avatar,
+                                commentList: state.articleInfo.comments,
+                                controller: state.commentTextController,
+                                commentFocusNode: state.commentFocusNode,
+                                commentLikeCount: state.commentLikeCount,
+                                dispatch: dispatch,
+                              ),
+                            ]))
+                      ],
+                    )
+            ]),
+          );
           break;
         case '2':
           return Scaffold(
@@ -117,24 +116,40 @@ Widget buildView(
                       isLike: state.isLike,
                     )
                   : null),
-              body: Stack(
-                children: [
-                  state.isLoading
-                      ? LoadingLayout(
-                          title: '加载中...',
-                          show: true,
-                        )
-                      : viewService.buildComponent('decorateArticle'),
-                  // _CommentWidget(
-                  //   avatar: state.avatar,
-                  //   commentList: state.articleInfo.comments,
-                  //   controller: state.commentTextController,
-                  //   commentFocusNode: state.commentFocusNode,
-                  //   commentLikeCount: state.commentLikeCount,
-                  //   dispatch: dispatch,
-                  // ),
-                ],
-              ));
+              body: Stack(children: [
+                state.isLoading
+                    ? LoadingLayout(
+                        title: '加载中...',
+                        show: true,
+                      )
+                    : CustomScrollView(
+                        physics: BouncingScrollPhysics(),
+                        slivers: [
+                          SliverToBoxAdapter(
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                SizedBox(
+                                  height: Adapt.height(10),
+                                ),
+                                viewService.buildComponent('swiper'),
+                                _ArticleWidget(
+                                  title: state.articleInfo.title,
+                                  content: state.articleInfo.detail,
+                                  time: state.articleInfo.createtime,
+                                ),
+                                _CommentWidget(
+                                  avatar: state.avatar,
+                                  commentList: state.articleInfo.comments,
+                                  controller: state.commentTextController,
+                                  commentFocusNode: state.commentFocusNode,
+                                  commentLikeCount: state.commentLikeCount,
+                                  dispatch: dispatch,
+                                ),
+                              ]))
+                        ],
+                      )
+              ]));
           break;
       }
     },

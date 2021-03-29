@@ -1,4 +1,5 @@
 import 'package:fish_redux/fish_redux.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 
 //TODO replace with your own action
 enum DecorateAction {
@@ -11,12 +12,37 @@ enum DecorateAction {
   updataHouseArea,
   updataHouseBudget,
   updateNeeds,
-  publishArticle
+  publishArticle,
+  setTitlePicture,
+  upDateTitleImages,
+  setIsshowDesc,
+  selectImgs,
+  updateImgs,
 }
 
 class DecorateActionCreator {
   static Action onAction() {
     return const Action(DecorateAction.action);
+  }
+
+  static Action setTitlePicture() {
+    return const Action(DecorateAction.setTitlePicture);
+  }
+
+  static Action upDateTitleImages(Asset newImage) {
+    return Action(DecorateAction.upDateTitleImages, payload: newImage);
+  }
+
+  static Action setIsshowDesc(bool isShowDesc) {
+    return Action(DecorateAction.setIsshowDesc, payload: isShowDesc);
+  }
+
+  static Action selectImgs(String type) {
+    return Action(DecorateAction.selectImgs, payload: type);
+  }
+
+  static Action updateImgs(List<Asset> houseTypeImgs, String type) {
+    return Action(DecorateAction.updateImgs, payload: [houseTypeImgs, type]);
   }
 
   static Action publishArticle() {

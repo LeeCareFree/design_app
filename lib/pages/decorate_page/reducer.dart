@@ -13,9 +13,53 @@ Reducer<DecorateState> buildReducer() {
       DecorateAction.updataHouseBudget: _onUpdataHouseBudget,
       DecorateAction.updataHouseArea: _onUpdataHouseArea,
       DecorateAction.updateMaisonette: _onUpdateMaisonette,
-      DecorateAction.updateNeeds: _onUpdateNeeds
+      DecorateAction.updateNeeds: _onUpdateNeeds,
+      DecorateAction.upDateTitleImages: _onUpDateTitleImages,
+      DecorateAction.updateImgs: _onUpdateHouseTypeImgs
     },
   );
+}
+
+DecorateState _onUpdateHouseTypeImgs(DecorateState state, Action action) {
+  final DecorateState newState = state.clone();
+  switch (action.payload[1]) {
+    case 'houseType':
+      newState.houseTypeImages = action.payload[0];
+      break;
+    case 'parlour':
+      newState.parlourImages = action.payload[0];
+      break;
+    case 'kitchen':
+      newState.kitchenImages = action.payload[0];
+      break;
+    case 'masterBedroom':
+      newState.masterBedroomImages = action.payload[0];
+      break;
+    case 'secondBedroom':
+      newState.secondBedroomImages = action.payload[0];
+      break;
+    case 'toilet':
+      newState.toiletImages = action.payload[0];
+      break;
+    case 'studyRoom':
+      newState.studyRoomImages = action.payload[0];
+      break;
+    case 'balcony':
+      newState.balconyImages = action.payload[0];
+      break;
+    case 'corridor':
+      newState.corridorImages = action.payload[0];
+      break;
+  }
+  return newState;
+}
+
+DecorateState _onUpDateTitleImages(DecorateState state, Action action) {
+  print(111);
+  final DecorateState newState = state.clone();
+  newState..titleImage = action.payload;
+
+  return newState;
 }
 
 DecorateState _onUpdateMaisonette(DecorateState state, Action action) {

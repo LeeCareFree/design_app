@@ -13,7 +13,7 @@ class _CustomReorderableListViewState extends State<CustomReorderableListView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: Adapt.screenH(),
+      height: Adapt.screenH() * 1.9,
       child: ReorderableListView(
         physics: NeverScrollableScrollPhysics(),
         onReorder: _handleReorder,
