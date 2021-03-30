@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-11 18:16:47
- * @LastEditTime: 2021-03-25 16:28:11
+ * @LastEditTime: 2021-03-30 11:51:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \design_app\lib\components\searchbar_delegate.dart
@@ -14,6 +14,7 @@ import 'package:bluespace/style/themeStyle.dart';
 import 'package:bluespace/models/search_article.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:bluespace/components/fitImage.dart';
 
 class SearchBarDelegate extends SearchDelegate {
   //数据内容
@@ -273,7 +274,7 @@ class _SuggestionList extends StatelessWidget {
 }
 
 Widget _buildResultCell(SearchArticle s, BuildContext context) {
-  String img = s.type == '2' ? s.imgList[0] : '';
+  String img = s.type == '2' ? s.imgList[0] : s.cover;
   IconData iconData = s.type == '1'
       ? Icons.article
       : s.type == '2'
@@ -291,14 +292,12 @@ Widget _buildResultCell(SearchArticle s, BuildContext context) {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
-          height: s.type == '2' ? Adapt.height(300) : Adapt.height(250),
-          width: Adapt.width(750),
-          decoration: BoxDecoration(
+          width: Adapt.screenW(),
+          child: ClipRRect(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(Adapt.width(5)),
                   topRight: Radius.circular(Adapt.width(5))),
-              image:
-                  DecorationImage(image: NetworkImage(img), fit: BoxFit.fill)),
+              child: ItemFitWidthNetImage(img, Adapt.screenW() / 2 - 10)),
         ),
         Container(
           padding: EdgeInsets.symmetric(horizontal: Adapt.width(20)),
@@ -317,11 +316,12 @@ Widget _buildResultCell(SearchArticle s, BuildContext context) {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Icon(typeArr[int.parse(s.type)-1]['icon'], color: _theme.buttonColor),
+              Icon(typeArr[int.parse(s.type) - 1]['icon'],
+                  color: _theme.buttonColor),
               Container(
                   padding: EdgeInsets.only(left: Adapt.width(10)),
-                  child:
-                      Text(typeArr[int.parse(s.type)-1]['name'], style: TextStyle(fontSize: Adapt.width(25))))
+                  child: Text(typeArr[int.parse(s.type) - 1]['name'],
+                      style: TextStyle(fontSize: Adapt.width(25))))
             ],
           ),
         )

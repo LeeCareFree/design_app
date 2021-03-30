@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-15 18:14:14
- * @LastEditTime: 2021-03-29 18:41:40
+ * @LastEditTime: 2021-03-30 11:45:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \design_app\lib\components\article_list.dart
@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:bluespace/utils/adapt.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:bluespace/style/themeStyle.dart';
+import 'package:bluespace/components/fitImage.dart';
 
 class ArticleList extends StatelessWidget {
   final List articleList;
@@ -87,14 +88,12 @@ class ArticleItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            height: type == '2' ? Adapt.height(300) : Adapt.height(250),
-            width: Adapt.width(750),
-            decoration: BoxDecoration(
+            width: Adapt.screenW(),
+            child: ClipRRect(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(Adapt.width(5)),
                     topRight: Radius.circular(Adapt.width(5))),
-                image: DecorationImage(
-                    image: NetworkImage(img), fit: BoxFit.fill)),
+                child: ItemFitWidthNetImage(img, Adapt.screenW() / 2-10)),
           ),
           type == '1'
               ? Container(
@@ -113,7 +112,7 @@ class ArticleItem extends StatelessWidget {
                           Text(
                             '$doorModel·$area·$cost',
                             style: TextStyle(
-                                fontSize: Adapt.sp(25), color: Colors.grey),
+                                fontSize: Adapt.sp(24), color: Colors.grey),
                           ),
                         ],
                       ),

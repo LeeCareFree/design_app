@@ -30,16 +30,18 @@ class SearchArticleModel {
 class SearchArticle {
   List<String> imgList;
   String sId;
+  String cover;
   String type;
   String title;
   String aid;
   String detail;
 
-  SearchArticle({this.imgList, this.sId, this.type, this.title, this.detail, this.aid});
+  SearchArticle({this.imgList, this.sId, this.type, this.title, this.detail, this.aid, this.cover});
 
   SearchArticle.fromJson(Map<String, dynamic> json) {
     imgList = json['imgList'].cast<String>();
     sId = json['_id'];
+    cover = json['cover'];
     type = json['type'];
     title = json['title'];
     detail = json['detail'];
@@ -50,6 +52,7 @@ class SearchArticle {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['imgList'] = this.imgList;
     data['_id'] = this.sId;
+    data['cover'] = this.cover;
     data['type'] = this.type;
     data['title'] = this.title;
     data['detail'] = this.detail;
