@@ -162,15 +162,12 @@ class _ArticleContent extends StatelessWidget {
           SizedBox(
             height: Adapt.height(30),
           ),
-          ListView(
+          ListView.builder(
+              itemCount: articleInfo.desc.length,
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
-              children:
-                  articleInfo.desc.map((e) => _PartList(desc: e)).toList()),
-
-          // Swiper(
-          //   itemCount: 3,
-          // )
+              itemBuilder: (context, index) =>
+                  _PartList(desc: articleInfo.desc[index])),
         ])));
   }
 }
