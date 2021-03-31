@@ -38,7 +38,7 @@ class HomeActionCreator {
     return Action(HomeAction.getArticleList, payload: [page, way]);
   }
 
-  static Action initArticle(var list) {
+  static Action initArticle(List list) {
     return Action(HomeAction.initArticle, payload: list);
   }
 }

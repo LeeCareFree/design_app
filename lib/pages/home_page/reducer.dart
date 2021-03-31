@@ -28,15 +28,14 @@ HomeState _onInitBanner(HomeState state, Action action) {
 HomeState _onInitArticle(HomeState state, Action action) {
   final HomeState newState = state.clone();
   newState..articleList = action.payload;
+  newState..pageIndex = 1;
   return newState;
 }
 
 HomeState _onUpDateArticleList(HomeState state, Action action) {
-  print('load');
   List newArticleList = action.payload;
   final HomeState newState = state.clone();
   if (newArticleList != null || newArticleList != []) {
-    print('load');
     newState..articleList = [...state.articleList, ...action.payload[0]];
     newState..pageIndex = action.payload[1];
   }
