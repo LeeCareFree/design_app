@@ -37,7 +37,7 @@ class ArticleDetailState implements Cloneable<ArticleDetailState> {
 ArticleDetailState initState(Map<String, dynamic> args) {
   ArticleDetailState state = new ArticleDetailState();
   state.aid = args['aid'];
-  state.articleType = args['type'] ?? '1';
+  state.articleType = args['type'];
   state.commentLikeCount = 0;
   state.isLoading = true;
   state.isLike = false;

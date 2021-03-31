@@ -3,15 +3,18 @@ import 'dart:io';
 
 import 'package:bluespace/models/user_info.dart';
 import 'package:bluespace/net/service_method.dart';
+import 'package:chewie/chewie.dart';
 import 'package:dio/dio.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/cupertino.dart' hide Action;
+import 'package:flutter/material.dart' hide Action;
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 import 'package:http_parser/http_parser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:video_player/video_player.dart';
 import 'action.dart';
 import 'state.dart';
 
@@ -32,6 +35,17 @@ void _onInit(Action action, Context<PublishState> ctx) {
   ctx.state.contentFocusNode = FocusNode();
   ctx.state.titleTextController = TextEditingController();
   ctx.state.contentTextController = TextEditingController();
+  if (ctx.state.video != null) {
+    ctx.state.videoPlayerController =
+        VideoPlayerController.file(ctx.state.video);
+    ctx.state.chewieController = ChewieController(
+      videoPlayerController: ctx.state.videoPlayerController,
+      autoPlay: true,
+      showControls: true,
+      // 是否在 UI 构建的时候就加载视频
+      autoInitialize: !true,
+    );
+  }
 }
 
 void _onOpenGallery(Action action, Context<PublishState> ctx) async {
@@ -97,7 +111,7 @@ Future _onPublish(Action action, Context<PublishState> ctx) async {
     } else {
       Fluttertoast.showToast(msg: '发布成功');
       Navigator.of(ctx.context).pushNamed('articleDetailPage',
-          arguments: {'aid': data['data']['aid']});
+          arguments: {'aid': data['data']['aid'], 'type': '2'});
     }
   }
 }
@@ -105,4 +119,6 @@ Future _onPublish(Action action, Context<PublishState> ctx) async {
 void _onDispose(Action action, Context<PublishState> ctx) {
   ctx.state.titleFocusNode.dispose();
   ctx.state.contentFocusNode.dispose();
+  ctx.state.videoPlayerController.dispose();
+  ctx.state.chewieController.dispose();
 }

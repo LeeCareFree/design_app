@@ -16,13 +16,13 @@ class DioUtil {
   static bool loading = false;
   static Future request(url, {formData, context}) async {
     // flutter 抓包
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-        (HttpClient client) {
-      client.findProxy = (uri) {
-        // return "PROXY 192.168.0.105:8899";
-        return "PROXY 192.168.0.104:8899";
-      };
-    };
+    // (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+    //     (HttpClient client) {
+    //   client.findProxy = (uri) {
+    //     // return "PROXY 192.168.0.105:8899";
+    //     return "PROXY 192.168.0.107:8899";
+    //   };
+    // };
     try {
       // Options options = Options(headers: {HttpHeaders.acceptHeader:"accept: application/json"});
 

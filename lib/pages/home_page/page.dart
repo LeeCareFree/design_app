@@ -8,7 +8,8 @@ import 'reducer.dart';
 import 'state.dart';
 import 'view.dart';
 
-class HomePage extends Page<HomeState, Map<String, dynamic>> {
+class HomePage extends Page<HomeState, Map<String, dynamic>>
+    with TickerProviderMixin {
   HomePage()
       : super(
           initState: initState,

@@ -1,3 +1,4 @@
+import 'package:bluespace/components/fitImage.dart';
 import 'package:bluespace/style/themeStyle.dart';
 import 'package:bluespace/utils/adapt.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -39,21 +40,13 @@ class SwiperPanelState extends State<SwiperPanel> {
             height: _height,
             child: Swiper(
               itemCount: widget.backdrops.length,
-              autoplay: true,
-              autoplayDisableOnInteraction: true,
+              // autoplay: false,
+              // autoplayDisableOnInteraction: true,
               onIndexChanged: _setCurrectIndex,
               itemWidth: Adapt.screenW(),
-              onTap: (index) {
-                print(index);
-              },
               itemBuilder: (context, index) {
-                // if (index == 0 && widget.videos.length > 0) {
-                //   return _VideoCell(
-                //     videos: widget.videos,
-                //   );
-                // }
                 return _BackDropCell(
-                  imageUrl: widget.backdrops.length > index + 1
+                  imageUrl: widget.backdrops.length >= index + 1
                       ? widget.backdrops[index]
                       : null,
                 );
@@ -114,6 +107,7 @@ class _BackDropCell extends StatelessWidget {
   const _BackDropCell({this.imageUrl});
   @override
   Widget build(BuildContext context) {
+    print(imageUrl);
     final _theme = ThemeStyle.getTheme(context);
     final _padding = Adapt.height(40);
     final _width = Adapt.screenW() - _padding * 2;
@@ -122,18 +116,7 @@ class _BackDropCell extends StatelessWidget {
       margin: EdgeInsets.fromLTRB(Adapt.width(20), 0, Adapt.width(20), 0),
       height: _height,
       width: _width,
-      decoration: BoxDecoration(
-        color: _theme.primaryColorDark,
-        borderRadius: BorderRadius.circular(Adapt.radius(25)),
-        image: imageUrl != null
-            ? DecorationImage(
-                fit: BoxFit.cover,
-                image: CachedNetworkImageProvider(
-                  imageUrl,
-                ),
-              )
-            : null,
-      ),
+      child: ItemFitWidthNetImage(imageUrl, Adapt.screenW() - Adapt.width(60)),
     );
   }
 }

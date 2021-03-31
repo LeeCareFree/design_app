@@ -53,16 +53,23 @@ Widget buildView(
                       onTap: () => showDialog(
                           context: viewService.context,
                           builder: (_) => _ImagePickerDialog(
+                                data: ['拍照', '选取照片'],
                                 onTap: (d) => dispatch(
                                     CreateActionCreator.onShowImgClicked(d)),
                                 selected: state.selectedVal,
                               ))),
                   _FeaturesCell(
-                    title: '晒视频',
-                    subTitle: '分享装修视频',
-                    icon: 'assets/images/showVideo.png',
-                    onTap: () => {},
-                  ),
+                      title: '晒视频',
+                      subTitle: '分享装修视频',
+                      icon: 'assets/images/showVideo.png',
+                      onTap: () => showDialog(
+                          context: viewService.context,
+                          builder: (_) => _ImagePickerDialog(
+                                data: ['拍视频', '选取视频'],
+                                onTap: (d) => dispatch(
+                                    CreateActionCreator.onShowVideoClicked(d)),
+                                selected: state.selectedVal,
+                              ))),
                 ],
               )
             ],
@@ -142,7 +149,8 @@ class _FeaturesCell extends StatelessWidget {
 class _ImagePickerDialog extends StatelessWidget {
   final Function onTap;
   final String selected;
-  const _ImagePickerDialog({this.onTap, this.selected});
+  final List<String> data;
+  const _ImagePickerDialog({this.onTap, this.selected, this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -151,35 +159,38 @@ class _ImagePickerDialog extends StatelessWidget {
     final _backGroundColor = _theme.brightness == Brightness.light
         ? const Color(0xFF25272E)
         : _theme.primaryColorDark;
-    final List<String> data = ['相机', '相册'];
-    return SimpleDialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      elevation: 0.0,
-      backgroundColor: _backGroundColor,
-      titleTextStyle: TextStyle(color: const Color(0xFFFFFFFF), fontSize: 18),
-      title: Text(
-        '请选择',
-      ),
-      children: [
-        Container(
-          height: _size.height / 7,
-          width: _size.width,
-          child: ListView.separated(
-            padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 5.0),
-            separatorBuilder: (_, __) => SizedBox(height: 10),
-            physics: BouncingScrollPhysics(),
-            itemCount: data.length,
-            itemBuilder: (_, index) {
-              final _selected = data[index];
-              return _SelectListCell(
-                onTap: (l) => onTap(l),
-                selected: selected == _selected,
-                option: _selected,
-              );
-            },
-          ),
+    return Container(
+      height: _size.height,
+      width: _size.width,
+      child: SimpleDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        elevation: 0.0,
+        backgroundColor: _backGroundColor,
+        titleTextStyle: TextStyle(color: const Color(0xFFFFFFFF), fontSize: 18),
+        title: Text(
+          '请选择',
         ),
-      ],
+        children: [
+          Container(
+            height: _size.height / 7,
+            width: _size.width,
+            child: ListView.separated(
+              padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 5.0),
+              separatorBuilder: (_, __) => SizedBox(height: 10),
+              physics: BouncingScrollPhysics(),
+              itemCount: data.length,
+              itemBuilder: (_, index) {
+                final _selected = data[index];
+                return _SelectListCell(
+                  onTap: (l) => onTap(l),
+                  selected: selected == _selected,
+                  option: _selected,
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

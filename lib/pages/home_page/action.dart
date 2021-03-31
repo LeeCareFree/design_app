@@ -1,8 +1,14 @@
-
 import 'package:fish_redux/fish_redux.dart';
 
 //TODO replace with your own action
-enum HomeAction { action, getBanner, initBanner, searchBarTapped, getArticleList, initArticle }
+enum HomeAction {
+  action,
+  getBanner,
+  initBanner,
+  searchBarTapped,
+  getArticleList,
+  initArticle
+}
 
 class HomeActionCreator {
   static Action onAction() {
@@ -21,8 +27,8 @@ class HomeActionCreator {
     return Action(HomeAction.searchBarTapped);
   }
 
-  static Action getArticleList() {
-    return Action(HomeAction.getArticleList);
+  static Action getArticleList(String way) {
+    return Action(HomeAction.getArticleList, payload: way);
   }
 
   static Action initArticle(var list) {

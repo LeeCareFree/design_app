@@ -29,10 +29,8 @@ class ArticleList extends StatelessWidget {
         final ArticleListData item = ArticleListData.fromJson(articleList[i]);
         return InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed('articleDetailPage', arguments: [
-              {'aid': item.aid},
-              {'type': item.type}
-            ]);
+            Navigator.of(context).pushNamed('articleDetailPage',
+                arguments: {'aid': item.aid, 'type': item.type});
           },
           child: ArticleItem(
             img: item.type == '2' ? item.imgList[0] : item.cover,
@@ -93,7 +91,7 @@ class ArticleItem extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(Adapt.width(5)),
                     topRight: Radius.circular(Adapt.width(5))),
-                child: ItemFitWidthNetImage(img, Adapt.screenW() / 2-10)),
+                child: ItemFitWidthNetImage(img, Adapt.screenW() / 2 - 10)),
           ),
           type == '1'
               ? Container(
@@ -130,7 +128,7 @@ class ArticleItem extends StatelessWidget {
                       )
                     ],
                   ))
-              : '',
+              : Container(),
           Container(
             padding: EdgeInsets.symmetric(horizontal: Adapt.width(20)),
             margin: EdgeInsets.symmetric(vertical: Adapt.width(10)),

@@ -1,7 +1,7 @@
 import 'package:fish_redux/fish_redux.dart';
 
 //TODO replace with your own action
-enum CreateAction { action, onShowImgClicked, onInit }
+enum CreateAction { action, onShowImgClicked, onInit, onShowVideoClicked }
 
 class CreateActionCreator {
   static Action onAction() {
@@ -14,5 +14,9 @@ class CreateActionCreator {
 
   static Action onShowImgClicked(String selectedVal) {
     return Action(CreateAction.onShowImgClicked, payload: selectedVal);
+  }
+
+  static Action onShowVideoClicked(String selectedVal) {
+    return Action(CreateAction.onShowVideoClicked, payload: selectedVal);
   }
 }
