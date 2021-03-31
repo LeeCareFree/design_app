@@ -10,6 +10,7 @@ import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'action.dart';
 import 'state.dart';
@@ -54,32 +55,39 @@ Widget buildView(
                     isLike: state.isLike,
                   )
                 : null),
-            body: Stack(children: [
-              state.isLoading
-                  ? LoadingLayout(
-                      title: '加载中...',
-                      show: true,
-                    )
-                  : CustomScrollView(
-                      physics: BouncingScrollPhysics(),
-                      slivers: [
-                        SliverToBoxAdapter(
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                              viewService.buildComponent('decorateArticle'),
-                              _CommentWidget(
-                                avatar: state.avatar,
-                                commentList: state.articleInfo.comments,
-                                controller: state.commentTextController,
-                                commentFocusNode: state.commentFocusNode,
-                                commentLikeCount: state.commentLikeCount,
-                                dispatch: dispatch,
-                              ),
-                            ]))
-                      ],
-                    )
-            ]),
+            body: SmartRefresher(
+                controller: state.refreshController,
+                onRefresh: () => {
+                      dispatch(ArticleDetailActionCreator.getArticle()),
+                    },
+                onLoading: () => {},
+                child: Stack(children: [
+                  state.isLoading
+                      ? LoadingLayout(
+                          title: '加载中...',
+                          show: true,
+                        )
+                      : CustomScrollView(
+                          physics: BouncingScrollPhysics(),
+                          slivers: [
+                            SliverToBoxAdapter(
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                  viewService.buildComponent('decorateArticle'),
+                                  _CommentWidget(
+                                    avatar: state.avatar,
+                                    commentList: state.articleInfo.comments,
+                                    controller: state.commentTextController,
+                                    commentFocusNode: state.commentFocusNode,
+                                    commentLikeCount: state.commentLikeCount,
+                                    dispatch: dispatch,
+                                  ),
+                                ]))
+                          ],
+                        )
+                ])),
           );
           break;
         case '2':
@@ -116,42 +124,48 @@ Widget buildView(
                       isLike: state.isLike,
                     )
                   : null),
-              body: Stack(children: [
-                state.isLoading
-                    ? LoadingLayout(
-                        title: '加载中...',
-                        show: true,
-                      )
-                    : CustomScrollView(
-                        physics: BouncingScrollPhysics(),
-                        slivers: [
-                          SliverToBoxAdapter(
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                SizedBox(
-                                  height: Adapt.height(10),
-                                ),
-                                SwiperPanel(
-                                  backdrops: state.articleInfo.imgList,
-                                ),
-                                _ArticleWidget(
-                                  title: state.articleInfo.title,
-                                  content: state.articleInfo.detail,
-                                  time: state.articleInfo.createtime,
-                                ),
-                                _CommentWidget(
-                                  avatar: state.avatar,
-                                  commentList: state.articleInfo.comments,
-                                  controller: state.commentTextController,
-                                  commentFocusNode: state.commentFocusNode,
-                                  commentLikeCount: state.commentLikeCount,
-                                  dispatch: dispatch,
-                                ),
-                              ]))
-                        ],
-                      )
-              ]));
+              body: SmartRefresher(
+                  controller: state.refreshController,
+                  onRefresh: () => {
+                        dispatch(ArticleDetailActionCreator.getArticle()),
+                      },
+                  child: Stack(children: [
+                    state.isLoading
+                        ? LoadingLayout(
+                            title: '加载中...',
+                            show: true,
+                          )
+                        : CustomScrollView(
+                            physics: BouncingScrollPhysics(),
+                            slivers: [
+                              SliverToBoxAdapter(
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                    SizedBox(
+                                      height: Adapt.height(10),
+                                    ),
+                                    SwiperPanel(
+                                      backdrops: state.articleInfo.imgList,
+                                    ),
+                                    _ArticleWidget(
+                                      title: state.articleInfo.title,
+                                      content: state.articleInfo.detail,
+                                      time: state.articleInfo.createtime,
+                                    ),
+                                    _CommentWidget(
+                                      avatar: state.avatar,
+                                      commentList: state.articleInfo.comments,
+                                      controller: state.commentTextController,
+                                      commentFocusNode: state.commentFocusNode,
+                                      commentLikeCount: state.commentLikeCount,
+                                      dispatch: dispatch,
+                                    ),
+                                  ]))
+                            ],
+                          )
+                  ])));
           break;
       }
     },

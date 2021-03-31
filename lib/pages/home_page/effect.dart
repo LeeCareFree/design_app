@@ -8,14 +8,13 @@
  */
 
 import 'dart:convert';
+import 'package:bluespace/models/article_list_data.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart' hide Action, Page;
 import 'package:bluespace/net/service_method.dart';
 import 'package:bluespace/models/slideshow_model.dart';
-import 'package:flutter/cupertino.dart' hide Action;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bluespace/components/searchbar_delegate.dart';
 
 import 'action.dart';
@@ -52,18 +51,29 @@ Future _onInit(Action action, Context<HomeState> ctx) async {
   ctx.state.tabController =
       TabController(length: ctx.state.tabs.length, vsync: ticker);
   ctx.dispatch(HomeActionCreator.getBanner());
-  ctx.dispatch(HomeActionCreator.getArticleList('1'));
+  ctx.dispatch(HomeActionCreator.getArticleList(1, '1'));
 }
 
 Future _onGetArticleList(Action action, Context<HomeState> ctx) async {
-  var response = await DioUtil.request('articlelist',
-      formData: {'page': 1, 'size': 10, 'way': action.payload});
+  var response = await DioUtil.request('articlelist', formData: {
+    'page': action.payload[0],
+    'size': 10,
+    'way': action.payload[1]
+  });
   var dataJson = json.decode(response.toString());
 
   if (dataJson['code'] == 200) {
     List articleList = dataJson['data'];
-    ctx.dispatch(HomeActionCreator.initArticle(articleList));
-    ctx.state.refreshController.refreshCompleted();
+    if (action.payload[0] == 1) {
+      ctx.dispatch(HomeActionCreator.initArticle(articleList));
+      ctx.state.refreshController.refreshCompleted();
+    } else if (dataJson['data'] != []) {
+      ctx.dispatch(
+          HomeActionCreator.upDateArticleList(articleList, action.payload[0]));
+      ctx.state.refreshController.loadComplete();
+    } else {
+      ctx.state.refreshController.loadNoData();
+    }
   } else {
     Fluttertoast.showToast(msg: dataJson['msg'] ?? '获取文章列表失败!');
   }

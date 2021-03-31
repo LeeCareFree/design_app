@@ -5,6 +5,7 @@ import 'package:bluespace/net/service_method.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/cupertino.dart' hide Action;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'action.dart';
 import 'state.dart';
@@ -125,12 +126,14 @@ Future _onGetArticle(Action action, Context<ArticleDetailState> ctx) async {
     ArticleInfo articleDetail = new ArticleInfo.fromJson(dataJson['data']);
     ctx.dispatch(ArticleDetailActionCreator.initArticle(articleDetail));
     ctx.dispatch(ArticleDetailActionCreator.setLoading(false));
+    ctx.state.refreshController.refreshCompleted();
   } else {
     Fluttertoast.showToast(msg: dataJson['msg'] ?? '获取文章失败!');
   }
 }
 
 void _onInit(Action action, Context<ArticleDetailState> ctx) async {
+  ctx.state.refreshController = new RefreshController();
   ctx.state..commentFocusNode = FocusNode();
   ctx.state.commentTextController = TextEditingController();
   ctx.dispatch(ArticleDetailActionCreator.getArticle());

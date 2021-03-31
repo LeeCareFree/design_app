@@ -108,7 +108,7 @@ class _GifFooter1State extends State<GifFooter1>
       height: 80,
       builder: (context, mode) {
         return GifImage(
-          image: AssetImage("images/gifindicator1.gif"),
+          image: AssetImage("assets/images/refresh.gif"),
           controller: _gifController,
           height: 80.0,
           width: 537.0,

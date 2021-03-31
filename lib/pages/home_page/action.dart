@@ -1,3 +1,4 @@
+import 'package:bluespace/models/article_list_data.dart';
 import 'package:fish_redux/fish_redux.dart';
 
 //TODO replace with your own action
@@ -7,12 +8,18 @@ enum HomeAction {
   initBanner,
   searchBarTapped,
   getArticleList,
-  initArticle
+  initArticle,
+  upDateArticleList
 }
 
 class HomeActionCreator {
   static Action onAction() {
     return const Action(HomeAction.action);
+  }
+
+  static Action upDateArticleList(List articleList, int pageIndex) {
+    return Action(HomeAction.upDateArticleList,
+        payload: [articleList, pageIndex]);
   }
 
   static Action getBanner() {
@@ -27,8 +34,8 @@ class HomeActionCreator {
     return Action(HomeAction.searchBarTapped);
   }
 
-  static Action getArticleList(String way) {
-    return Action(HomeAction.getArticleList, payload: way);
+  static Action getArticleList(int page, String way) {
+    return Action(HomeAction.getArticleList, payload: [page, way]);
   }
 
   static Action initArticle(var list) {

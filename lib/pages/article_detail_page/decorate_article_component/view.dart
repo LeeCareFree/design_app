@@ -163,6 +163,7 @@ class _ArticleContent extends StatelessWidget {
             height: Adapt.height(30),
           ),
           ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
               itemCount: articleInfo.desc.length,
               scrollDirection: Axis.vertical,
               shrinkWrap: true,

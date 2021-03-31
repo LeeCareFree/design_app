@@ -9,11 +9,12 @@ class HomeState implements Cloneable<HomeState> {
   TabController tabController;
   HomeState({this.bannerList, this.articleList});
   List<String> tabs;
-
+  int pageIndex = 1;
   @override
   HomeState clone() {
     return HomeState()
       ..tabs = tabs
+      ..pageIndex = pageIndex
       ..refreshController = refreshController
       ..tabController = tabController
       ..bannerList = bannerList

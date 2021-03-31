@@ -4,6 +4,7 @@ import 'package:bluespace/models/article_detail.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ArticleDetailState implements Cloneable<ArticleDetailState> {
   String avatar;
@@ -17,9 +18,11 @@ class ArticleDetailState implements Cloneable<ArticleDetailState> {
   bool isLike;
   bool isColl;
   String articleType;
+  RefreshController refreshController;
   @override
   ArticleDetailState clone() {
     return ArticleDetailState()
+      ..refreshController = refreshController
       ..avatar = avatar
       ..aid = aid
       ..uid = uid
