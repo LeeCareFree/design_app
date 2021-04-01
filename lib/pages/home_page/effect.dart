@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-08 15:42:27
- * @LastEditTime: 2021-03-15 11:01:08
+ * @LastEditTime: 2021-03-31 12:50:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \design_app\lib\pages\home_page\effect.dart
