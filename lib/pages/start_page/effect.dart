@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:bluespace/globalState/action.dart';
 import 'package:bluespace/globalState/store.dart';
+import 'package:bluespace/models/account_info.dart';
 import 'package:bluespace/models/user_info.dart';
 import 'package:bluespace/net/service_method.dart';
 import 'package:bluespace/router/routes.dart';
@@ -43,10 +44,8 @@ void _onJump(Action action, Context<StartState> ctx) async {
       Future.delayed(Duration(seconds: 0), () => _pushToMainPage(ctx.context));
     }
   } else {
-    print(ctx.state.isLogin);
     Future.delayed(Duration(seconds: 0),
         () => ctx.dispatch(StartActionCreator.onCheckIsLogin(false)));
-    print(ctx.state.isLogin);
     Fluttertoast.showToast(msg: '请登录！');
   }
 }

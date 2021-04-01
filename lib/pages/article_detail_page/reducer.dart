@@ -12,7 +12,8 @@ Reducer<ArticleDetailState> buildReducer() {
       ArticleDetailAction.setLoading: _setLoading,
       ArticleDetailAction.completeComment: _onCompleteComment,
       ArticleDetailAction.updataIsLike: _onUpdataIsLike,
-      ArticleDetailAction.updataIsColl: _onUpdataIsColl
+      ArticleDetailAction.updataIsColl: _onUpdataIsColl,
+      ArticleDetailAction.updataIsFollow: _onupdataIsFollow
     },
   );
 }
@@ -66,5 +67,11 @@ ArticleDetailState _onUpdataIsLike(ArticleDetailState state, Action action) {
 ArticleDetailState _onUpdataIsColl(ArticleDetailState state, Action action) {
   final ArticleDetailState newState = state.clone();
   newState..isColl = action.payload;
+  return newState;
+}
+
+ArticleDetailState _onupdataIsFollow(ArticleDetailState state, Action action) {
+  final ArticleDetailState newState = state.clone();
+  newState..isFollow = action.payload;
   return newState;
 }

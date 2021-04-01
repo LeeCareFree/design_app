@@ -1,5 +1,10 @@
+import 'dart:convert';
+
+import 'package:bluespace/models/account_info.dart';
+import 'package:bluespace/net/service_method.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart' hide Action;
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'action.dart';
 import 'state.dart';
@@ -44,8 +49,17 @@ Future _onInit(Action action, Context<MineState> ctx) async {
   String name = prefs.getString('username');
   String avatar = prefs.getString('avatar');
   String uid = prefs.getString('uid');
-  print(name);
   ctx.dispatch(MineActionCreator.onInit(name, avatar, uid));
+  // 获取一些用户信息
+  var accountRes =
+      await DioUtil.request('getAccountInfo', formData: {'uid': uid});
+  accountRes = json.decode(accountRes.toString());
+  if (accountRes['code'] != 200) {
+    Fluttertoast.showToast(msg: accountRes['msg'] ?? '请稍后再试！');
+  } else {
+    AccountInfo accountInfo = new AccountInfo.fromJson(accountRes['data']);
+    ctx.dispatch(MineActionCreator.initAccountInfo(accountInfo));
+  }
 }
 
 void _onBuild(Action action, Context<MineState> ctx) {

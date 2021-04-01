@@ -6,6 +6,7 @@
  * @Description: In User Settings Edit
  * @FilePath: \bluespace\lib\pages\mine_page\view.dart
  */
+import 'package:bluespace/models/account_info.dart';
 import 'package:bluespace/models/user_info.dart';
 import 'package:bluespace/utils/adapt.dart';
 import 'package:fish_redux/fish_redux.dart';
@@ -34,7 +35,8 @@ Widget buildView(MineState state, Dispatch dispatch, ViewService viewService) {
               slivers: [
                 viewService.buildComponent('userInfo'),
                 _SecondPanel(
-                    // userInfo: state.uid,
+                    uid: state.uid,
+                    accountInfo: state.accountInfo,
                     onTap: () => dispatch(MineActionCreator.showTip('这是提示'))),
                 viewService.buildComponent('order'),
                 viewService.buildComponent('mineList')
@@ -69,7 +71,9 @@ Widget buildView(MineState state, Dispatch dispatch, ViewService viewService) {
 
 class _SecondPanel extends StatelessWidget {
   final Function onTap;
-  const _SecondPanel({this.onTap});
+  final AccountInfo accountInfo;
+  final String uid;
+  const _SecondPanel({this.onTap, this.accountInfo, this.uid});
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
@@ -77,7 +81,7 @@ class _SecondPanel extends StatelessWidget {
         onTap: onTap,
         child: Container(
           margin: EdgeInsets.only(bottom: 25),
-          height: Adapt.height(220),
+          height: Adapt.height(200),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: Colors.blueGrey,
@@ -89,7 +93,7 @@ class _SecondPanel extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('100',
+                    Text(accountInfo?.proNum.toString() ?? '',
                         style: TextStyle(
                           color: const Color(0xFFFFFFFF),
                           fontSize: Adapt.sp(24),
@@ -105,7 +109,7 @@ class _SecondPanel extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('80',
+                    Text(accountInfo?.followNum.toString() ?? '',
                         style: TextStyle(
                           color: const Color(0xFFFFFFFF),
                           fontSize: Adapt.sp(24),
@@ -121,7 +125,7 @@ class _SecondPanel extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('203',
+                    Text(accountInfo?.collNum.toString() ?? '',
                         style: TextStyle(
                           color: const Color(0xFFFFFFFF),
                           fontSize: Adapt.sp(24),
@@ -140,8 +144,10 @@ class _SecondPanel extends StatelessWidget {
                       color: const Color(0xFFFFFFFF),
                       size: 30,
                     ),
-                    onPressed: () =>
-                        {Navigator.of(context).pushNamed('personalPage')})
+                    onPressed: () => {
+                          Navigator.of(context).pushNamed('personalPage',
+                              arguments: {'uid': uid})
+                        })
               ]),
         ),
       ),

@@ -9,6 +9,7 @@ Reducer<MineState> buildReducer() {
     <Object, Reducer<MineState>>{
       MineAction.action: _onAction,
       MineAction.init: _onInit,
+      MineAction.initAccountInfo: _onInitAccountInfo
     },
   );
 }
@@ -21,6 +22,12 @@ MineState _onInit(MineState state, Action action) {
   newState.name = name;
   newState.avatar = avatar;
   newState.uid = uid;
+  return newState;
+}
+
+MineState _onInitAccountInfo(MineState state, Action action) {
+  final MineState newState = state.clone();
+  newState..accountInfo = action.payload;
   return newState;
 }
 

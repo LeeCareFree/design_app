@@ -1,3 +1,4 @@
+import 'package:bluespace/models/account_info.dart';
 import 'package:bluespace/style/themeStyle.dart';
 import 'package:bluespace/utils/adapt.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -9,17 +10,20 @@ import 'state.dart';
 Widget buildView(
     AppBarState state, Dispatch dispatch, ViewService viewService) {
   return _CustomAppBar(
-    title: state.title ?? '',
+    accountInfo: state.accountInfo,
     controller: state.scrollController,
+    uid: state.mineUid ?? '',
     // menuPress: () => dispatch(MovieDetailPageActionCreator.openMenu()),
   );
 }
 
 class _CustomAppBar extends StatefulWidget {
   final ScrollController controller;
-  final String title;
+  final AccountInfo accountInfo;
   final Function menuPress;
-  const _CustomAppBar({this.controller, this.title, this.menuPress});
+  final String uid;
+  const _CustomAppBar(
+      {this.controller, this.accountInfo, this.menuPress, this.uid});
   @override
   _CustomAppBarState createState() => _CustomAppBarState();
 }
@@ -68,7 +72,7 @@ class _CustomAppBarState extends State<_CustomAppBar> {
       title: showBar
           ? ClipOval(
               child: Image.network(
-                'http://8.129.214.128:3001/avatar/lee.jpg',
+                widget.accountInfo?.avatar ?? '',
                 fit: BoxFit.cover,
                 width: 35,
                 height: 35,
@@ -89,7 +93,7 @@ class _CustomAppBarState extends State<_CustomAppBar> {
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
           padding: EdgeInsets.fromLTRB(
-              Adapt.width(80), Adapt.height(150), 0, Adapt.height(0)),
+              Adapt.width(50), Adapt.height(150), 0, Adapt.height(0)),
           decoration: BoxDecoration(
             image: DecorationImage(
                 fit: BoxFit.cover,
@@ -97,7 +101,10 @@ class _CustomAppBarState extends State<_CustomAppBar> {
                   'http://8.129.214.128:3001/upload/publish/Screenshot_20210314_133329.jpg',
                 )),
           ),
-          child: _UserInfoWidget(),
+          child: _UserInfoWidget(
+            uid: widget.uid,
+            accountInfo: widget.accountInfo,
+          ),
         ),
         stretchModes: const <StretchMode>[
           StretchMode.zoomBackground,
@@ -109,13 +116,14 @@ class _CustomAppBarState extends State<_CustomAppBar> {
 }
 
 class _UserInfoWidget extends StatelessWidget {
-  final String avatar;
-  final String nickname;
-  const _UserInfoWidget({this.avatar, this.nickname});
+  final String uid;
+  final AccountInfo accountInfo;
+  const _UserInfoWidget({this.accountInfo, this.uid});
   @override
   Widget build(BuildContext context) {
     final ThemeData _theme = ThemeStyle.getTheme(context);
     return Container(
+      margin: EdgeInsets.only(top: Adapt.height(60)),
       width: Adapt.screenW(),
       decoration: BoxDecoration(
           color: Colors.transparent,
@@ -127,21 +135,21 @@ class _UserInfoWidget extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ClipOval(
               child: Image.network(
-                'http://8.129.214.128:3001/imgs/avatar.jpg',
+                accountInfo?.avatar ?? '',
                 fit: BoxFit.cover,
-                width: 100,
-                height: 100,
+                width: 50,
+                height: 50,
                 // color: Colors.black
               ),
             ),
             Container(
-              padding:
-                  EdgeInsets.fromLTRB(Adapt.height(20), 0, 0, Adapt.height(60)),
+              padding: EdgeInsets.fromLTRB(Adapt.width(20), 0, 0, 0),
               child: Text(
-                nickname ?? '',
+                accountInfo?.nickname ?? '',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -153,16 +161,26 @@ class _UserInfoWidget extends StatelessWidget {
           ],
         ),
         SizedBox(
-          height: Adapt.height(30),
+          height: Adapt.height(20),
+        ),
+        Text(
+          '诗长满羽毛栖息在窗台',
+          style: TextStyle(color: Colors.white),
+        ),
+        SizedBox(
+          height: Adapt.height(20),
         ),
         Row(
           children: [
             InkWell(
-              onTap: () => {},
+              onTap: () => {
+                Navigator.of(context).pushNamed('userListPage',
+                    arguments: {'type': 'follow', 'uid': accountInfo?.uid})
+              },
               child: Column(
                 children: [
                   Text(
-                    '666',
+                    accountInfo?.followNum.toString(),
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: Adapt.sp(30),
@@ -183,11 +201,14 @@ class _UserInfoWidget extends StatelessWidget {
               width: Adapt.width(30),
             ),
             InkWell(
-              onTap: () => {},
+              onTap: () => {
+                Navigator.of(context).pushNamed('userListPage',
+                    arguments: {'type': 'fans', 'uid': accountInfo?.uid})
+              },
               child: Column(
                 children: [
                   Text(
-                    '666',
+                    accountInfo?.fansNum.toString(),
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: Adapt.sp(30),
@@ -224,28 +245,101 @@ class _UserInfoWidget extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: Adapt.width(100),
+              width: Adapt.width(40),
             ),
-            InkWell(
-              onTap: () => {},
-              child: Container(
-                padding: EdgeInsets.fromLTRB(Adapt.width(60), Adapt.width(15),
-                    Adapt.width(60), Adapt.width(15)),
-                decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(Adapt.radius(50))),
-                child: Text(
-                  '关注',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
+            uid == accountInfo?.uid
+                ? InkWell(
+                    onTap: () => {},
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(Adapt.width(40),
+                          Adapt.width(10), Adapt.width(40), Adapt.width(10)),
+                      decoration: BoxDecoration(
+                          color: Colors.black45,
+                          borderRadius:
+                              BorderRadius.circular(Adapt.radius(50))),
+                      child: Text(
+                        '编辑资料',
+                        style: TextStyle(
+                            fontSize: Adapt.sp(24), color: Colors.white),
+                      ),
+                    ),
+                  )
+                : InkWell(
+                    onTap: () => {},
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(Adapt.width(40),
+                          Adapt.width(10), Adapt.width(40), Adapt.width(10)),
+                      decoration: BoxDecoration(
+                          color: Colors.black45,
+                          borderRadius:
+                              BorderRadius.circular(Adapt.radius(50))),
+                      child: Text(
+                        '关注',
+                        style: TextStyle(
+                            fontSize: Adapt.sp(24), color: Colors.white),
+                      ),
+                    ),
+                  ),
+            SizedBox(
+              width: Adapt.width(30),
             ),
-            IconButton(
-                icon: Icon(
-                  Icons.sms_outlined,
-                  color: Colors.white,
-                ),
-                onPressed: () => {})
+            uid == accountInfo?.uid
+                ? InkWell(
+                    onTap: () => {},
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(Adapt.width(20),
+                          Adapt.width(10), Adapt.width(20), Adapt.width(10)),
+                      decoration: BoxDecoration(
+                          color: Colors.black45,
+                          borderRadius:
+                              BorderRadius.circular(Adapt.radius(50))),
+                      child: Row(
+                        children: [
+                          Text(
+                            '设置',
+                            style: TextStyle(
+                                fontSize: Adapt.sp(24), color: Colors.white),
+                          ),
+                          SizedBox(
+                            width: Adapt.width(10),
+                          ),
+                          Icon(
+                            Icons.settings,
+                            color: Colors.white,
+                            size: 15,
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                : InkWell(
+                    onTap: () => {},
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(Adapt.width(20),
+                          Adapt.width(10), Adapt.width(20), Adapt.width(10)),
+                      decoration: BoxDecoration(
+                          color: Colors.black45,
+                          borderRadius:
+                              BorderRadius.circular(Adapt.radius(50))),
+                      child: Row(
+                        children: [
+                          Text(
+                            '发消息',
+                            style: TextStyle(
+                                fontSize: Adapt.sp(24), color: Colors.white),
+                          ),
+                          SizedBox(
+                            width: Adapt.width(10),
+                          ),
+                          Icon(
+                            Icons.sms_outlined,
+                            color: Colors.white,
+                            size: 15,
+                          )
+                        ],
+                      ),
+                    ),
+                  )
           ],
         )
         // _ExternalGroup(

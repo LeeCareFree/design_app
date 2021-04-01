@@ -22,11 +22,21 @@ enum ArticleDetailAction {
   cancelColl,
   checkCollStatus,
   updataIsColl,
+  follow,
+  updataIsFollow
 }
 
 class ArticleDetailActionCreator {
   static Action onAction() {
     return const Action(ArticleDetailAction.action);
+  }
+
+  static Action updataIsFollow(bool isFollow) {
+    return Action(ArticleDetailAction.updataIsFollow, payload: isFollow);
+  }
+
+  static Action follow(String type) {
+    return Action(ArticleDetailAction.follow, payload: type);
   }
 
   static Action checkLikeStatus() {

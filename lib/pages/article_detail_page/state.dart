@@ -18,12 +18,14 @@ class ArticleDetailState implements Cloneable<ArticleDetailState> {
   bool isLike;
   bool isColl;
   String articleType;
+  bool isFollow;
   RefreshController refreshController;
   @override
   ArticleDetailState clone() {
     return ArticleDetailState()
       ..refreshController = refreshController
       ..avatar = avatar
+      ..isFollow = isFollow
       ..aid = aid
       ..uid = uid
       ..isLoading = isLoading

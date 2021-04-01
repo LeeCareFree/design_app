@@ -24,11 +24,48 @@ Effect<ArticleDetailState> buildEffect() {
     ArticleDetailAction.collHandle: _onCollHandle,
     ArticleDetailAction.checkCollStatus: _onCheckCollStatus,
     ArticleDetailAction.cancelColl: _onCancelColl,
+    ArticleDetailAction.follow: _onFollow,
     Lifecycle.initState: _onInit,
   });
 }
 
 void _onAction(Action action, Context<ArticleDetailState> ctx) {}
+void _onFollow(Action action, Context<ArticleDetailState> ctx) async {
+  var formData = {
+    'muid': ctx.state.uid,
+    'huid': ctx.state.articleInfo?.user?.uid
+  };
+  switch (action.payload) {
+    case 'query':
+      var res = await DioUtil.request('queryFollow', formData: formData);
+      res = json.decode(res.toString());
+      if (res['code'] == 200) {
+        ctx.dispatch(ArticleDetailActionCreator.updataIsFollow(res['data']));
+      } else {
+        Fluttertoast.showToast(msg: res['msg'] ?? '查询关注失败!');
+      }
+      break;
+    case 'add':
+      var res = await DioUtil.request('addFollow', formData: formData);
+      res = json.decode(res.toString());
+      if (res['code'] == 200) {
+        ctx.dispatch(ArticleDetailActionCreator.updataIsFollow(true));
+      } else {
+        Fluttertoast.showToast(msg: res['msg'] ?? '添加关注失败!');
+      }
+      break;
+    case 'cancel':
+      var res = await DioUtil.request('cancelFollow', formData: formData);
+      res = json.decode(res.toString());
+      if (res['code'] == 200) {
+        ctx.dispatch(ArticleDetailActionCreator.updataIsFollow(false));
+      } else {
+        Fluttertoast.showToast(msg: res['msg'] ?? '取消关注失败!');
+      }
+      break;
+    default:
+  }
+}
 
 void _onLikeComment(Action action, Context<ArticleDetailState> ctx) {
   ctx.dispatch(ArticleDetailActionCreator.upDatalikeCommentCount());
@@ -136,10 +173,11 @@ void _onInit(Action action, Context<ArticleDetailState> ctx) async {
   ctx.state.refreshController = new RefreshController();
   ctx.state..commentFocusNode = FocusNode();
   ctx.state.commentTextController = TextEditingController();
-  ctx.dispatch(ArticleDetailActionCreator.getArticle());
-  ctx.dispatch(ArticleDetailActionCreator.checkLikeStatus());
-  ctx.dispatch(ArticleDetailActionCreator.checkCollStatus());
-  ctx.dispatch(ArticleDetailActionCreator.getUserAvatar());
+  await ctx.dispatch(ArticleDetailActionCreator.getArticle());
+  await ctx.dispatch(ArticleDetailActionCreator.checkLikeStatus());
+  await ctx.dispatch(ArticleDetailActionCreator.checkCollStatus());
+  await ctx.dispatch(ArticleDetailActionCreator.getUserAvatar());
+  await ctx.dispatch(ArticleDetailActionCreator.follow('query'));
 }
 
 Future _onCheckLikeStatus(

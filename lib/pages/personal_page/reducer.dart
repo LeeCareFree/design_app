@@ -9,9 +9,18 @@ Reducer<PersonalState> buildReducer() {
     <Object, Reducer<PersonalState>>{
       PersonalAction.action: _onAction,
       // PersonalAction.showTitle: _onShowTitle,
-      Lifecycle.initState: _onInit
+      PersonalAction.initAccountInfo: _onInitAccountInfo,
+      Lifecycle.initState: _onInit,
+      PersonalAction.setLoading: _setLoading,
     },
   );
+}
+
+PersonalState _setLoading(PersonalState state, Action action) {
+  final bool _loading = action.payload;
+  final PersonalState newState = state.clone();
+  newState.isLoading = _loading;
+  return newState;
 }
 
 PersonalState _onAction(PersonalState state, Action action) {
@@ -19,8 +28,13 @@ PersonalState _onAction(PersonalState state, Action action) {
   return newState;
 }
 
+PersonalState _onInitAccountInfo(PersonalState state, Action action) {
+  final PersonalState newState = state.clone();
+  newState..accountInfo = action.payload;
+  return newState;
+}
+
 PersonalState _onInit(PersonalState state, Action action) {
-  print('111');
   final PersonalState newState = state.clone();
   newState
     ..isShowTitle = state.scrollController.hasClients &&

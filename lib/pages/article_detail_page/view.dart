@@ -30,15 +30,20 @@ Widget buildView(
               backgroundColor: _theme.bottomAppBarColor,
               brightness: _theme.brightness,
               actions: [
-                Row(
-                  children: [
-                    _UserInfoWidget(
-                      avatar: state.articleInfo?.user?.avatar ?? '',
-                      username: state.articleInfo?.user?.nickname ?? '',
-                      theme: _theme,
-                    ),
-                  ],
-                ),
+                state.isFollow != null
+                    ? Row(
+                        children: [
+                          _UserInfoWidget(
+                            avatar: state.articleInfo?.user?.avatar ?? '',
+                            username: state.articleInfo?.user?.nickname ?? '',
+                            dispatch: dispatch,
+                            isFollow: state.isFollow ?? false,
+                            isSelf: state.uid == state.articleInfo?.user?.uid,
+                            theme: _theme,
+                          ),
+                        ],
+                      )
+                    : Container(),
                 IconButton(
                     icon: const Icon(Icons.more_vert),
                     onPressed: () =>
@@ -55,39 +60,40 @@ Widget buildView(
                     isLike: state.isLike,
                   )
                 : null),
-            body: SmartRefresher(
-                controller: state.refreshController,
-                onRefresh: () => {
-                      dispatch(ArticleDetailActionCreator.getArticle()),
-                    },
-                onLoading: () => {},
-                child: Stack(children: [
-                  state.isLoading
-                      ? LoadingLayout(
-                          title: '加载中...',
-                          show: true,
-                        )
-                      : CustomScrollView(
-                          physics: BouncingScrollPhysics(),
-                          slivers: [
-                            SliverToBoxAdapter(
-                                child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                  viewService.buildComponent('decorateArticle'),
-                                  _CommentWidget(
-                                    avatar: state.avatar,
-                                    commentList: state.articleInfo.comments,
-                                    controller: state.commentTextController,
-                                    commentFocusNode: state.commentFocusNode,
-                                    commentLikeCount: state.commentLikeCount,
-                                    dispatch: dispatch,
-                                  ),
-                                ]))
-                          ],
-                        )
-                ])),
+            body: Stack(children: [
+              state.isLoading
+                  ? LoadingLayout(
+                      title: '加载中...',
+                      show: true,
+                    )
+                  : SmartRefresher(
+                      enablePullDown: true,
+                      enablePullUp: true,
+                      controller: state.refreshController,
+                      onRefresh: () => {
+                            dispatch(ArticleDetailActionCreator.getArticle()),
+                          },
+                      onLoading: () => {},
+                      child: CustomScrollView(
+                        physics: BouncingScrollPhysics(),
+                        slivers: [
+                          SliverToBoxAdapter(
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                viewService.buildComponent('decorateArticle'),
+                                _CommentWidget(
+                                  avatar: state.avatar ?? '',
+                                  commentList: state.articleInfo.comments,
+                                  controller: state.commentTextController,
+                                  commentFocusNode: state.commentFocusNode,
+                                  commentLikeCount: state.commentLikeCount,
+                                  dispatch: dispatch,
+                                ),
+                              ]))
+                        ],
+                      ))
+            ]),
           );
           break;
         case '2':
@@ -99,15 +105,20 @@ Widget buildView(
                 backgroundColor: _theme.bottomAppBarColor,
                 brightness: _theme.brightness,
                 actions: [
-                  Row(
-                    children: [
-                      _UserInfoWidget(
-                        avatar: state.articleInfo?.user?.avatar ?? '',
-                        username: state.articleInfo?.user?.nickname ?? '',
-                        theme: _theme,
-                      ),
-                    ],
-                  ),
+                  state.avatar != null
+                      ? Row(
+                          children: [
+                            _UserInfoWidget(
+                              avatar: state.articleInfo?.user?.avatar ?? '',
+                              username: state.articleInfo?.user?.nickname ?? '',
+                              dispatch: dispatch,
+                              isFollow: state.isFollow ?? false,
+                              isSelf: state.uid == state.articleInfo?.user?.uid,
+                              theme: _theme,
+                            ),
+                          ],
+                        )
+                      : Container(),
                   IconButton(
                       icon: const Icon(Icons.more_vert),
                       onPressed: () =>
@@ -124,48 +135,50 @@ Widget buildView(
                       isLike: state.isLike,
                     )
                   : null),
-              body: SmartRefresher(
-                  controller: state.refreshController,
-                  onRefresh: () => {
-                        dispatch(ArticleDetailActionCreator.getArticle()),
-                      },
-                  child: Stack(children: [
-                    state.isLoading
-                        ? LoadingLayout(
-                            title: '加载中...',
-                            show: true,
-                          )
-                        : CustomScrollView(
-                            physics: BouncingScrollPhysics(),
-                            slivers: [
-                              SliverToBoxAdapter(
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                    SizedBox(
-                                      height: Adapt.height(10),
-                                    ),
-                                    SwiperPanel(
-                                      backdrops: state.articleInfo.imgList,
-                                    ),
-                                    _ArticleWidget(
-                                      title: state.articleInfo.title,
-                                      content: state.articleInfo.detail,
-                                      time: state.articleInfo.createtime,
-                                    ),
-                                    _CommentWidget(
-                                      avatar: state.avatar,
-                                      commentList: state.articleInfo.comments,
-                                      controller: state.commentTextController,
-                                      commentFocusNode: state.commentFocusNode,
-                                      commentLikeCount: state.commentLikeCount,
-                                      dispatch: dispatch,
-                                    ),
-                                  ]))
-                            ],
-                          )
-                  ])));
+              body: Stack(children: [
+                state.isLoading
+                    ? LoadingLayout(
+                        title: '加载中...',
+                        show: true,
+                      )
+                    : SmartRefresher(
+                        enablePullDown: true,
+                        enablePullUp: true,
+                        controller: state.refreshController,
+                        onRefresh: () => {
+                              dispatch(ArticleDetailActionCreator.getArticle()),
+                            },
+                        child: CustomScrollView(
+                          physics: BouncingScrollPhysics(),
+                          slivers: [
+                            SliverToBoxAdapter(
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                  SizedBox(
+                                    height: Adapt.height(10),
+                                  ),
+                                  SwiperPanel(
+                                    backdrops: state.articleInfo.imgList,
+                                  ),
+                                  _ArticleWidget(
+                                    title: state.articleInfo.title,
+                                    content: state.articleInfo.detail,
+                                    time: state.articleInfo.createtime,
+                                  ),
+                                  _CommentWidget(
+                                    avatar: state.avatar ?? '',
+                                    commentList: state.articleInfo.comments,
+                                    controller: state.commentTextController,
+                                    commentFocusNode: state.commentFocusNode,
+                                    commentLikeCount: state.commentLikeCount,
+                                    dispatch: dispatch,
+                                  ),
+                                ]))
+                          ],
+                        ))
+              ]));
           break;
       }
     },
@@ -176,7 +189,16 @@ class _UserInfoWidget extends StatelessWidget {
   final String username;
   final String avatar;
   final theme;
-  const _UserInfoWidget({this.username, this.avatar, this.theme});
+  final Dispatch dispatch;
+  final bool isFollow;
+  final bool isSelf;
+  const _UserInfoWidget(
+      {this.username,
+      this.avatar,
+      this.theme,
+      this.dispatch,
+      this.isFollow,
+      this.isSelf});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -217,24 +239,45 @@ class _UserInfoWidget extends StatelessWidget {
                     fontWeight: FontWeight.w500),
               )),
           Expanded(
-              flex: 2,
+              flex: 3,
               child: Container(
-                width: Adapt.width(100),
-                height: Adapt.height(50),
-                decoration: BoxDecoration(
-                    color: Colors.blueGrey,
-                    borderRadius: BorderRadius.circular(Adapt.radius(50))),
-                child: Container(
-                    child: TextButton(
-                        onPressed: () => {},
-                        child: Text(
-                          "关注",
-                          style: TextStyle(
-                              fontSize: Adapt.sp(24),
-                              fontWeight: FontWeight.bold,
-                              // letterSpacing: Adapt.px(10),
-                              color: Colors.white),
-                        ))),
+                child: isSelf
+                    ? Container()
+                    : Container(
+                        height: Adapt.height(55),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius:
+                                BorderRadius.circular(Adapt.radius(50))),
+                        child: isFollow
+                            ? TextButton(
+                                onPressed: () => {
+                                      dispatch(
+                                          ArticleDetailActionCreator.follow(
+                                              'cancel'))
+                                    },
+                                child: Text(
+                                  "已关注",
+                                  style: TextStyle(
+                                      fontSize: Adapt.sp(24),
+                                      fontWeight: FontWeight.bold,
+                                      // letterSpacing: Adapt.px(10),
+                                      color: Colors.grey[600]),
+                                ))
+                            : TextButton(
+                                onPressed: () => {
+                                      dispatch(
+                                          ArticleDetailActionCreator.follow(
+                                              'add'))
+                                    },
+                                child: Text(
+                                  "关注",
+                                  style: TextStyle(
+                                      fontSize: Adapt.sp(24),
+                                      fontWeight: FontWeight.bold,
+                                      // letterSpacing: Adapt.px(10),
+                                      color: Colors.blueGrey),
+                                ))),
               )),
         ],
       ),
@@ -612,17 +655,24 @@ class _CommentListWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Expanded(
-                          flex: 1,
-                          child: ClipOval(
-                            child: Image.network(
-                              commentList[index].user?.avatar,
-                              fit: BoxFit.cover,
-                              width: 35,
-                              height: 35,
-                              // color: Colors.black
-                            ),
-                          ),
-                        ),
+                            flex: 1,
+                            child: InkWell(
+                              onTap: () => {
+                                Navigator.of(context).pushNamed('personalPage',
+                                    arguments: {
+                                      'uid': commentList[index].user?.uid
+                                    })
+                              },
+                              child: ClipOval(
+                                child: Image.network(
+                                  commentList[index].user?.avatar,
+                                  fit: BoxFit.cover,
+                                  width: 35,
+                                  height: 35,
+                                  // color: Colors.black
+                                ),
+                              ),
+                            )),
                         SizedBox(
                           width: Adapt.width(40),
                         ),

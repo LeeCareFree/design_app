@@ -8,5 +8,4 @@ Effect<AppBarState> buildEffect() {
   });
 }
 
-void _onAction(Action action, Context<AppBarState> ctx) {
-}
+void _onAction(Action action, Context<AppBarState> ctx) {}

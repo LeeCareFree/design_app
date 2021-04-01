@@ -1,3 +1,4 @@
+import 'package:bluespace/models/account_info.dart';
 import 'package:bluespace/models/user_info.dart';
 import 'package:bluespace/pages/mine_page/mine_list_component/state.dart';
 import 'package:bluespace/pages/mine_page/order_component/state.dart';
@@ -19,9 +20,11 @@ class MineState implements Cloneable<MineState> {
   OrderComponentState orderState;
   MineListState mineListState;
   AnimationController animationController;
+  AccountInfo accountInfo;
   @override
   MineState clone() {
     return MineState()
+      ..accountInfo = accountInfo
       ..user = user
       ..name = name
       ..avatar = avatar

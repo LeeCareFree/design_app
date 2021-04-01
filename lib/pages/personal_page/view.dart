@@ -1,11 +1,13 @@
 import 'package:bluespace/components/article_list.dart';
 import 'package:bluespace/components/backdrop.dart';
+import 'package:bluespace/components/loading.dart';
 import 'package:bluespace/components/stickTabBarDelegate.dart';
 import 'package:bluespace/style/themeStyle.dart';
 import 'package:bluespace/utils/adapt.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'action.dart';
 import 'state.dart';
@@ -18,129 +20,188 @@ Widget buildView(
       // bool _showTitle = state.scrollController.hasClients &&
       //     state.scrollController.offset > Adapt.height(350) - Adapt.height(300);
       return Scaffold(
-        body: CustomScrollView(
-            controller: state.scrollController,
-            physics: const BouncingScrollPhysics(),
-            slivers: <Widget>[
-              viewService.buildComponent('appBar'),
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: StickyTabBarDelegate(
-                    child: PreferredSize(
-                  preferredSize: Size.fromHeight(40),
-                  child: TabBar(
-                    labelColor: Colors.black,
-                    controller: state.tabController,
-                    indicatorColor: Colors.blueGrey,
-                    indicatorPadding:
-                        EdgeInsets.symmetric(horizontal: Adapt.width(80)),
-                    unselectedLabelColor: Colors.black45,
-                    tabs: <Widget>[
-                      Tab(
-                        text: '笔记',
-                      ),
-                      Tab(text: '收藏'),
-                      Tab(text: '点赞'),
-                    ],
-                  ),
-                )),
-              ),
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: StickySizedBoxDelegate(
-                  child: SizedBox(
-                    height: Adapt.height(10),
-                  ),
-                ),
-              ),
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: StickyDividerDelegate(
-                  child: Divider(
-                    thickness: Adapt.height(3),
-                    height: 3.0,
-                    indent: 0.0,
-                    color: Colors.grey[350],
-                  ),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: Adapt.height(10),
-                ),
-              ),
-              SliverFillRemaining(
-                child: TabBarView(
-                  controller: state.tabController,
-                  children: <Widget>[
-                    ArticleList(articleList: [
-                      {
-                        "imgList": [
-                          "http://8.129.214.128:3001/upload/publish/Screenshot_20210314_133432.jpg",
-                          "http://8.129.214.128:3001/upload/publish/Screenshot_20210314_133455.jpg",
-                          "http://8.129.214.128:3001/upload/publish/Screenshot_20210314_133044.jpg",
-                          "http://8.129.214.128:3001/upload/publish/Screenshot_20210314_133329.jpg"
-                        ],
-                        "type": "2",
-                        "aid": "89fd7397-055b-4ac6-8fff-9a5820f90e62",
-                        "title": "几何没学、动线设计与生活相碰撞",
-                        "detail":
-                            "几何美学、动线设计与生活相碰撞,隐藏式手法消弭繁杂视感,将黑灰、暖白的简洁大气映入每个人的视野中。用餐本就是-种享受，这里没有束缚,我们可以低声不语享用美食，也可以欢声笑语讲出美食奇遇，餐厅里的世界，动静皆宜，却一点都不冰冷。",
-                        "like": 0,
-                        "coll": 0,
-                        "createtime": "2021年03月17 15:47:28",
-                        "user": {
-                          "username": "17324220167",
-                          "nickname": "用户lxsu0l",
-                          "avatar": "http://8.129.214.128:3001/imgs/avatar.jpg",
-                          "uid": "1fbebca0-867b-4f7e-80c0-144f080ed644"
-                        }
+        body: Stack(children: [
+          state.isLoading
+              ? LoadingLayout(
+                  title: '加载中...',
+                  show: true,
+                )
+              : SmartRefresher(
+                  enablePullDown: true,
+                  enablePullUp: true,
+                  controller: state.refreshController,
+                  onRefresh: () => {
+                        dispatch(PersonalActionCreator.getAccountInfo()),
                       },
-                      {
-                        "imgList": [
-                          "http:/8.129.214.128:3001/upload/publish/IMG_20210316_143537.jpg",
-                          "http://localhost:3000/upload/publish/IMG_20210207_131117.jpg"
-                        ],
-                        "type": "2",
-                        "aid": "c5b208bc-63f8-4f2d-8b35-fcda91ecf52f",
-                        "title": "干货小户型卧室装修布置",
-                        "detail":
-                            "我家新房建筑面积89m四房两厅两卫，属于小而精的户型。每一个空间虽小但是功能布局一样都没少。今天，整理了一下卧室问的比较多的问题和一些细节，收藏起来吧。\n\n卧室尺寸多少， 面积多少?\n\n主卧净尺寸: 2.95m宽*3.9m长,不含过道面积约11.5mi。\n\n卧室用的墙纸还是乳胶漆，什么色号?\n\nV拆除了精装房的墙纸，重新刷了乳胶漆，色号立邦的褐珊瑚十奶咖。\n\n褐珊瑚复古带点温馨,非常适合作为卧室床头背景颜色，其余墙面刷上奶咖，整个卧室非常舒服，暖暖的温柔。\n\n衣柜是成品还是定制，尺寸多少?\n\nV顶天立地的衣柜，尺寸1.95m宽2.8m高0.55深，衣柜的前方四开门跟普通衣柜几乎无太大区别",
-                        "like": 0,
-                        "coll": 0,
-                        "createtime": "2021年03月17 15:47:28",
-                        "user": {
-                          "username": "17324220167",
-                          "nickname": "用户lxsu0l",
-                          "avatar": "http://8.129.214.128:3001/imgs/avatar.jpg",
-                          "uid": "1fbebca0-867b-4f7e-80c0-144f080ed644"
-                        }
-                      },
-                      {
-                        "imgList": [
-                          "http://8.129.214.128:3001/upload/publish/1615876262049.jpg"
-                        ],
-                        "type": "2",
-                        "aid": "b0007136-bd14-41c6-81bb-3aa9756523be",
-                        "title": "测试",
-                        "detail": "测试内容",
-                        "like": 0,
-                        "coll": 0,
-                        "createtime": "2021年03月17 15:47:28",
-                        "user": {
-                          "username": "17324220167",
-                          "nickname": "用户lxsu0l",
-                          "avatar": "http://8.129.214.128:3001/imgs/avatar.jpg",
-                          "uid": "1fbebca0-867b-4f7e-80c0-144f080ed644"
-                        }
-                      }
-                    ]),
-                    Center(child: Text('Content of Profile')),
-                    Center(child: Text('Content of Profile')),
-                  ],
-                ),
-              ),
-            ]),
+                  onLoading: () => {},
+                  child: CustomScrollView(
+                      controller: state.scrollController,
+                      physics: const BouncingScrollPhysics(),
+                      slivers: <Widget>[
+                        viewService.buildComponent('appBar'),
+                        SliverToBoxAdapter(
+                            child: Container(
+                          child: Container(
+                              height: Adapt.height(20),
+                              color: Colors.grey[200]),
+                        )),
+                        SliverToBoxAdapter(
+                          child: Container(
+                              padding: EdgeInsets.fromLTRB(
+                                  Adapt.width(40),
+                                  Adapt.height(20),
+                                  Adapt.width(40),
+                                  Adapt.height(20)),
+                              height: Adapt.height(160),
+                              child: Flex(
+                                direction: Axis.horizontal,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                      flex: 5,
+                                      child: Flex(
+                                        direction: Axis.vertical,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                              flex: 1,
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    '我的家',
+                                                    style: TextStyle(
+                                                        fontSize: Adapt.sp(32),
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
+                                          Expanded(
+                                              flex: 1,
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.home_outlined,
+                                                    color: Colors.black45,
+                                                    size: 20,
+                                                  ),
+                                                  SizedBox(
+                                                    width: Adapt.width(10),
+                                                  ),
+                                                  Text('广东广州.90平米.三室')
+                                                ],
+                                              )),
+                                          Expanded(
+                                              flex: 1,
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons
+                                                        .settings_applications_outlined,
+                                                    color: Colors.black45,
+                                                    size: 20,
+                                                  ),
+                                                  SizedBox(
+                                                    width: Adapt.width(10),
+                                                  ),
+                                                  Text('已完成装修')
+                                                ],
+                                              )),
+                                        ],
+                                      )),
+                                  Expanded(
+                                      flex: 1,
+                                      child: GestureDetector(
+                                        onTap: () => {},
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              '修改',
+                                              style:
+                                                  TextStyle(color: Colors.grey),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: Adapt.height(5)),
+                                              child: Icon(
+                                                Icons.chevron_right_rounded,
+                                                color: Colors.grey,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ))
+                                ],
+                              )),
+                        ),
+                        SliverToBoxAdapter(
+                            child: Container(
+                          child: Container(
+                              height: Adapt.height(20),
+                              color: Colors.grey[200]),
+                        )),
+                        SliverPersistentHeader(
+                            pinned: true,
+                            delegate: StickyTabBarDelegate(
+                              child: PreferredSize(
+                                  preferredSize: Size.fromHeight(40),
+                                  child: Material(
+                                      color: Colors.grey[50],
+                                      child: TabBar(
+                                        onTap: (tab) => {},
+                                        labelColor: Colors.black,
+                                        controller: state.tabController,
+                                        indicatorColor: Colors.blueGrey,
+                                        // isScrollable: true,
+                                        indicatorPadding: EdgeInsets.symmetric(
+                                            horizontal: Adapt.width(80)),
+                                        unselectedLabelColor: Colors.black45,
+                                        tabs: <Widget>[
+                                          Tab(
+                                            text: '笔记',
+                                          ),
+                                          Tab(text: '收藏'),
+                                          Tab(text: '点赞'),
+                                        ],
+                                      ))),
+                            )),
+                        SliverPersistentHeader(
+                          pinned: true,
+                          delegate: StickySizedBoxDelegate(
+                            child: SizedBox(
+                              height: Adapt.height(10),
+                            ),
+                          ),
+                        ),
+                        SliverPersistentHeader(
+                          pinned: true,
+                          delegate: StickyDividerDelegate(
+                            child: Divider(
+                              thickness: Adapt.height(3),
+                              height: 3.0,
+                              indent: 0.0,
+                              color: Colors.grey[350],
+                            ),
+                          ),
+                        ),
+                        SliverToBoxAdapter(
+                          child: SizedBox(
+                            height: Adapt.height(10),
+                          ),
+                        ),
+                        SliverFillRemaining(
+                          child: TabBarView(
+                            controller: state.tabController,
+                            children: <Widget>[
+                              Center(child: Text('Content of Profile')),
+                              Center(child: Text('Content of Profile')),
+                              Center(child: Text('Content of Profile')),
+                            ],
+                          ),
+                        ),
+                      ]))
+        ]),
       );
     },
   );

@@ -9,7 +9,8 @@ class AppBarComponent extends Component<AppBarState> {
   AppBarComponent()
       : super(
           shouldUpdate: (oldState, newState) {
-            return oldState.title != newState.title ||
+            return oldState.mineUid != newState.mineUid ||
+                oldState.accountInfo != newState.accountInfo ||
                 oldState.scrollController != newState.scrollController;
           },
           effect: buildEffect(),

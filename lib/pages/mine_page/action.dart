@@ -1,11 +1,24 @@
+import 'package:bluespace/models/account_info.dart';
 import 'package:fish_redux/fish_redux.dart';
 
 //TODO replace with your own action
-enum MineAction { action, hideTip, showTip, navigatorPush, login, init }
+enum MineAction {
+  action,
+  hideTip,
+  showTip,
+  navigatorPush,
+  login,
+  init,
+  initAccountInfo
+}
 
 class MineActionCreator {
   static Action onAction() {
     return const Action(MineAction.action);
+  }
+
+  static Action initAccountInfo(AccountInfo accountInfo) {
+    return Action(MineAction.initAccountInfo, payload: accountInfo);
   }
 
   static Action showTip(String tip) {
