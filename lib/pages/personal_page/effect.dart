@@ -33,6 +33,7 @@ void _onInit(Action action, Context<PersonalState> ctx) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String uid = prefs.getString('uid');
   ctx.state.mineUid = uid;
+  ctx.dispatch(PersonalActionCreator.getAccountInfo());
 }
 
 void _onGetAccountInfo(Action action, Context<PersonalState> ctx) async {
