@@ -26,11 +26,11 @@ Effect<PersonalState> buildEffect() {
 void _onAction(Action action, Context<PersonalState> ctx) {}
 
 Future _onGetArticleList(Action action, Context<PersonalState> ctx) async {
-  String arrname = action.payload[1] == '0'
+  String arrname = action.payload[1] == 0
       ? 'production'
-      : action.payload[1] == '1'
+      : action.payload[1] == 1
           ? 'collection'
-          : action.payload[1] == '2'
+          : action.payload[1] == 2
               ? 'like'
               : '';
 
@@ -45,16 +45,47 @@ Future _onGetArticleList(Action action, Context<PersonalState> ctx) async {
   if (dataJson['code'] == 200) {
     ctx.dispatch(PersonalActionCreator.setLoading(false));
     List articleList = dataJson['data'];
-    if (action.payload[0] == 1) {
-      // ctx.dispatch(PersonalActionCreator.initArticle(articleList0));
-      ctx.dispatch(PersonalActionCreator.setLoading(false));
-      // ctx.state.refreshController.refreshCompleted();
-    } else if (dataJson['data'] != []) {
-      ctx.dispatch(PersonalActionCreator.upDateArticleList(
-          articleList, action.payload[0]));
-      ctx.state.refreshController.loadComplete();
-    } else {
-      ctx.state.refreshController.loadNoData();
+    switch (action.payload[1]) {
+      case 0:
+        if (action.payload[0] == 1) {
+          ctx.dispatch(PersonalActionCreator.initArticle(0, articleList));
+          ctx.dispatch(PersonalActionCreator.setLoading(false));
+          ctx.state.refreshController.refreshCompleted();
+        } else if (dataJson['data'] != []) {
+          ctx.dispatch(PersonalActionCreator.upDateArticleList(
+              0, articleList, action.payload[0]));
+          ctx.state.refreshController.loadComplete();
+        } else {
+          ctx.state.refreshController.loadNoData();
+        }
+        break;
+      case 1:
+        if (action.payload[0] == 1) {
+          ctx.dispatch(PersonalActionCreator.initArticle(1, articleList));
+          ctx.dispatch(PersonalActionCreator.setLoading(false));
+          ctx.state.refreshController.refreshCompleted();
+        } else if (dataJson['data'] != []) {
+          ctx.dispatch(PersonalActionCreator.upDateArticleList(
+              1, articleList, action.payload[0]));
+          ctx.state.refreshController.loadComplete();
+        } else {
+          ctx.state.refreshController.loadNoData();
+        }
+        break;
+      case 2:
+        if (action.payload[0] == 1) {
+          ctx.dispatch(PersonalActionCreator.initArticle(2, articleList));
+          ctx.dispatch(PersonalActionCreator.setLoading(false));
+          ctx.state.refreshController.refreshCompleted();
+        } else if (dataJson['data'] != []) {
+          ctx.dispatch(PersonalActionCreator.upDateArticleList(
+              2, articleList, action.payload[0]));
+          ctx.state.refreshController.loadComplete();
+        } else {
+          ctx.state.refreshController.loadNoData();
+        }
+        break;
+      default:
     }
   } else {
     Fluttertoast.showToast(msg: dataJson['msg'] ?? '获取文章列表失败!');

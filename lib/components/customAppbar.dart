@@ -32,7 +32,6 @@ class CustomAppBarState extends State<CustomAppBar> {
   final double _appBarChangeHeight = Adapt.height(200);
   final double _totalHeight = Adapt.height(900);
   void _checkTitle() {
-    print('111${widget.controller.position.pixels}');
     if (widget.controller.position.pixels >= _appBarChangeHeight) {
       double v =
           _opacityHeight - (_totalHeight - widget.controller.position.pixels);
@@ -47,7 +46,6 @@ class CustomAppBarState extends State<CustomAppBar> {
 
   @override
   void initState() {
-    print(111);
     widget.controller.addListener(_checkTitle);
     super.initState();
   }

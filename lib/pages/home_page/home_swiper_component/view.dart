@@ -7,7 +7,8 @@ import 'package:bluespace/utils/adapt.dart';
 import 'action.dart';
 import 'state.dart';
 
-Widget buildView(HomeSwiperState state, Dispatch dispatch, ViewService viewService) {
+Widget buildView(
+    HomeSwiperState state, Dispatch dispatch, ViewService viewService) {
   return _SwiperDiy(
     swiperDataList: state.swiperDataList,
   );
@@ -59,9 +60,7 @@ class _SwiperDiyState extends State<_SwiperDiy> {
                             child: Text(
                               "${widget.swiperDataList[index].title}",
                               style: TextStyle(
-                                color: Colors.white,
-                                fontSize: Adapt.sp(25)
-                              ),
+                                  color: Colors.white, fontSize: Adapt.sp(25)),
                               softWrap: false,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -77,7 +76,8 @@ class _SwiperDiyState extends State<_SwiperDiy> {
                     ),
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: NetworkImage("${widget.swiperDataList[index].img}"),
+                            image: NetworkImage(
+                                "${widget.swiperDataList[index].img}"),
                             fit: BoxFit.fill),
                         borderRadius: BorderRadius.all(
                             Radius.circular(Adapt.radius(10)))),

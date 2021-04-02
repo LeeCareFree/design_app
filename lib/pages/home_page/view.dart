@@ -38,7 +38,7 @@ Widget buildView(HomeState state, Dispatch dispatch, ViewService viewService) {
                     child: Container(
                   padding: EdgeInsets.only(
                       top: Adapt.height(10), bottom: Adapt.height(10)),
-                  child: state.bannerList.length != 0
+                  child: state.bannerList?.length != 0
                       ? viewService.buildComponent('swiper')
                       : Container(
                           margin: EdgeInsets.all(5),
@@ -57,7 +57,7 @@ Widget buildView(HomeState state, Dispatch dispatch, ViewService viewService) {
                             child: TabBar(
                                 onTap: (tab) => {
                                       dispatch(HomeActionCreator.getArticleList(
-                                          1, tab.toString()))
+                                          1, tab))
                                     },
                                 labelColor: Colors.black,
                                 controller: state.tabController,
@@ -83,26 +83,61 @@ Widget buildView(HomeState state, Dispatch dispatch, ViewService viewService) {
                 ),
               ];
             },
-            body: TabBarView(
-              controller: state.tabController,
-              children: state.tabs.asMap().entries.map((entry) {
-                return SmartRefresher(
-                    enablePullDown: true,
-                    enablePullUp: true,
-                    controller: state.refreshController,
-                    onRefresh: () => {
-                          dispatch(HomeActionCreator.getBanner()),
-                          dispatch(HomeActionCreator.getArticleList(
-                              1, entry.key.toString()))
-                        },
-                    onLoading: () => {
-                          print('loading'),
-                          dispatch(HomeActionCreator.getArticleList(
-                              state.pageIndex + 1, entry.key.toString()))
-                        },
-                    child: ArticleList(articleList: state.articleList));
-              }).toList(),
-            )));
+            body:
+                TabBarView(controller: state.tabController, children: <Widget>[
+              SmartRefresher(
+                  enablePullDown: true,
+                  enablePullUp: true,
+                  controller: state.refreshController,
+                  onRefresh: () => {
+                        dispatch(HomeActionCreator.getBanner()),
+                        dispatch(HomeActionCreator.getArticleList(1, 0))
+                      },
+                  onLoading: () => {
+                        dispatch(HomeActionCreator.getArticleList(
+                            state.pageIndex0 + 1, 0))
+                      },
+                  child: ArticleList(articleList: state.articleList0)),
+              SmartRefresher(
+                  enablePullDown: true,
+                  enablePullUp: true,
+                  controller: state.refreshController,
+                  onRefresh: () => {
+                        dispatch(HomeActionCreator.getBanner()),
+                        dispatch(HomeActionCreator.getArticleList(1, 1))
+                      },
+                  onLoading: () => {
+                        dispatch(HomeActionCreator.getArticleList(
+                            state.pageIndex1 + 1, 1))
+                      },
+                  child: ArticleList(articleList: state.articleList1)),
+              SmartRefresher(
+                  enablePullDown: true,
+                  enablePullUp: true,
+                  controller: state.refreshController,
+                  onRefresh: () => {
+                        dispatch(HomeActionCreator.getBanner()),
+                        dispatch(HomeActionCreator.getArticleList(1, 2))
+                      },
+                  onLoading: () => {
+                        dispatch(HomeActionCreator.getArticleList(
+                            state.pageIndex2 + 1, 2))
+                      },
+                  child: ArticleList(articleList: state.articleList2)),
+              SmartRefresher(
+                  enablePullDown: true,
+                  enablePullUp: true,
+                  controller: state.refreshController,
+                  onRefresh: () => {
+                        dispatch(HomeActionCreator.getBanner()),
+                        dispatch(HomeActionCreator.getArticleList(1, 3))
+                      },
+                  onLoading: () => {
+                        dispatch(HomeActionCreator.getArticleList(
+                            state.pageIndex3 + 1, 3))
+                      },
+                  child: ArticleList(articleList: state.articleList3)),
+            ])));
   });
   // return Container();
 }

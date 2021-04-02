@@ -17,9 +17,9 @@ class HomeActionCreator {
     return const Action(HomeAction.action);
   }
 
-  static Action upDateArticleList(List articleList, int pageIndex) {
+  static Action upDateArticleList(int type, List articleList, int pageIndex) {
     return Action(HomeAction.upDateArticleList,
-        payload: [articleList, pageIndex]);
+        payload: [type, articleList, pageIndex]);
   }
 
   static Action getBanner() {
@@ -34,11 +34,11 @@ class HomeActionCreator {
     return Action(HomeAction.searchBarTapped);
   }
 
-  static Action getArticleList(int page, String way) {
+  static Action getArticleList(int page, int way) {
     return Action(HomeAction.getArticleList, payload: [page, way]);
   }
 
-  static Action initArticle(List list) {
-    return Action(HomeAction.initArticle, payload: list);
+  static Action initArticle(int type, List list) {
+    return Action(HomeAction.initArticle, payload: [type, list]);
   }
 }

@@ -24,12 +24,12 @@ class PersonalActionCreator {
     return Action(PersonalAction.initArticle, payload: [type, list]);
   }
 
-  static Action upDateArticleList(List articleList, int pageIndex) {
+  static Action upDateArticleList(int type, List articleList, int pageIndex) {
     return Action(PersonalAction.upDateArticleList,
-        payload: [articleList, pageIndex]);
+        payload: [type, articleList, pageIndex]);
   }
 
-  static Action getArticleList(int page, String type) {
+  static Action getArticleList(int page, int type) {
     return Action(PersonalAction.getArticleList, payload: [page, type]);
   }
 

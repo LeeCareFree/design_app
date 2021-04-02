@@ -27,17 +27,51 @@ HomeState _onInitBanner(HomeState state, Action action) {
 
 HomeState _onInitArticle(HomeState state, Action action) {
   final HomeState newState = state.clone();
-  newState..articleList = action.payload;
-  newState..pageIndex = 1;
+  switch (action.payload[0]) {
+    case 0:
+      newState..articleList0 = action.payload[1];
+      newState..pageIndex0 = 1;
+      break;
+    case 1:
+      newState..articleList1 = action.payload[1];
+      newState..pageIndex1 = 1;
+      break;
+    case 2:
+      newState..articleList2 = action.payload[1];
+      newState..pageIndex2 = 1;
+      break;
+    case 3:
+      newState..articleList3 = action.payload[1];
+      newState..pageIndex3 = 1;
+      break;
+    default:
+  }
   return newState;
 }
 
 HomeState _onUpDateArticleList(HomeState state, Action action) {
-  List newArticleList = action.payload;
+  List newArticleList = action.payload[1];
   final HomeState newState = state.clone();
   if (newArticleList != null || newArticleList != []) {
-    newState..articleList = [...state.articleList, ...action.payload[0]];
-    newState..pageIndex = action.payload[1];
+    switch (action.payload[0]) {
+      case 0:
+        newState..articleList0 = [...state.articleList0, ...action.payload[1]];
+        newState..pageIndex0 = action.payload[2];
+        break;
+      case 1:
+        newState..articleList1 = [...state.articleList1, ...action.payload[1]];
+        newState..pageIndex1 = action.payload[2];
+        break;
+      case 2:
+        newState..articleList2 = [...state.articleList2, ...action.payload[1]];
+        newState..pageIndex2 = action.payload[2];
+        break;
+      case 3:
+        newState..articleList3 = [...state.articleList3, ...action.payload[1]];
+        newState..pageIndex3 = action.payload[2];
+        break;
+      default:
+    }
   }
 
   return newState;

@@ -60,7 +60,7 @@ class _AppState extends State<App> {
                 // enableScrollWhenRefreshCompleted:
                 //     true, //这个属性不兼容PageView和TabBarView,如果你特别需要TabBarView左右滑动,你需要把它设置为true
                 enableLoadingWhenFailed: true, //在加载失败的状态下,用户仍然可以通过手势上拉来触发加载更多
-                // hideFooterWhenNotFull: false, // Viewport不满一屏时,禁用上拉加载更多功能
+                hideFooterWhenNotFull: true, // Viewport不满一屏时,禁用上拉加载更多功能
                 enableBallisticLoad: true, // 可以通过惯性滑动触发加载更多
                 // enableLoadMoreVibrate: true,
                 child: MaterialApp(

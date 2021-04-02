@@ -26,6 +26,7 @@ Widget buildView(
                   show: true,
                 )
               : NestedScrollView(
+                  controller: state.scrollController,
                   physics: BouncingScrollPhysics(),
                   headerSliverBuilder: (context, value) {
                     return [
@@ -148,7 +149,7 @@ Widget buildView(
                                     onTap: (tab) => {
                                       dispatch(
                                           PersonalActionCreator.getArticleList(
-                                              1, tab.toString()))
+                                              1, tab))
                                     },
                                     labelColor: Colors.black,
                                     controller: state.tabController,
@@ -172,9 +173,45 @@ Widget buildView(
                   body: TabBarView(
                     controller: state.tabController,
                     children: <Widget>[
-                      ArticleList(articleList: state.articleList0),
-                      ArticleList(articleList: state.articleList1),
-                      ArticleList(articleList: state.articleList2),
+                      SmartRefresher(
+                          enablePullDown: true,
+                          enablePullUp: true,
+                          controller: state.refreshController,
+                          onRefresh: () => {
+                                dispatch(
+                                    PersonalActionCreator.getArticleList(1, 0))
+                              },
+                          onLoading: () => {
+                                dispatch(PersonalActionCreator.getArticleList(
+                                    state.pageIndex0 + 1, 0))
+                              },
+                          child: ArticleList(articleList: state.articleList0)),
+                      SmartRefresher(
+                          enablePullDown: true,
+                          enablePullUp: true,
+                          controller: state.refreshController,
+                          onRefresh: () => {
+                                dispatch(
+                                    PersonalActionCreator.getArticleList(1, 1))
+                              },
+                          onLoading: () => {
+                                dispatch(PersonalActionCreator.getArticleList(
+                                    state.pageIndex1 + 1, 1))
+                              },
+                          child: ArticleList(articleList: state.articleList1)),
+                      SmartRefresher(
+                          enablePullDown: true,
+                          enablePullUp: true,
+                          controller: state.refreshController,
+                          onRefresh: () => {
+                                dispatch(
+                                    PersonalActionCreator.getArticleList(1, 2))
+                              },
+                          onLoading: () => {
+                                dispatch(PersonalActionCreator.getArticleList(
+                                    state.pageIndex2 + 1, 2))
+                              },
+                          child: ArticleList(articleList: state.articleList2)),
                     ],
                   ))
         ]));

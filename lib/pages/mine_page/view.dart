@@ -81,7 +81,7 @@ class _SecondPanel extends StatelessWidget {
         onTap: onTap,
         child: Container(
           margin: EdgeInsets.only(bottom: Adapt.height(20)),
-          height: Adapt.height(150),
+          height: Adapt.height(180),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: Colors.blueGrey,

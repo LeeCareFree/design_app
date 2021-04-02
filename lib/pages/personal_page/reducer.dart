@@ -47,11 +47,24 @@ PersonalState _onInitArticle(PersonalState state, Action action) {
 }
 
 PersonalState _onUpDateArticleList(PersonalState state, Action action) {
-  List newArticleList = action.payload[0];
+  List newArticleList = action.payload[1];
   final PersonalState newState = state.clone();
   if (newArticleList != null || newArticleList != []) {
-    newState..articleList0 = [...state.articleList0, ...action.payload[0]];
-    newState..pageIndex0 = action.payload[1];
+    switch (action.payload[0]) {
+      case 0:
+        newState..articleList0 = [...state.articleList0, ...action.payload[1]];
+        newState..pageIndex0 = action.payload[2];
+        break;
+      case 1:
+        newState..articleList1 = [...state.articleList1, ...action.payload[1]];
+        newState..pageIndex1 = action.payload[2];
+        break;
+      case 2:
+        newState..articleList2 = [...state.articleList2, ...action.payload[1]];
+        newState..pageIndex2 = action.payload[2];
+        break;
+      default:
+    }
   }
 
   return newState;
