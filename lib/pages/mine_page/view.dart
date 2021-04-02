@@ -80,8 +80,8 @@ class _SecondPanel extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          margin: EdgeInsets.only(bottom: 25),
-          height: Adapt.height(200),
+          margin: EdgeInsets.only(bottom: Adapt.height(20)),
+          height: Adapt.height(150),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: Colors.blueGrey,

@@ -1,40 +1,38 @@
 import 'package:bluespace/models/account_info.dart';
+import 'package:bluespace/pages/personal_page/action.dart';
 import 'package:bluespace/style/themeStyle.dart';
 import 'package:bluespace/utils/adapt.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fish_redux/fish_redux.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'state.dart';
-
-Widget buildView(
-    AppBarState state, Dispatch dispatch, ViewService viewService) {
-  return _CustomAppBar(
-    accountInfo: state.accountInfo,
-    controller: state.scrollController,
-    uid: state.mineUid ?? '',
-    // menuPress: () => dispatch(MovieDetailPageActionCreator.openMenu()),
-  );
-}
-
-class _CustomAppBar extends StatefulWidget {
+class CustomAppBar extends StatefulWidget {
   final ScrollController controller;
   final AccountInfo accountInfo;
   final Function menuPress;
   final String uid;
-  const _CustomAppBar(
-      {this.controller, this.accountInfo, this.menuPress, this.uid});
+  final bool isFollow;
+  final Dispatch dispatch;
+  const CustomAppBar(
+      {this.controller,
+      this.accountInfo,
+      this.menuPress,
+      this.uid,
+      this.isFollow,
+      this.dispatch});
   @override
-  _CustomAppBarState createState() => _CustomAppBarState();
+  CustomAppBarState createState() => CustomAppBarState();
 }
 
-class _CustomAppBarState extends State<_CustomAppBar> {
+class CustomAppBarState extends State<CustomAppBar> {
   bool showBar = false;
   double _opacity = 0.0;
   final double _opacityHeight = Adapt.height(300);
   final double _appBarChangeHeight = Adapt.height(200);
   final double _totalHeight = Adapt.height(900);
   void _checkTitle() {
+    print('111${widget.controller.position.pixels}');
     if (widget.controller.position.pixels >= _appBarChangeHeight) {
       double v =
           _opacityHeight - (_totalHeight - widget.controller.position.pixels);
@@ -49,6 +47,7 @@ class _CustomAppBarState extends State<_CustomAppBar> {
 
   @override
   void initState() {
+    print(111);
     widget.controller.addListener(_checkTitle);
     super.initState();
   }
@@ -104,6 +103,8 @@ class _CustomAppBarState extends State<_CustomAppBar> {
           child: _UserInfoWidget(
             uid: widget.uid,
             accountInfo: widget.accountInfo,
+            isFollow: widget.isFollow ?? false,
+            dispatch: widget.dispatch,
           ),
         ),
         stretchModes: const <StretchMode>[
@@ -118,7 +119,10 @@ class _CustomAppBarState extends State<_CustomAppBar> {
 class _UserInfoWidget extends StatelessWidget {
   final String uid;
   final AccountInfo accountInfo;
-  const _UserInfoWidget({this.accountInfo, this.uid});
+  final bool isFollow;
+  final Dispatch dispatch;
+  const _UserInfoWidget(
+      {this.accountInfo, this.uid, this.isFollow, this.dispatch});
   @override
   Widget build(BuildContext context) {
     final ThemeData _theme = ThemeStyle.getTheme(context);
@@ -172,7 +176,7 @@ class _UserInfoWidget extends StatelessWidget {
         ),
         Row(
           children: [
-            InkWell(
+            GestureDetector(
               onTap: () => {
                 Navigator.of(context).pushNamed('userListPage',
                     arguments: {'type': 'follow', 'uid': accountInfo?.uid})
@@ -186,21 +190,18 @@ class _UserInfoWidget extends StatelessWidget {
                         fontSize: Adapt.sp(30),
                         fontWeight: FontWeight.bold),
                   ),
-                  InkWell(
-                    onTap: () {},
-                    child: Text(
-                      '关注',
-                      style: TextStyle(
-                          color: Colors.white, fontSize: Adapt.sp(24)),
-                    ),
-                  )
+                  Text(
+                    '关注',
+                    style:
+                        TextStyle(color: Colors.white, fontSize: Adapt.sp(24)),
+                  ),
                 ],
               ),
             ),
             SizedBox(
               width: Adapt.width(30),
             ),
-            InkWell(
+            GestureDetector(
               onTap: () => {
                 Navigator.of(context).pushNamed('userListPage',
                     arguments: {'type': 'fans', 'uid': accountInfo?.uid})
@@ -230,7 +231,7 @@ class _UserInfoWidget extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    '666',
+                    accountInfo?.likeColl.toString(),
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: Adapt.sp(30),
@@ -264,21 +265,51 @@ class _UserInfoWidget extends StatelessWidget {
                       ),
                     ),
                   )
-                : InkWell(
-                    onTap: () => {},
-                    child: Container(
-                      padding: EdgeInsets.fromLTRB(Adapt.width(40),
-                          Adapt.width(10), Adapt.width(40), Adapt.width(10)),
-                      decoration: BoxDecoration(
-                          color: Colors.black45,
-                          borderRadius:
-                              BorderRadius.circular(Adapt.radius(50))),
-                      child: Text(
-                        '关注',
-                        style: TextStyle(
-                            fontSize: Adapt.sp(24), color: Colors.white),
-                      ),
-                    ),
+                : Container(
+                    child: isFollow
+                        ? InkWell(
+                            onTap: () => {
+                              dispatch(PersonalActionCreator.follow('cancel'))
+                            },
+                            child: Container(
+                              padding: EdgeInsets.fromLTRB(
+                                  Adapt.width(40),
+                                  Adapt.width(10),
+                                  Adapt.width(40),
+                                  Adapt.width(10)),
+                              decoration: BoxDecoration(
+                                  color: Colors.black45,
+                                  borderRadius:
+                                      BorderRadius.circular(Adapt.radius(50))),
+                              child: Text(
+                                '已关注',
+                                style: TextStyle(
+                                    fontSize: Adapt.sp(24),
+                                    color: Colors.grey[400]),
+                              ),
+                            ),
+                          )
+                        : InkWell(
+                            onTap: () =>
+                                {dispatch(PersonalActionCreator.follow('add'))},
+                            child: Container(
+                              padding: EdgeInsets.fromLTRB(
+                                  Adapt.width(40),
+                                  Adapt.width(10),
+                                  Adapt.width(40),
+                                  Adapt.width(10)),
+                              decoration: BoxDecoration(
+                                  color: Colors.black45,
+                                  borderRadius:
+                                      BorderRadius.circular(Adapt.radius(50))),
+                              child: Text(
+                                '关注',
+                                style: TextStyle(
+                                    fontSize: Adapt.sp(24),
+                                    color: Colors.white),
+                              ),
+                            ),
+                          ),
                   ),
             SizedBox(
               width: Adapt.width(30),

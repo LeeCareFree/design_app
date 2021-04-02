@@ -60,13 +60,9 @@ class _UserListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ListView.separated(
+      child: ListView.builder(
           physics: NeverScrollableScrollPhysics(),
           itemCount: followFansList?.result?.length ?? 0,
-          separatorBuilder: (BuildContext context, int index) => Divider(
-                height: Adapt.height(30),
-                color: Color(0xFFFFFFFF),
-              ),
           shrinkWrap: true,
           itemBuilder: (BuildContext context, int index) {
             return InkWell(
@@ -108,12 +104,12 @@ class _UserListWidget extends StatelessWidget {
                         Expanded(
                             flex: 3,
                             child: _FollowFansWidget(
-                              isFocus: followFansList?.result[index]?.isFocus ??
-                                  false,
-                              isFollow: isFollow,
-                              dispatch: dispatch,
-                              uid: followFansList?.result[index]?.uid,
-                            )),
+                                isFocus:
+                                    followFansList?.result[index]?.isFocus ??
+                                        false,
+                                dispatch: dispatch,
+                                uid: followFansList?.result[index]?.uid,
+                                index: index)),
                       ],
                     )));
           }),
@@ -126,125 +122,56 @@ class _FollowFansWidget extends StatelessWidget {
   final bool isFocus;
   final Dispatch dispatch;
   final String uid;
+  final int index;
   const _FollowFansWidget(
-      {this.isFocus, this.isFollow, this.dispatch, this.uid});
+      {this.isFocus, this.isFollow, this.dispatch, this.uid, this.index});
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: isFocus
-            ? Container(
-                child: isFollow
-                    ? InkWell(
-                        onTap: () => {
-                          dispatch(UserListActionCreator.follow(
-                            'cancel',
-                            uid,
-                          ))
-                        },
-                        child: Container(
-                            padding: EdgeInsets.fromLTRB(
-                                0, Adapt.height(8), 0, Adapt.height(8)),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: Colors.blueGrey),
-                                borderRadius:
-                                    BorderRadius.circular(Adapt.radius(50))),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '互相关注',
-                                  style: TextStyle(
-                                      fontSize: Adapt.sp(28),
-                                      color: Colors.black45),
-                                ),
-                              ],
-                            )),
-                      )
-                    : InkWell(
-                        onTap: () => {
-                          dispatch(UserListActionCreator.follow(
-                            'add',
-                            uid,
-                          ))
-                        },
-                        child: Container(
-                            padding: EdgeInsets.fromLTRB(
-                                0, Adapt.height(8), 0, Adapt.height(8)),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: Colors.blueGrey),
-                                borderRadius:
-                                    BorderRadius.circular(Adapt.radius(50))),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '关注',
-                                  style: TextStyle(
-                                      fontSize: Adapt.sp(28),
-                                      color: Colors.black),
-                                ),
-                              ],
-                            )),
+      child: isFocus
+          ? InkWell(
+              onTap: () => {
+                dispatch(UserListActionCreator.follow('cancel', uid, index))
+              },
+              child: Container(
+                  padding: EdgeInsets.fromLTRB(
+                      0, Adapt.height(8), 0, Adapt.height(8)),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(Adapt.radius(50))),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '互相关注',
+                        style: TextStyle(
+                            fontSize: Adapt.sp(28), color: Colors.black45),
                       ),
-              )
-            : Container(
-                child: isFollow
-                    ? InkWell(
-                        onTap: () => {
-                          dispatch(UserListActionCreator.follow(
-                            'cancel',
-                            uid,
-                          ))
-                        },
-                        child: Container(
-                            padding: EdgeInsets.fromLTRB(
-                                0, Adapt.height(8), 0, Adapt.height(8)),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: Colors.blueGrey),
-                                borderRadius:
-                                    BorderRadius.circular(Adapt.radius(50))),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '已关注',
-                                  style: TextStyle(
-                                      fontSize: Adapt.sp(28),
-                                      color: Colors.black45),
-                                ),
-                              ],
-                            )),
-                      )
-                    : InkWell(
-                        onTap: () => {
-                          dispatch(UserListActionCreator.follow(
-                            'add',
-                            uid,
-                          ))
-                        },
-                        child: Container(
-                            padding: EdgeInsets.fromLTRB(
-                                0, Adapt.height(8), 0, Adapt.height(8)),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: Colors.blueGrey),
-                                borderRadius:
-                                    BorderRadius.circular(Adapt.radius(50))),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '关注',
-                                  style: TextStyle(
-                                      fontSize: Adapt.sp(28),
-                                      color: Colors.black),
-                                ),
-                              ],
-                            )),
+                    ],
+                  )),
+            )
+          : InkWell(
+              onTap: () =>
+                  {dispatch(UserListActionCreator.follow('add', uid, index))},
+              child: Container(
+                  padding: EdgeInsets.fromLTRB(
+                      0, Adapt.height(8), 0, Adapt.height(8)),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(Adapt.radius(50))),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '关注',
+                        style: TextStyle(
+                            fontSize: Adapt.sp(28), color: Colors.black),
                       ),
-              ));
+                    ],
+                  )),
+            ),
+    );
   }
 }

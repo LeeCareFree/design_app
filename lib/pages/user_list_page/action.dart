@@ -17,12 +17,8 @@ class UserListActionCreator {
     return const Action(UserListAction.action);
   }
 
-  static Action updataIsFollow(bool isFollow) {
-    return Action(UserListAction.updataIsFollow, payload: isFollow);
-  }
-
-  static Action follow(String type, String uid) {
-    return Action(UserListAction.follow, payload: [type, uid]);
+  static Action follow(String type, String uid, int index) {
+    return Action(UserListAction.follow, payload: [type, uid, index]);
   }
 
   static Action setLoading(bool loading) {
@@ -33,7 +29,7 @@ class UserListActionCreator {
     return Action(UserListAction.getList);
   }
 
-  static Action updateList(FollowFansList followFansList) {
-    return Action(UserListAction.updateList, payload: followFansList);
+  static Action updateList(int index, bool isFollow) {
+    return Action(UserListAction.updateList, payload: [index, isFollow]);
   }
 }

@@ -8,11 +8,37 @@ enum PersonalAction {
   getAccountInfo,
   initAccountInfo,
   setLoading,
+  follow,
+  updataIsFollow,
+  getArticleList,
+  upDateArticleList,
+  initArticle,
 }
 
 class PersonalActionCreator {
   static Action onAction() {
     return const Action(PersonalAction.action);
+  }
+
+  static Action initArticle(int type, List list) {
+    return Action(PersonalAction.initArticle, payload: [type, list]);
+  }
+
+  static Action upDateArticleList(List articleList, int pageIndex) {
+    return Action(PersonalAction.upDateArticleList,
+        payload: [articleList, pageIndex]);
+  }
+
+  static Action getArticleList(int page, String type) {
+    return Action(PersonalAction.getArticleList, payload: [page, type]);
+  }
+
+  static Action updataIsFollow(bool isFollow) {
+    return Action(PersonalAction.updataIsFollow, payload: isFollow);
+  }
+
+  static Action follow(String type) {
+    return Action(PersonalAction.follow, payload: type);
   }
 
   static Action getAccountInfo() {

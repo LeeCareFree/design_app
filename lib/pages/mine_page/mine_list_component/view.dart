@@ -10,7 +10,7 @@ Widget buildView(
     MineListState state, Dispatch dispatch, ViewService viewService) {
   return SliverList(
       delegate: SliverChildListDelegate([
-    SizedBox(height: 20),
+    SizedBox(height: Adapt.height(20)),
     _MineListGroup(children: [
       _MineListCell(
         title: '我的日记',
@@ -18,7 +18,7 @@ Widget buildView(
         onTap: () => dispatch(MineListActionCreator.toArticlePage()),
       ),
     ]),
-    SizedBox(height: 5),
+    SizedBox(height: Adapt.height(20)),
     _MineListGroup(children: [
       _MineListCell(
         title: '我的日记',
@@ -26,7 +26,7 @@ Widget buildView(
         // onTap: () => dispatch(SettingsActionCreator.adultContentTapped()),
       ),
     ]),
-    SizedBox(height: 5),
+    SizedBox(height: Adapt.height(20)),
     _MineListGroup(children: [
       _MineListCell(
         title: '我的日记',
@@ -34,7 +34,7 @@ Widget buildView(
         // onTap: () => dispatch(SettingsActionCreator.adultContentTapped()),
       ),
     ]),
-    SizedBox(height: 5),
+    SizedBox(height: Adapt.height(20)),
     _MineListGroup(children: [
       _MineListCell(
         title: '联系客服',
@@ -42,7 +42,7 @@ Widget buildView(
         // onTap: () => dispatch(SettingsActionCreator.adultContentTapped()),
       ),
     ]),
-    SizedBox(height: 5),
+    SizedBox(height: Adapt.height(20)),
     _MineListGroup(children: [
       _MineListCell(
         title: '设置',
@@ -90,7 +90,8 @@ class _MineListCell extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               image: icon != null
-                  ? DecorationImage(fit: BoxFit.cover, image: AssetImage(icon))
+                  ? DecorationImage(
+                      fit: BoxFit.fitWidth, image: AssetImage(icon))
                   : null,
             ),
           ),

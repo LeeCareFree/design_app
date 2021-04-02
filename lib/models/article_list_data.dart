@@ -19,7 +19,6 @@ class ArticleListData {
   String location;
   int like;
   int coll;
-  String createtime;
   User user;
 
   ArticleListData(
@@ -35,7 +34,6 @@ class ArticleListData {
       this.location,
       this.like,
       this.coll,
-      this.createtime,
       this.user});
 
   ArticleListData.fromJson(Map<String, dynamic> json) {
@@ -51,7 +49,6 @@ class ArticleListData {
     location = json['location'];
     like = json['like'];
     coll = json['coll'];
-    createtime = json['createtime'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
   }
 
@@ -69,7 +66,6 @@ class ArticleListData {
     data['location'] = this.location;
     data['like'] = this.like;
     data['coll'] = this.coll;
-    data['createtime'] = this.createtime;
     if (this.user != null) {
       data['user'] = this.user.toJson();
     }

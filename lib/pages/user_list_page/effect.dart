@@ -26,20 +26,11 @@ void _onInit(Action action, Context<UserListState> ctx) async {
 void _onFollow(Action action, Context<UserListState> ctx) async {
   var formData = {'muid': ctx.state.uid, 'huid': action.payload[1]};
   switch (action.payload[0]) {
-    case 'query':
-      var res = await DioUtil.request('queryFollow', formData: formData);
-      res = json.decode(res.toString());
-      if (res['code'] == 200) {
-        ctx.dispatch(UserListActionCreator.updataIsFollow(res['data']));
-      } else {
-        Fluttertoast.showToast(msg: res['msg'] ?? '查询关注失败!');
-      }
-      break;
     case 'add':
       var res = await DioUtil.request('addFollow', formData: formData);
       res = json.decode(res.toString());
       if (res['code'] == 200) {
-        ctx.dispatch(UserListActionCreator.updataIsFollow(true));
+        ctx.dispatch(UserListActionCreator.updateList(action.payload[2], true));
       } else {
         Fluttertoast.showToast(msg: res['msg'] ?? '添加关注失败!');
       }
@@ -48,7 +39,8 @@ void _onFollow(Action action, Context<UserListState> ctx) async {
       var res = await DioUtil.request('cancelFollow', formData: formData);
       res = json.decode(res.toString());
       if (res['code'] == 200 || res['code'] == 409) {
-        ctx.dispatch(UserListActionCreator.updataIsFollow(false));
+        ctx.dispatch(
+            UserListActionCreator.updateList(action.payload[2], false));
       } else {
         Fluttertoast.showToast(msg: res['msg'] ?? '取消关注失败!');
       }
@@ -68,8 +60,7 @@ void _onGetList(Action action, Context<UserListState> ctx) async {
       } else {
         FollowFansList followFansList =
             new FollowFansList.fromJson(res['data']);
-
-        ctx.dispatch(UserListActionCreator.updateList(followFansList));
+        ctx.state.followFansList = followFansList;
         ctx.state.refreshController.refreshCompleted();
         ctx.dispatch(UserListActionCreator.setLoading(false));
       }
@@ -83,8 +74,7 @@ void _onGetList(Action action, Context<UserListState> ctx) async {
       } else {
         FollowFansList followFansList =
             new FollowFansList.fromJson(res['data']);
-
-        ctx.dispatch(UserListActionCreator.updateList(followFansList));
+        ctx.state.followFansList = followFansList;
         ctx.state.refreshController.refreshCompleted();
         ctx.dispatch(UserListActionCreator.setLoading(false));
       }

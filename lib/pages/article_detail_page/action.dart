@@ -23,7 +23,7 @@ enum ArticleDetailAction {
   checkCollStatus,
   updataIsColl,
   follow,
-  updataIsFollow
+  updataIsFollow,
 }
 
 class ArticleDetailActionCreator {

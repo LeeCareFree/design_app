@@ -98,7 +98,8 @@ class _Body extends StatelessWidget {
     return SliverToBoxAdapter(
       child: SafeArea(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(0, Adapt.height(30), 0, 25),
+          padding:
+              EdgeInsets.fromLTRB(0, Adapt.height(30), 0, Adapt.height(30)),
           child: isSignIn
               ? _UserInfo(
                   profileUrl: avatar,

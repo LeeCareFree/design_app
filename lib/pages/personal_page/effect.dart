@@ -17,11 +17,83 @@ Effect<PersonalState> buildEffect() {
     PersonalAction.action: _onAction,
     PersonalAction.getAccountInfo: _onGetAccountInfo,
     Lifecycle.initState: _onInit,
-    Lifecycle.dispose: _onDispose
+    Lifecycle.dispose: _onDispose,
+    PersonalAction.follow: _onFollow,
+    PersonalAction.getArticleList: _onGetArticleList
   });
 }
 
 void _onAction(Action action, Context<PersonalState> ctx) {}
+
+Future _onGetArticleList(Action action, Context<PersonalState> ctx) async {
+  String arrname = action.payload[1] == '0'
+      ? 'production'
+      : action.payload[1] == '1'
+          ? 'collection'
+          : action.payload[1] == '2'
+              ? 'like'
+              : '';
+
+  var response = await DioUtil.request('getarrlist', formData: {
+    'page': action.payload[0],
+    'size': 10,
+    'uid': ctx.state.uid,
+    'arrname': arrname
+  });
+  var dataJson = json.decode(response.toString());
+
+  if (dataJson['code'] == 200) {
+    ctx.dispatch(PersonalActionCreator.setLoading(false));
+    List articleList = dataJson['data'];
+    if (action.payload[0] == 1) {
+      // ctx.dispatch(PersonalActionCreator.initArticle(articleList0));
+      ctx.dispatch(PersonalActionCreator.setLoading(false));
+      // ctx.state.refreshController.refreshCompleted();
+    } else if (dataJson['data'] != []) {
+      ctx.dispatch(PersonalActionCreator.upDateArticleList(
+          articleList, action.payload[0]));
+      ctx.state.refreshController.loadComplete();
+    } else {
+      ctx.state.refreshController.loadNoData();
+    }
+  } else {
+    Fluttertoast.showToast(msg: dataJson['msg'] ?? '获取文章列表失败!');
+  }
+}
+
+void _onFollow(Action action, Context<PersonalState> ctx) async {
+  var formData = {'muid': ctx.state.mineUid, 'huid': ctx.state.uid};
+  switch (action.payload) {
+    case 'query':
+      var res = await DioUtil.request('queryFollow', formData: formData);
+      res = json.decode(res.toString());
+      if (res['code'] == 200) {
+        ctx.dispatch(PersonalActionCreator.updataIsFollow(res['data']));
+      } else {
+        Fluttertoast.showToast(msg: res['msg'] ?? '查询关注失败!');
+      }
+      break;
+    case 'add':
+      var res = await DioUtil.request('addFollow', formData: formData);
+      res = json.decode(res.toString());
+      if (res['code'] == 200) {
+        ctx.dispatch(PersonalActionCreator.updataIsFollow(true));
+      } else {
+        Fluttertoast.showToast(msg: res['msg'] ?? '添加关注失败!');
+      }
+      break;
+    case 'cancel':
+      var res = await DioUtil.request('cancelFollow', formData: formData);
+      res = json.decode(res.toString());
+      if (res['code'] == 200) {
+        ctx.dispatch(PersonalActionCreator.updataIsFollow(false));
+      } else {
+        Fluttertoast.showToast(msg: res['msg'] ?? '取消关注失败!');
+      }
+      break;
+    default:
+  }
+}
 
 void _onInit(Action action, Context<PersonalState> ctx) async {
   ctx.state.refreshController = new RefreshController();
@@ -34,6 +106,30 @@ void _onInit(Action action, Context<PersonalState> ctx) async {
   String uid = prefs.getString('uid');
   ctx.state.mineUid = uid;
   ctx.dispatch(PersonalActionCreator.getAccountInfo());
+  await ctx.dispatch(PersonalActionCreator.follow('query'));
+  for (var i = 0; i < 3; i++) {
+    String arrname = i == 0
+        ? 'production'
+        : i == 1
+            ? 'collection'
+            : i == 2
+                ? 'like'
+                : '';
+    var response = await DioUtil.request('getarrlist', formData: {
+      'page': 1,
+      'size': 10,
+      'uid': ctx.state.uid,
+      'arrname': arrname
+    });
+    var dataJson = json.decode(response.toString());
+    if (dataJson['code'] == 200) {
+      ctx.dispatch(PersonalActionCreator.setLoading(false));
+      List articleList = dataJson['data'];
+      ctx.dispatch(PersonalActionCreator.initArticle(i, articleList));
+    } else {
+      Fluttertoast.showToast(msg: dataJson['msg'] ?? '获取文章列表失败!');
+    }
+  }
 }
 
 void _onGetAccountInfo(Action action, Context<PersonalState> ctx) async {
@@ -46,7 +142,7 @@ void _onGetAccountInfo(Action action, Context<PersonalState> ctx) async {
   } else {
     AccountInfo accountInfo = new AccountInfo.fromJson(accountRes['data']);
     ctx.dispatch(PersonalActionCreator.initAccountInfo(accountInfo));
-    ctx.dispatch(PersonalActionCreator.setLoading(false));
+    ctx.state.refreshController.refreshCompleted();
   }
 }
 

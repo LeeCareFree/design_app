@@ -25,16 +25,15 @@ class _FeatureCell extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: Adapt.width(120),
-        padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-        margin: EdgeInsets.fromLTRB(4, 10, 2, 10),
+        padding: EdgeInsets.fromLTRB(Adapt.width(10), Adapt.height(20),
+            Adapt.width(10), Adapt.height(20)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               width: Adapt.width(60),
-              height: Adapt.height(60),
+              height: Adapt.height(50),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 image: icon != null
@@ -68,37 +67,47 @@ class _OrderPanel extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(20)),
-      child: Row(children: [
-        _FeatureCell(
-          title: '全部订单',
-          icon: 'assets/images/order.png',
-          onTap:
-              dispatch(OrderComponentActionCreator.navigatorPush('orderPage')),
-        ),
-        _FeatureCell(
-          title: '待付款',
-          icon: 'assets/images/pay.png',
-          onTap:
-              dispatch(OrderComponentActionCreator.navigatorPush('orderPage')),
-        ),
-        _FeatureCell(
-          title: '预约',
-          icon: 'assets/images/order.png',
-          onTap:
-              dispatch(OrderComponentActionCreator.navigatorPush('orderPage')),
-        ),
-        _FeatureCell(
-          title: '设计',
-          icon: 'assets/images/refund.png',
-          onTap:
-              dispatch(OrderComponentActionCreator.navigatorPush('orderPage')),
-        ),
-        _FeatureCell(
-          title: '退款/售后',
-          icon: 'assets/images/refund.png',
-          onTap:
-              dispatch(OrderComponentActionCreator.navigatorPush('orderPage')),
-        ),
+      child: Flex(direction: Axis.horizontal, children: [
+        Expanded(
+            flex: 1,
+            child: _FeatureCell(
+              title: '全部订单',
+              icon: 'assets/images/order.png',
+              onTap: dispatch(
+                  OrderComponentActionCreator.navigatorPush('orderPage')),
+            )),
+        Expanded(
+            flex: 1,
+            child: _FeatureCell(
+              title: '待付款',
+              icon: 'assets/images/pay.png',
+              onTap: dispatch(
+                  OrderComponentActionCreator.navigatorPush('orderPage')),
+            )),
+        Expanded(
+            flex: 1,
+            child: _FeatureCell(
+              title: '预约',
+              icon: 'assets/images/order.png',
+              onTap: dispatch(
+                  OrderComponentActionCreator.navigatorPush('orderPage')),
+            )),
+        Expanded(
+            flex: 1,
+            child: _FeatureCell(
+              title: '设计',
+              icon: 'assets/images/refund.png',
+              onTap: dispatch(
+                  OrderComponentActionCreator.navigatorPush('orderPage')),
+            )),
+        Expanded(
+            flex: 1,
+            child: _FeatureCell(
+              title: '退款/售后',
+              icon: 'assets/images/refund.png',
+              onTap: dispatch(
+                  OrderComponentActionCreator.navigatorPush('orderPage')),
+            )),
       ]),
     );
   }
