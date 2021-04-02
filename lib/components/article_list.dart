@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-15 18:14:14
- * @LastEditTime: 2021-03-30 11:45:22
+ * @LastEditTime: 2021-03-31 12:49:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \design_app\lib\components\article_list.dart
@@ -33,7 +33,7 @@ class ArticleList extends StatelessWidget {
                 arguments: {'aid': item.aid, 'type': item.type});
           },
           child: ArticleItem(
-            img: item.type == '2' ? item.imgList[0] : item.cover,
+            img: item.type == "2" ? item.imgList[0] : item.cover,
             title: item.title,
             username: item.user.nickname ?? item.user.username,
             avatar: item.user.avatar,
@@ -86,12 +86,17 @@ class ArticleItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
+            // height: 250,
             width: Adapt.screenW(),
             child: ClipRRect(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(Adapt.width(5)),
                     topRight: Radius.circular(Adapt.width(5))),
-                child: ItemFitWidthNetImage(img, Adapt.screenW() / 2 - 10)),
+                child: FadeInImage(
+                    // image: NetworkImage(url),
+                    image: NetworkImage(img),
+                    placeholder: AssetImage('assets/images/outfigure.gif'),
+                    fit: BoxFit.cover)),
           ),
           type == '1'
               ? Container(
