@@ -47,7 +47,8 @@ Widget buildView(
       _MineListCell(
         title: '设置',
         icon: 'assets/images/set.png',
-        // onTap: () => dispatch(SettingsActionCreator.adultContentTapped()),
+        onTap: () =>
+            Navigator.of(viewService.context).pushNamed('appSettingPage'),
       ),
     ]),
   ]));

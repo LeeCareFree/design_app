@@ -14,56 +14,8 @@ import 'state.dart';
 Widget buildView(StartState state, Dispatch dispatch, ViewService viewService) {
   return new Scaffold(
     resizeToAvoidBottomInset: false,
-    body: state.isLogin
+    body: state.type == 'againLogin'
         ? Stack(
-            alignment: Alignment.bottomCenter,
-            children: <Widget>[
-              new Container(
-                color: Colors.white,
-                child: new Image.network(
-                  'http://8.129.214.128:3001/upload/publish/launch_image.jpg',
-                  fit: BoxFit.cover,
-                ),
-                constraints: new BoxConstraints.expand(),
-              ),
-              new Container(
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: new Container(
-                      padding: const EdgeInsets.only(top: 30.0, right: 20.0),
-                      child: GestureDetector(
-                        onTap: () => {dispatch(StartActionCreator.onJump())},
-                        child: new Stack(
-                          alignment: Alignment.center,
-                          children: <Widget>[
-                            Positioned(
-                              top: 0,
-                              right: 0,
-                              child: Container(
-                                padding: EdgeInsets.all(Adapt.width(20)),
-                                margin: EdgeInsets.fromLTRB(
-                                    0, Adapt.height(20), 0, 0),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(
-                                        Adapt.radius(500))),
-                                child: Text(
-                                  '跳过',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 13.5,
-                                      decoration: TextDecoration.none),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )),
-                ),
-              ),
-            ],
-          )
-        : Stack(
             children: <Widget>[
               _BackGround(controller: state.animationController),
               _LoginBody(
@@ -78,7 +30,74 @@ Widget buildView(StartState state, Dispatch dispatch, ViewService viewService) {
               ),
               _AppBar(),
             ],
-          ),
+          )
+        : state.isLogin
+            ? Stack(
+                alignment: Alignment.bottomCenter,
+                children: <Widget>[
+                  new Container(
+                    color: Colors.white,
+                    child: new Image.network(
+                      'http://8.129.214.128:3001/upload/publish/launch_image.jpg',
+                      fit: BoxFit.cover,
+                    ),
+                    constraints: new BoxConstraints.expand(),
+                  ),
+                  new Container(
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: new Container(
+                          padding:
+                              const EdgeInsets.only(top: 30.0, right: 20.0),
+                          child: GestureDetector(
+                            onTap: () =>
+                                {dispatch(StartActionCreator.onJump())},
+                            child: new Stack(
+                              alignment: Alignment.center,
+                              children: <Widget>[
+                                Positioned(
+                                  top: 0,
+                                  right: 0,
+                                  child: Container(
+                                    padding: EdgeInsets.all(Adapt.width(20)),
+                                    margin: EdgeInsets.fromLTRB(
+                                        0, Adapt.height(20), 0, 0),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(
+                                            Adapt.radius(500))),
+                                    child: Text(
+                                      '跳过',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 13.5,
+                                          decoration: TextDecoration.none),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )),
+                    ),
+                  ),
+                ],
+              )
+            : Stack(
+                children: <Widget>[
+                  _BackGround(controller: state.animationController),
+                  _LoginBody(
+                    animationController: state.animationController,
+                    submitAnimationController: state.submitAnimationController,
+                    isPhoneLogin: state.isPhoneLogin,
+                    userFocusNode: state.userFocusNode,
+                    pwdFocusNode: state.pwdFocusNode,
+                    userTextController: state.userTextController,
+                    passwordTextController: state.passwordTextController,
+                    dispatch: dispatch,
+                  ),
+                  _AppBar(),
+                ],
+              ),
   );
 }
 

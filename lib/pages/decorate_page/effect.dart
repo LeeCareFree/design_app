@@ -170,7 +170,7 @@ void _onPublishArticle(Action action, Context<DecorateState> ctx) async {
     // 次卧描述
     var secondBedroomImgList = await getImgs(ctx.state.secondBedroomImages);
     // 卫生间描述
-    var toiletImgList = await getImgs(ctx.state.titleImages);
+    var toiletImgList = await getImgs(ctx.state.toiletImages);
     // 书房描述
     var studyRoomImgList = await getImgs(ctx.state.studyRoomImages);
     // 阳台描述
@@ -236,7 +236,7 @@ void _onPublishArticle(Action action, Context<DecorateState> ctx) async {
     } else {
       Fluttertoast.showToast(msg: '发布成功');
       print(data['data']['aid']);
-      Navigator.of(ctx.context).pushNamed('articleDetailPage',
+      Navigator.of(ctx.context).pushReplacementNamed('articleDetailPage',
           arguments: {'aid': data['data']['aid'], 'type': '2'});
     }
   } else {
@@ -281,14 +281,22 @@ void _onInit(Action action, Context<DecorateState> ctx) {
 Future getImgs(List<Asset> oldImgs) async {
   if (oldImgs != null) {
     List<MultipartFile> imageList = new List<MultipartFile>();
-    for (int i = 0; i < oldImgs.length; i++) {
+    for (Asset imageAsset in oldImgs) {
       //将图片转为二进制数据
-      ByteData byteData = await oldImgs[i].getByteData();
+      int quality = 100;
+      if (imageAsset.originalWidth > 1024) {
+        quality = 50;
+      } else if (imageAsset.originalWidth > 512) {
+        quality = 60;
+      } else if (imageAsset.originalWidth > 256) {
+        quality = 70;
+      }
+      ByteData byteData = await imageAsset.getByteData(quality: quality);
       List<int> imageData = byteData.buffer.asUint8List();
       MultipartFile multipartFile = new MultipartFile.fromBytes(
         imageData,
         //这个字段要有，否则后端接收为null
-        filename: oldImgs[i].name,
+        filename: imageAsset.name,
         //请求contentType，设置一下，不设置的话默认的是application/octet/stream，后台可以接收到数据，但上传后是.octet-stream文件
         contentType: MediaType("image", "jpg"),
       );

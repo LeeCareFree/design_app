@@ -46,8 +46,62 @@ Widget buildView(
                     : Container(),
                 IconButton(
                     icon: const Icon(Icons.more_vert),
-                    onPressed: () =>
-                        dispatch(ArticleDetailActionCreator.openMenu()))
+                    onPressed: () => {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return Container(
+                                  height: Adapt.height(200),
+                                  child: Column(
+                                    children: <Widget>[
+                                      ListTile(
+                                          leading: Icon(Icons
+                                              .report_gmailerrorred_outlined),
+                                          title: Text("删除文章"),
+                                          onTap: () => {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return AlertDialog(
+                                                      title: Text("提示"),
+                                                      content:
+                                                          Text("确定要删除这篇文章吗？"),
+                                                      actions: <Widget>[
+                                                        TextButton(
+                                                          child: Text(
+                                                            "取消",
+                                                          ),
+                                                          onPressed: () => {
+                                                            Navigator.pop(
+                                                                context),
+                                                            Navigator.pop(
+                                                                context),
+                                                          },
+                                                        ),
+                                                        TextButton(
+                                                            child: Text(
+                                                              "确定",
+                                                            ),
+                                                            onPressed: () => {
+                                                                  dispatch(
+                                                                      ArticleDetailActionCreator
+                                                                          .deleteArticle()),
+                                                                }),
+                                                      ],
+                                                    );
+                                                  },
+                                                )
+                                              }),
+                                      ListTile(
+                                        leading: Icon(Icons.cancel_outlined),
+                                        title: Text("取消"),
+                                        onTap: () => Navigator.pop(context),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              })
+                        })
               ],
             ),
             bottomNavigationBar: (!state.isLoading
@@ -121,8 +175,62 @@ Widget buildView(
                       : Container(),
                   IconButton(
                       icon: const Icon(Icons.more_vert),
-                      onPressed: () =>
-                          dispatch(ArticleDetailActionCreator.openMenu()))
+                      onPressed: () => {
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (context) {
+                                  return Container(
+                                    height: Adapt.height(200),
+                                    child: Column(
+                                      children: <Widget>[
+                                        ListTile(
+                                            leading: Icon(Icons
+                                                .report_gmailerrorred_outlined),
+                                            title: Text("删除文章"),
+                                            onTap: () => {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return AlertDialog(
+                                                        title: Text("提示"),
+                                                        content:
+                                                            Text("确定要删除这篇文章吗？"),
+                                                        actions: <Widget>[
+                                                          TextButton(
+                                                            child: Text(
+                                                              "取消",
+                                                            ),
+                                                            onPressed: () => {
+                                                              Navigator.pop(
+                                                                  context),
+                                                              Navigator.pop(
+                                                                  context),
+                                                            },
+                                                          ),
+                                                          TextButton(
+                                                              child: Text(
+                                                                "确定",
+                                                              ),
+                                                              onPressed: () => {
+                                                                    dispatch(
+                                                                        ArticleDetailActionCreator
+                                                                            .deleteArticle()),
+                                                                  }),
+                                                        ],
+                                                      );
+                                                    },
+                                                  )
+                                                }),
+                                        ListTile(
+                                          leading: Icon(Icons.cancel_outlined),
+                                          title: Text("取消"),
+                                          onTap: () => Navigator.pop(context),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                })
+                          })
                 ],
               ),
               bottomNavigationBar: (!state.isLoading

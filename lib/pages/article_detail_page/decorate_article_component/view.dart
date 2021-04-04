@@ -131,7 +131,7 @@ class _ArticleContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.all(Adapt.height(25)),
+        margin: EdgeInsets.all(Adapt.height(20)),
         child: SingleChildScrollView(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

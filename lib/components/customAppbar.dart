@@ -248,7 +248,10 @@ class _UserInfoWidget extends StatelessWidget {
             ),
             uid == accountInfo?.uid
                 ? InkWell(
-                    onTap: () => {},
+                    onTap: () => {
+                      Navigator.of(context).pushNamed('personalSettingPage',
+                          arguments: {'accountInfo': accountInfo})
+                    },
                     child: Container(
                       padding: EdgeInsets.fromLTRB(Adapt.width(40),
                           Adapt.width(10), Adapt.width(40), Adapt.width(10)),
@@ -314,7 +317,8 @@ class _UserInfoWidget extends StatelessWidget {
             ),
             uid == accountInfo?.uid
                 ? InkWell(
-                    onTap: () => {},
+                    onTap: () =>
+                        {Navigator.of(context).pushNamed('appSettingPage')},
                     child: Container(
                       padding: EdgeInsets.fromLTRB(Adapt.width(20),
                           Adapt.width(10), Adapt.width(20), Adapt.width(10)),

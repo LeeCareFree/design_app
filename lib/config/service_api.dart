@@ -9,6 +9,7 @@ const servicePath = {
   'articlelist': serviceUrl + 'articles/getlist',
   'token': serviceUrl + 'token/checkToken',
   'articleDetail': serviceUrl + 'articles/query',
+  'deleteArticle': serviceUrl + 'articles/delete',
   'publishComment': serviceUrl + 'comments/push',
   'deleteComment': serviceUrl + 'comments/delete',
   // 查询是否点赞收藏文章
@@ -26,4 +27,6 @@ const servicePath = {
   'cancelFollow': serviceUrl + 'users/follow/cancel',
   // 获取作品收藏关注粉丝等列表
   'getarrlist': serviceUrl + 'users/getarrlist',
+  // 获取作品收藏关注粉丝等列表
+  'setting': serviceUrl + 'users/setting',
 };

@@ -29,49 +29,11 @@ Widget buildView(
     overlayEntry = null;
   }
 
-  void _showMenu() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.clear();
-    OverlayEntry menuOverlayEntry;
-    menuOverlayEntry = OverlayEntry(
-      builder: (context) {
-        return Stack(
-          children: <Widget>[
-            Positioned.fill(
-                child: GestureDetector(
-              onTap: () => _closeMenu(menuOverlayEntry),
-              child: Container(
-                color: Colors.transparent,
-              ),
-            )),
-            UserMenu(
-              onNotificationTap: () {
-                _closeMenu(menuOverlayEntry);
-                // dispatch(MineActionCreator.openNotifications());
-              },
-              onPaymentTap: () {
-                _closeMenu(menuOverlayEntry);
-                // dispatch(MineActionCreator.paymentTap());
-              },
-              onSignOut: () {
-                _closeMenu(menuOverlayEntry);
-                // dispatch(MineActionCreator.signOut());
-              },
-            )
-          ],
-        );
-      },
-    );
-    state.overlayStateKey.currentState.setOverlayEntry(menuOverlayEntry);
-    Overlay.of(viewService.context).insert(menuOverlayEntry);
-  }
-
   return _Body(
     isSignIn: state.name != null,
     user: state.user,
     name: state.name,
     avatar: state.avatar,
-    openMenu: _showMenu,
     onSignIn: () => dispatch(MineActionCreator.onLogin()),
     overlayStateKey: state.overlayStateKey,
   );

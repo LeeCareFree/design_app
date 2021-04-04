@@ -40,33 +40,16 @@ class DioUtil {
         response = await dio.post(servicePath[url], data: formData);
         print(formData);
       }
-
       if (response.statusCode == 200) {
         var responseData = json.decode(response.data);
         print(responseData);
-        // print(responseData['status'].toString() == '401');
 
-        //判断是否有权限，
-        if (responseData['code'].toString() == '401') {
-          print(responseData['code']);
-
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.clear();
-
-          //在这里跳转，点赞功能会出问题：总是跳转。改成更改登录状态
-          // Navigator.of(context).pushNamed('login_page');
-
-          // Provider.of<IsLoginModal>(context).changeLoginState(false);
-          loading = false;
-
-          return null;
-        }
-
-        loading = false;
         return response.data;
+      } else if (response.statusCode == 401) {
+        //判断是否有权限，
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.clear();
       } else {
-        loading = false;
-
         throw Exception('后端接口出现异常，请检测代码和服务器情况.........');
       }
     } catch (e) {
@@ -104,13 +87,7 @@ class DioUtil {
           }
           SharedPreferences prefs = await SharedPreferences.getInstance();
           final token = prefs.getString('token') ?? '';
-          if (token == '') {
-            Navigator.of(context).pushNamed(
-              'loginPage',
-            );
-          } else {
-            return token;
-          }
+          return token;
         });
         return future.then((value) {
           if (value != null) {

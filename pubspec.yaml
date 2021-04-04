@@ -50,6 +50,7 @@ dependencies:
   pull_to_refresh: ^1.6.4
   flutter_gifimage: ^1.0.1
   chewie: ^1.0.0
+  flutter_image_compress: ^1.0.0
 
 
 dev_dependencies:

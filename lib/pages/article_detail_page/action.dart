@@ -24,11 +24,16 @@ enum ArticleDetailAction {
   updataIsColl,
   follow,
   updataIsFollow,
+  deleteArticle
 }
 
 class ArticleDetailActionCreator {
   static Action onAction() {
     return const Action(ArticleDetailAction.action);
+  }
+
+  static Action deleteArticle() {
+    return const Action(ArticleDetailAction.deleteArticle);
   }
 
   static Action updataIsFollow(bool isFollow) {

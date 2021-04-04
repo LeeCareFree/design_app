@@ -25,11 +25,27 @@ Effect<ArticleDetailState> buildEffect() {
     ArticleDetailAction.checkCollStatus: _onCheckCollStatus,
     ArticleDetailAction.cancelColl: _onCancelColl,
     ArticleDetailAction.follow: _onFollow,
+    ArticleDetailAction.deleteArticle: _onDeleteArticle,
     Lifecycle.initState: _onInit,
   });
 }
 
 void _onAction(Action action, Context<ArticleDetailState> ctx) {}
+
+void _onDeleteArticle(Action action, Context<ArticleDetailState> ctx) async {
+  var res =
+      await DioUtil.request('deleteArticle', formData: {'aid': ctx.state.aid});
+  res = json.decode(res.toString());
+  if (res['code'] == 200) {
+    Navigator.pop(ctx.context);
+    Navigator.pop(ctx.context);
+    Navigator.pop(ctx.context);
+    Fluttertoast.showToast(msg: res['msg'] ?? '文章删除成功!');
+  } else {
+    Fluttertoast.showToast(msg: res['msg'] ?? '删除文章失败!');
+  }
+}
+
 void _onFollow(Action action, Context<ArticleDetailState> ctx) async {
   var formData = {
     'muid': ctx.state.uid,

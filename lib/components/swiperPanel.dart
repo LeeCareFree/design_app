@@ -113,7 +113,6 @@ class _BackDropCell extends StatelessWidget {
     final _width = Adapt.screenW() - _padding * 2;
     final _height = _width * 9 / 16;
     return Container(
-      margin: EdgeInsets.fromLTRB(Adapt.width(20), 0, Adapt.width(20), 0),
       height: _height,
       width: _width,
       child: ItemFitWidthNetImage(imageUrl, Adapt.screenW() - Adapt.width(60)),

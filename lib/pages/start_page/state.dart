@@ -16,9 +16,11 @@ class StartState implements Cloneable<StartState> {
   bool isPhoneLogin;
   PageController pageController;
   bool isLogin = true;
+  String type = '';
   @override
   StartState clone() {
     return StartState()
+      ..type = type
       ..user = user
       ..pwd = pwd
       ..pwdFocusNode = pwdFocusNode
@@ -34,5 +36,9 @@ class StartState implements Cloneable<StartState> {
 }
 
 StartState initState(Map<String, dynamic> args) {
-  return StartState();
+  StartState state = new StartState();
+  if (args != null) {
+    state.type = args['type'] ?? '';
+  }
+  return state;
 }

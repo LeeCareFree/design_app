@@ -54,7 +54,7 @@ void _onOpenGallery(Action action, Context<PublishState> ctx) async {
     //最多选择几张照片
     maxImages: 9,
     //是否可以拍照
-    enableCamera: true,
+    // enableCamera: true,
     selectedAssets: ctx.state.images,
     materialOptions: MaterialOptions(
         startInAllView: true,
@@ -78,19 +78,28 @@ Future _onPublish(Action action, Context<PublishState> ctx) async {
     Fluttertoast.showToast(msg: '标题和描述不能为空！');
   } else {
     List<MultipartFile> imageList = new List<MultipartFile>();
-    for (int i = 0; i < ctx.state.images.length; i++) {
+    for (Asset imageAsset in ctx.state.images) {
       //将图片转为二进制数据
-      ByteData byteData = await ctx.state.images[i].getByteData();
+      int quality = 100;
+      if (imageAsset.originalWidth > 1024) {
+        quality = 50;
+      } else if (imageAsset.originalWidth > 512) {
+        quality = 60;
+      } else if (imageAsset.originalWidth > 256) {
+        quality = 70;
+      }
+      ByteData byteData = await imageAsset.getByteData(quality: quality);
       List<int> imageData = byteData.buffer.asUint8List();
       MultipartFile multipartFile = new MultipartFile.fromBytes(
         imageData,
         //这个字段要有，否则后端接收为null
-        filename: ctx.state.images[i].name,
+        filename: imageAsset.name,
         //请求contentType，设置一下，不设置的话默认的是application/octet/stream，后台可以接收到数据，但上传后是.octet-stream文件
         contentType: MediaType("image", "jpg"),
       );
       imageList.add(multipartFile);
     }
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final uid = prefs.getString('uid') ?? '';
     FormData formData = new FormData.fromMap({
@@ -110,7 +119,7 @@ Future _onPublish(Action action, Context<PublishState> ctx) async {
       Fluttertoast.showToast(msg: data['msg'] ?? '请稍后再试！');
     } else {
       Fluttertoast.showToast(msg: '发布成功');
-      Navigator.of(ctx.context).pushNamed('articleDetailPage',
+      Navigator.of(ctx.context).pushReplacementNamed('articleDetailPage',
           arguments: {'aid': data['data']['aid'], 'type': '2'});
     }
   }
