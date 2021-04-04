@@ -95,7 +95,8 @@ class CustomAppBarState extends State<CustomAppBar> {
             image: DecorationImage(
                 fit: BoxFit.cover,
                 image: CachedNetworkImageProvider(
-                  'http://8.129.214.128:3001/upload/publish/Screenshot_20210314_133329.jpg',
+                  widget.accountInfo?.bgimg ??
+                      'http://8.129.214.128:3001/upload/publish/Screenshot_20210314_133329.jpg',
                 )),
           ),
           child: _UserInfoWidget(
@@ -166,7 +167,7 @@ class _UserInfoWidget extends StatelessWidget {
           height: Adapt.height(20),
         ),
         Text(
-          '诗长满羽毛栖息在窗台',
+          accountInfo?.introduction ?? '诗长满羽毛栖息在窗台',
           style: TextStyle(color: Colors.white),
         ),
         SizedBox(

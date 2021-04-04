@@ -82,6 +82,7 @@ Widget buildView(
             },
           ),
           _Menu(
+            oldBackgroundImg: state.oldBackgroundImg,
             text: '封面',
             backgroundImg: state.backgroundImg,
             content: Container(),
@@ -157,6 +158,7 @@ class _Menu extends StatelessWidget {
   final Asset profile;
   final String type;
   final String oldProfile;
+  final String oldBackgroundImg;
   const _Menu(
       {this.type,
       this.profile,
@@ -164,7 +166,8 @@ class _Menu extends StatelessWidget {
       this.text,
       this.backgroundImg,
       this.content,
-      this.oldProfile});
+      this.oldProfile,
+      this.oldBackgroundImg});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -210,13 +213,25 @@ class _Menu extends StatelessWidget {
                                 ),
                               ))
                         : text == '封面'
-                            ? backgroundImg != null
+                            ? (oldBackgroundImg != null &&
+                                    backgroundImg != null)
                                 ? AssetThumb(
                                     asset: backgroundImg,
                                     width: 200,
                                     height: 100,
                                   )
-                                : SizedBox()
+                                : Container(
+                                    width: Adapt.width(200),
+                                    height: Adapt.height(100),
+                                    decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: CachedNetworkImageProvider(
+                                            oldBackgroundImg,
+                                          ),
+                                        )),
+                                  )
                             : content
                   ])),
               Expanded(flex: 1, child: Icon(Icons.chevron_right_outlined)),

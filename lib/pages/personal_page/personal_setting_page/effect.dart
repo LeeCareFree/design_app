@@ -111,6 +111,7 @@ void _onSubmit(Action action, Context<PersonalSettingState> ctx) async {
     data = json.decode(data.toString());
     if (data['code'] == 200) {
       Fluttertoast.showToast(msg: data['msg'] ?? '编辑成功!');
+      Navigator.of(ctx.context).pop('111');
     } else {
       Fluttertoast.showToast(msg: data['msg'] ?? '编辑失败!');
     }
