@@ -12,61 +12,39 @@ import 'package:bluespace/utils/adapt.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../style/themeStyle.dart';
 import 'action.dart';
 import 'state.dart';
 
 Widget buildView(MineState state, Dispatch dispatch, ViewService viewService) {
-  return Builder(
-    builder: (context) {
-      final _theme = ThemeStyle.getTheme(context);
-      return Scaffold(
-        backgroundColor: const Color(0xFFEDF6FD),
-        body: AnnotatedRegion<SystemUiOverlayStyle>(
-          value: _theme.brightness == Brightness.light
-              ? SystemUiOverlayStyle.dark
-              : SystemUiOverlayStyle.light,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: Adapt.width(40)),
-            child: CustomScrollView(
-              physics: BouncingScrollPhysics(),
-              // scrollDirection: Axis.horizontal,
-              slivers: [
-                viewService.buildComponent('userInfo'),
-                _SecondPanel(
-                    uid: state.uid,
-                    accountInfo: state.accountInfo,
-                    onTap: () => dispatch(MineActionCreator.showTip('这是提示'))),
-                viewService.buildComponent('order'),
-                viewService.buildComponent('mineList')
-                // Text('111')
-                // SliverToBoxAdapter(
-                //     child: _TipPanel(
-                //   show: state.showTip,
-                //   tip: state.tip,
-                //   autoClose: true,
-                //   onChange: (show) => dispatch(AccountActionCreator.hideTip()),
-                // )),
-                // SliverToBoxAdapter(
-                //   child: _TabBarPanel(
-                //     currentIndex: state.selectedTabBarIndex,
-                //     onTap: (index) =>
-                //         dispatch(AccountActionCreator.onTabBarTap(index)),
-                //   ),
-                // ),
-                // _FeaturesPanel(
-                //   index: state.selectedTabBarIndex,
-                //   dispatch: dispatch,
-                //   viewService: viewService,
-                // )
-              ],
-            ),
+  final _theme = ThemeStyle.getTheme(viewService.context);
+  return SmartRefresher(
+      enablePullDown: true,
+      controller: state.refreshController,
+      onRefresh: () => {
+            dispatch(MineActionCreator.refreshPage()),
+          },
+      child: Scaffold(
+        // backgroundColor: const Color(0xFFEDF6FD),
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: Adapt.width(40)),
+          child: CustomScrollView(
+            physics: BouncingScrollPhysics(),
+            // scrollDirection: Axis.horizontal,
+            slivers: [
+              viewService.buildComponent('userInfo'),
+              _SecondPanel(
+                  uid: state.uid,
+                  accountInfo: state.accountInfo,
+                  onTap: () => dispatch(MineActionCreator.showTip('这是提示'))),
+              viewService.buildComponent('order'),
+              viewService.buildComponent('mineList')
+            ],
           ),
         ),
-      );
-    },
-  );
+      ));
 }
 
 class _SecondPanel extends StatelessWidget {

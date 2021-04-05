@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 import 'package:http_parser/http_parser.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'action.dart';
 import 'state.dart';
 import 'package:bluespace/models/account_info.dart';
@@ -110,6 +111,17 @@ void _onSubmit(Action action, Context<PersonalSettingState> ctx) async {
     var data = await DioUtil.request('setting', formData: formData);
     data = json.decode(data.toString());
     if (data['code'] == 200) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString(
+        'username',
+        ctx.state.nickname,
+      );
+      // prefs.setString(
+      //   'avatar',
+      // );
+      Navigator.of(ctx.context).pop();
+      Navigator.of(ctx.context).restorablePopAndPushNamed('personalPage',
+          arguments: {'uid': ctx.state.accountInfo?.uid});
       Fluttertoast.showToast(msg: data['msg'] ?? '编辑成功!');
     } else {
       Fluttertoast.showToast(msg: data['msg'] ?? '编辑失败!');

@@ -14,7 +14,8 @@ Widget buildView(
   final _theme = ThemeStyle.getTheme(viewService.context);
   return WillPopScope(
       onWillPop: () {
-        Navigator.of(viewService.context).pushReplacementNamed('personalPage',
+        Navigator.pop(viewService.context);
+        Navigator.of(viewService.context).popAndPushNamed('personalPage',
             result: false, arguments: {'uid': state.accountInfo?.uid});
 
         ///true：表示执行页面返回    false:表示不执行返回页面操作，这里因为要传值，所以接管返回操作

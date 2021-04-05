@@ -4,6 +4,7 @@ import 'package:bluespace/components/asperctRaioImage.dart';
 import 'package:bluespace/components/loading.dart';
 import 'package:bluespace/components/swiperPanel.dart';
 import 'package:bluespace/models/article_detail.dart';
+import 'package:bluespace/router/PopRouter.dart';
 import 'package:bluespace/style/themeStyle.dart';
 import 'package:bluespace/utils/adapt.dart';
 import 'package:fish_redux/fish_redux.dart';
@@ -51,47 +52,52 @@ Widget buildView(
                               context: context,
                               builder: (context) {
                                 return Container(
-                                  height: Adapt.height(200),
+                                  height:
+                                      state.uid == state.articleInfo?.user?.uid
+                                          ? Adapt.height(200)
+                                          : Adapt.height(100),
                                   child: Column(
                                     children: <Widget>[
-                                      ListTile(
-                                          leading: Icon(Icons
-                                              .report_gmailerrorred_outlined),
-                                          title: Text("删除文章"),
-                                          onTap: () => {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return AlertDialog(
-                                                      title: Text("提示"),
-                                                      content:
-                                                          Text("确定要删除这篇文章吗？"),
-                                                      actions: <Widget>[
-                                                        TextButton(
-                                                          child: Text(
-                                                            "取消",
-                                                          ),
-                                                          onPressed: () => {
-                                                            Navigator.pop(
-                                                                context),
-                                                            Navigator.pop(
-                                                                context),
-                                                          },
-                                                        ),
-                                                        TextButton(
-                                                            child: Text(
-                                                              "确定",
+                                      state.uid == state.articleInfo?.user?.uid
+                                          ? ListTile(
+                                              leading: Icon(Icons
+                                                  .report_gmailerrorred_outlined),
+                                              title: Text("删除文章"),
+                                              onTap: () => {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return AlertDialog(
+                                                          title: Text("提示"),
+                                                          content: Text(
+                                                              "确定要删除这篇文章吗？"),
+                                                          actions: <Widget>[
+                                                            TextButton(
+                                                              child: Text(
+                                                                "取消",
+                                                              ),
+                                                              onPressed: () => {
+                                                                Navigator.pop(
+                                                                    context),
+                                                                Navigator.pop(
+                                                                    context),
+                                                              },
                                                             ),
-                                                            onPressed: () => {
-                                                                  dispatch(
-                                                                      ArticleDetailActionCreator
-                                                                          .deleteArticle()),
-                                                                }),
-                                                      ],
-                                                    );
-                                                  },
-                                                )
-                                              }),
+                                                            TextButton(
+                                                                child: Text(
+                                                                  "确定",
+                                                                ),
+                                                                onPressed:
+                                                                    () => {
+                                                                          dispatch(
+                                                                              ArticleDetailActionCreator.deleteArticle()),
+                                                                        }),
+                                                          ],
+                                                        );
+                                                      },
+                                                    )
+                                                  })
+                                          : Container(),
                                       ListTile(
                                         leading: Icon(Icons.cancel_outlined),
                                         title: Text("取消"),
@@ -142,6 +148,8 @@ Widget buildView(
                                   controller: state.commentTextController,
                                   commentFocusNode: state.commentFocusNode,
                                   commentLikeCount: state.commentLikeCount,
+                                  isSelf:
+                                      state.uid == state.articleInfo?.user?.uid,
                                   dispatch: dispatch,
                                 ),
                               ]))
@@ -180,47 +188,53 @@ Widget buildView(
                                 context: context,
                                 builder: (context) {
                                   return Container(
-                                    height: Adapt.height(200),
+                                    height: state.uid ==
+                                            state.articleInfo?.user?.uid
+                                        ? Adapt.height(200)
+                                        : Adapt.height(100),
                                     child: Column(
                                       children: <Widget>[
-                                        ListTile(
-                                            leading: Icon(Icons
-                                                .report_gmailerrorred_outlined),
-                                            title: Text("删除文章"),
-                                            onTap: () => {
-                                                  showDialog(
-                                                    context: context,
-                                                    builder: (context) {
-                                                      return AlertDialog(
-                                                        title: Text("提示"),
-                                                        content:
-                                                            Text("确定要删除这篇文章吗？"),
-                                                        actions: <Widget>[
-                                                          TextButton(
-                                                            child: Text(
-                                                              "取消",
-                                                            ),
-                                                            onPressed: () => {
-                                                              Navigator.pop(
-                                                                  context),
-                                                              Navigator.pop(
-                                                                  context),
-                                                            },
-                                                          ),
-                                                          TextButton(
-                                                              child: Text(
-                                                                "确定",
+                                        state.uid ==
+                                                state.articleInfo?.user?.uid
+                                            ? ListTile(
+                                                leading: Icon(Icons
+                                                    .report_gmailerrorred_outlined),
+                                                title: Text("删除文章"),
+                                                onTap: () => {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return AlertDialog(
+                                                            title: Text("提示"),
+                                                            content: Text(
+                                                                "确定要删除这篇文章吗？"),
+                                                            actions: <Widget>[
+                                                              TextButton(
+                                                                child: Text(
+                                                                  "取消",
+                                                                ),
+                                                                onPressed: () =>
+                                                                    {
+                                                                  Navigator.pop(
+                                                                      context),
+                                                                  Navigator.pop(
+                                                                      context),
+                                                                },
                                                               ),
-                                                              onPressed: () => {
-                                                                    dispatch(
-                                                                        ArticleDetailActionCreator
-                                                                            .deleteArticle()),
-                                                                  }),
-                                                        ],
-                                                      );
-                                                    },
-                                                  )
-                                                }),
+                                                              TextButton(
+                                                                  child: Text(
+                                                                    "确定",
+                                                                  ),
+                                                                  onPressed:
+                                                                      () => {
+                                                                            dispatch(ArticleDetailActionCreator.deleteArticle()),
+                                                                          }),
+                                                            ],
+                                                          );
+                                                        },
+                                                      )
+                                                    })
+                                            : Container(),
                                         ListTile(
                                           leading: Icon(Icons.cancel_outlined),
                                           title: Text("取消"),
@@ -319,14 +333,9 @@ class _UserInfoWidget extends StatelessWidget {
               flex: 2,
               child: Container(
                 margin: EdgeInsets.only(right: Adapt.width(20)),
-                child: ClipOval(
-                  child: Image.network(
-                    avatar,
-                    fit: BoxFit.cover,
-                    // width: 35,
-                    // height: 35,
-                    // color: Colors.black
-                  ),
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(avatar),
+                  radius: Adapt.width(50),
                 ),
               )),
           // Expanded(
@@ -469,34 +478,41 @@ class _FixedRow extends StatelessWidget {
           // mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Expanded(
-              flex: 2,
-              child: Container(
-                margin: EdgeInsets.only(left: Adapt.width(30)),
-                decoration: BoxDecoration(
-                    color: Colors.grey[50],
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(Adapt.radius(50))),
-                height: Adapt.height(60),
-                child: TextField(
-                  onSubmitted: (s) =>
-                      {dispatch(ArticleDetailActionCreator.pubilshComment())},
-                  controller: controller,
-                  onEditingComplete: () =>
-                      {dispatch(ArticleDetailActionCreator.completeComment())},
-                  focusNode: commentFocusNode,
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(Adapt.width(20),
-                        Adapt.height(5), Adapt.width(10), Adapt.height(28)),
-                    border: InputBorder.none,
-                    hintText: "评论一下...",
-                    hintStyle: TextStyle(
-                      fontSize: Adapt.sp(30),
-                      height: Adapt.height(2),
+                flex: 2,
+                child: GestureDetector(
+                  onTap: () => {
+                    Navigator.push(
+                        context,
+                        PopRoute(
+                            child: BottomInputDialog(
+                          textEditingController: controller,
+                          submit: () => {
+                            dispatch(
+                                ArticleDetailActionCreator.pubilshComment()),
+                            Navigator.pop(context)
+                          },
+                        )))
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(left: Adapt.width(30)),
+                    decoration: BoxDecoration(
+                        color: Colors.grey[50],
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(Adapt.radius(50))),
+                    height: Adapt.height(60),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: Adapt.width(20),
+                        ),
+                        Text(
+                          '评论一下吧~',
+                          style: TextStyle(color: Colors.grey),
+                        )
+                      ],
                     ),
                   ),
-                ),
-              ),
-            ),
+                )),
             Expanded(
               flex: 0,
               child: Container(
@@ -607,13 +623,15 @@ class _CommentWidget extends StatelessWidget {
   final FocusNode commentFocusNode;
   final Dispatch dispatch;
   final int commentLikeCount;
+  final bool isSelf;
   const _CommentWidget(
       {this.avatar,
       this.commentList,
       this.controller,
       this.commentFocusNode,
       this.dispatch,
-      this.commentLikeCount});
+      this.commentLikeCount,
+      this.isSelf});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -647,33 +665,42 @@ class _CommentWidget extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  flex: 8,
-                  child: Container(
-                    margin: EdgeInsets.only(left: Adapt.width(30)),
-                    decoration: BoxDecoration(
-                        color: Colors.grey[50],
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(Adapt.radius(50))),
-                    height: Adapt.height(60),
-                    child: TextField(
-                      onSubmitted: (s) => {
-                        dispatch(ArticleDetailActionCreator.pubilshComment())
+                    flex: 8,
+                    child: GestureDetector(
+                      onTap: () => {
+                        Navigator.push(
+                            context,
+                            PopRoute(
+                                child: BottomInputDialog(
+                              textEditingController: controller,
+                              submit: () => {
+                                dispatch(ArticleDetailActionCreator
+                                    .pubilshComment()),
+                                Navigator.pop(context)
+                              },
+                            )))
                       },
-                      controller: controller,
-                      focusNode: commentFocusNode,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(Adapt.width(20),
-                            Adapt.height(5), Adapt.width(10), Adapt.height(27)),
-                        border: InputBorder.none,
-                        hintText: "评论一下...",
-                        hintStyle: TextStyle(
-                          fontSize: Adapt.sp(30),
-                          height: Adapt.height(2),
+                      child: Container(
+                        margin: EdgeInsets.only(left: Adapt.width(30)),
+                        decoration: BoxDecoration(
+                            color: Colors.grey[50],
+                            border: Border.all(color: Colors.grey),
+                            borderRadius:
+                                BorderRadius.circular(Adapt.radius(50))),
+                        height: Adapt.height(60),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: Adapt.width(20),
+                            ),
+                            Text(
+                              '评论一下吧~',
+                              style: TextStyle(color: Colors.grey),
+                            )
+                          ],
                         ),
                       ),
-                    ),
-                  ),
-                ),
+                    )),
               ],
             ),
           ),
@@ -681,6 +708,7 @@ class _CommentWidget extends StatelessWidget {
             commentList: commentList,
             dispatch: dispatch,
             commentLikeCount: commentLikeCount,
+            isSelf: isSelf,
           )
         ],
       ),
@@ -692,8 +720,9 @@ class _CommentListWidget extends StatelessWidget {
   final List<Comments> commentList;
   final Dispatch dispatch;
   final int commentLikeCount;
+  final bool isSelf;
   const _CommentListWidget(
-      {this.commentList, this.dispatch, this.commentLikeCount});
+      {this.commentList, this.dispatch, this.commentLikeCount, this.isSelf});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -713,18 +742,20 @@ class _CommentListWidget extends StatelessWidget {
                     context: context,
                     builder: (context) {
                       return Container(
-                        height: Adapt.height(400),
+                        height: isSelf ? Adapt.height(300) : Adapt.height(400),
                         child: Column(
                           children: <Widget>[
-                            ListTile(
-                              leading: Icon(Icons.delete_outline),
-                              title: Text("删除"),
-                              onTap: () => {
-                                dispatch(
-                                    ArticleDetailActionCreator.deleteComment(
-                                        commentList[index].cid))
-                              },
-                            ),
+                            isSelf
+                                ? Container()
+                                : ListTile(
+                                    leading: Icon(Icons.delete_outline),
+                                    title: Text("删除"),
+                                    onTap: () => {
+                                      dispatch(ArticleDetailActionCreator
+                                          .deleteComment(
+                                              commentList[index].cid))
+                                    },
+                                  ),
                             ListTile(
                               leading: Icon(Icons.copy),
                               title: Text("复制"),
@@ -820,46 +851,75 @@ class _CommentListWidget extends StatelessWidget {
                                 )
                               ],
                             )),
-                        // Expanded(
-                        //   flex: 1,
-                        //   child: Column(
-                        //     mainAxisAlignment: MainAxisAlignment.center,
-                        //     crossAxisAlignment: CrossAxisAlignment.center,
-                        //     children: [
-                        //       Container(
-                        //         margin: EdgeInsets.fromLTRB(
-                        //             0, 0, Adapt.width(25), Adapt.width(10)),
-                        //         width: Adapt.width(40),
-                        //         height: Adapt.height(40),
-                        //         child: IconButton(
-                        //             icon: Icon(
-                        //               Icons.favorite_border,
-                        //               size: Adapt.height(30),
-                        //               color: commentLikeCount > 1
-                        //                   ? Colors.red
-                        //                   : '',
-                        //             ),
-                        //             onPressed: () => {
-                        //                   dispatch(ArticleDetailActionCreator
-                        //                       .likeComment(
-                        //                           commentList[index].cid))
-                        //                 }),
-                        //       ),
-                        //       // SizedBox(
-                        //       //   height: Adapt.height(5),
-                        //       // ),
-                        //       Text(
-                        //         commentLikeCount.toString(),
-                        //         style: TextStyle(
-                        //             color: Colors.black54,
-                        //             fontSize: Adapt.sp(24)),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // )
                       ])),
             );
           }),
+    );
+  }
+}
+
+class BottomInputDialog extends StatelessWidget {
+  final TextEditingController textEditingController;
+  final String type;
+  final Function submit;
+  const BottomInputDialog({this.textEditingController, this.type, this.submit});
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      backgroundColor: Colors.transparent,
+      body: new Column(
+        children: <Widget>[
+          Expanded(
+              child: new GestureDetector(
+            child: new Container(
+              color: Colors.black54,
+            ),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          )),
+          Container(
+            width: Adapt.screenW(),
+            decoration: BoxDecoration(color: Colors.grey[50]),
+            child: Flex(
+              direction: Axis.horizontal,
+              // mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Expanded(
+                  flex: 6,
+                  child: Container(
+                    margin: EdgeInsets.only(left: Adapt.width(30)),
+                    decoration: BoxDecoration(
+                        color: Colors.grey[50],
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(Adapt.radius(50))),
+                    height: Adapt.height(60),
+                    child: TextField(
+                      onSubmitted: (s) => submit(),
+                      controller: textEditingController,
+                      autofocus: true,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(Adapt.width(20),
+                            Adapt.height(5), Adapt.width(10), Adapt.height(27)),
+                        border: InputBorder.none,
+                        hintText: "评论一下...",
+                        hintStyle: TextStyle(
+                          fontSize: Adapt.sp(30),
+                          height: Adapt.height(2),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: TextButton(onPressed: submit, child: Text('发布')),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

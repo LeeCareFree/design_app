@@ -9,12 +9,17 @@ enum MineAction {
   navigatorPush,
   login,
   init,
+  refreshPage,
   initAccountInfo
 }
 
 class MineActionCreator {
   static Action onAction() {
     return const Action(MineAction.action);
+  }
+
+  static Action refreshPage() {
+    return const Action(MineAction.refreshPage);
   }
 
   static Action initAccountInfo(AccountInfo accountInfo) {

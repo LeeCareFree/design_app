@@ -7,7 +7,7 @@ class UserInfoComponent extends Component<UserInfoState> {
   UserInfoComponent()
       : super(
           shouldUpdate: (oldState, newState) {
-            return oldState.name != newState.name;
+            return oldState.accountInfo != newState.accountInfo;
           },
           view: buildView,
           dependencies: Dependencies<UserInfoState>(

@@ -30,10 +30,10 @@ Widget buildView(
   }
 
   return _Body(
-    isSignIn: state.name != null,
+    isSignIn: state.accountInfo != null,
     user: state.user,
-    name: state.name,
-    avatar: state.avatar,
+    name: state.accountInfo?.nickname ?? '',
+    avatar: state.accountInfo?.avatar ?? '',
     onSignIn: () => dispatch(MineActionCreator.onLogin()),
     overlayStateKey: state.overlayStateKey,
   );

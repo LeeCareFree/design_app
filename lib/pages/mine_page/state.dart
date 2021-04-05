@@ -8,6 +8,7 @@ import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class MineState implements Cloneable<MineState> {
   GlobalKey<ScaffoldState> scafoldState =
@@ -21,9 +22,11 @@ class MineState implements Cloneable<MineState> {
   MineListState mineListState;
   AnimationController animationController;
   AccountInfo accountInfo;
+  RefreshController refreshController;
   @override
   MineState clone() {
     return MineState()
+      ..refreshController = refreshController
       ..accountInfo = accountInfo
       ..user = user
       ..name = name
