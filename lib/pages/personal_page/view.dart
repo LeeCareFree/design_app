@@ -17,203 +17,222 @@ Widget buildView(
     final ThemeData _theme = ThemeStyle.getTheme(context);
     // bool _showTitle = state.scrollController.hasClients &&
     //     state.scrollController.offset > Adapt.height(350) - Adapt.height(300);
-    return Scaffold(
-        backgroundColor: Colors.white,
-        body: Stack(children: [
-          state.isLoading
-              ? LoadingLayout(
-                  title: '加载中...',
-                  show: true,
-                )
-              : NestedScrollView(
-                  controller: state.scrollController,
-                  physics: BouncingScrollPhysics(),
-                  headerSliverBuilder: (context, value) {
-                    return [
-                      CustomAppBar(
-                        accountInfo: state.accountInfo,
-                        controller: state.scrollController,
-                        uid: state.mineUid ?? '',
-                        isFollow: state.isFollow ?? false,
-                        dispatch: dispatch,
-                        // menuPress: () => dispatch(MovieDetailPageActionCreator.openMenu()),
-                      ),
-                      SliverToBoxAdapter(
-                          child: Container(
-                        child: Container(
-                            height: Adapt.height(20), color: Colors.grey[200]),
-                      )),
-                      SliverToBoxAdapter(
-                        child: Container(
-                            padding: EdgeInsets.fromLTRB(
-                                Adapt.width(40),
-                                Adapt.height(20),
-                                Adapt.width(40),
-                                Adapt.height(20)),
-                            height: Adapt.height(160),
-                            child: Flex(
-                              direction: Axis.horizontal,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                    flex: 5,
-                                    child: Flex(
-                                      direction: Axis.vertical,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                            flex: 1,
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  '我的家',
-                                                  style: TextStyle(
-                                                      fontSize: Adapt.sp(32),
-                                                      fontWeight:
-                                                          FontWeight.bold),
+    return WillPopScope(
+        onWillPop: () {
+          // Navigator.of(viewService.context)
+          //     .popAndPushNamed('minePage', result: true);
+
+          ///true：表示执行页面返回    false:表示不执行返回页面操作，这里因为要传值，所以接管返回操作
+          return Future.value(true);
+        },
+        child: Scaffold(
+            backgroundColor: Colors.white,
+            body: Stack(children: [
+              state.isLoading
+                  ? LoadingLayout(
+                      title: '加载中...',
+                      show: true,
+                    )
+                  : NestedScrollView(
+                      controller: state.scrollController,
+                      physics: BouncingScrollPhysics(),
+                      headerSliverBuilder: (context, value) {
+                        return [
+                          CustomAppBar(
+                            accountInfo: state.accountInfo,
+                            controller: state.scrollController,
+                            uid: state.mineUid ?? '',
+                            isFollow: state.isFollow ?? false,
+                            dispatch: dispatch,
+                            // menuPress: () => dispatch(MovieDetailPageActionCreator.openMenu()),
+                          ),
+                          SliverToBoxAdapter(
+                              child: Container(
+                            child: Container(
+                                height: Adapt.height(20),
+                                color: Colors.grey[200]),
+                          )),
+                          SliverToBoxAdapter(
+                            child: Container(
+                                padding: EdgeInsets.fromLTRB(
+                                    Adapt.width(40),
+                                    Adapt.height(20),
+                                    Adapt.width(40),
+                                    Adapt.height(20)),
+                                height: Adapt.height(160),
+                                child: Flex(
+                                  direction: Axis.horizontal,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                        flex: 5,
+                                        child: Flex(
+                                          direction: Axis.vertical,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                                flex: 1,
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      '我的家',
+                                                      style: TextStyle(
+                                                          fontSize:
+                                                              Adapt.sp(32),
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  ],
+                                                )),
+                                            Expanded(
+                                                flex: 1,
+                                                child: Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.home_outlined,
+                                                      color: Colors.black45,
+                                                      size: 20,
+                                                    ),
+                                                    SizedBox(
+                                                      width: Adapt.width(10),
+                                                    ),
+                                                    Text('广东广州.90平米.三室')
+                                                  ],
+                                                )),
+                                            Expanded(
+                                                flex: 1,
+                                                child: Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons
+                                                          .settings_applications_outlined,
+                                                      color: Colors.black45,
+                                                      size: 20,
+                                                    ),
+                                                    SizedBox(
+                                                      width: Adapt.width(10),
+                                                    ),
+                                                    Text('已完成装修')
+                                                  ],
+                                                )),
+                                          ],
+                                        )),
+                                    Expanded(
+                                        flex: 1,
+                                        child: GestureDetector(
+                                          onTap: () => {},
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                '修改',
+                                                style: TextStyle(
+                                                    color: Colors.grey),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: Adapt.height(5)),
+                                                child: Icon(
+                                                  Icons.chevron_right_rounded,
+                                                  color: Colors.grey,
                                                 ),
-                                              ],
-                                            )),
-                                        Expanded(
-                                            flex: 1,
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.home_outlined,
-                                                  color: Colors.black45,
-                                                  size: 20,
-                                                ),
-                                                SizedBox(
-                                                  width: Adapt.width(10),
-                                                ),
-                                                Text('广东广州.90平米.三室')
-                                              ],
-                                            )),
-                                        Expanded(
-                                            flex: 1,
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  Icons
-                                                      .settings_applications_outlined,
-                                                  color: Colors.black45,
-                                                  size: 20,
-                                                ),
-                                                SizedBox(
-                                                  width: Adapt.width(10),
-                                                ),
-                                                Text('已完成装修')
-                                              ],
-                                            )),
-                                      ],
-                                    )),
-                                Expanded(
-                                    flex: 1,
-                                    child: GestureDetector(
-                                      onTap: () => {},
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            '修改',
-                                            style:
-                                                TextStyle(color: Colors.grey),
+                                              )
+                                            ],
                                           ),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                top: Adapt.height(5)),
-                                            child: Icon(
-                                              Icons.chevron_right_rounded,
-                                              color: Colors.grey,
-                                            ),
-                                          )
+                                        ))
+                                  ],
+                                )),
+                          ),
+                          SliverToBoxAdapter(
+                              child: Container(
+                            child: Container(
+                                height: Adapt.height(20),
+                                color: Colors.grey[200]),
+                          )),
+                          SliverPersistentHeader(
+                            pinned: true,
+                            delegate: StickyTabBarDelegate(
+                              child: PreferredSize(
+                                  preferredSize: Size.fromHeight(40),
+                                  child: Material(
+                                      color: Colors.grey[50],
+                                      child: TabBar(
+                                        onTap: (tab) => {
+                                          dispatch(PersonalActionCreator
+                                              .getArticleList(1, tab))
+                                        },
+                                        labelColor: Colors.black,
+                                        controller: state.tabController,
+                                        indicatorColor: Colors.blueGrey,
+                                        // isScrollable: true,
+                                        indicatorPadding: EdgeInsets.symmetric(
+                                            horizontal: Adapt.width(80)),
+                                        unselectedLabelColor: Colors.black45,
+                                        tabs: <Widget>[
+                                          Tab(
+                                            text: '笔记',
+                                          ),
+                                          Tab(text: '收藏'),
+                                          Tab(text: '点赞'),
                                         ],
-                                      ),
-                                    ))
-                              ],
-                            )),
-                      ),
-                      SliverToBoxAdapter(
-                          child: Container(
-                        child: Container(
-                            height: Adapt.height(20), color: Colors.grey[200]),
-                      )),
-                      SliverPersistentHeader(
-                        pinned: true,
-                        delegate: StickyTabBarDelegate(
-                          child: PreferredSize(
-                              preferredSize: Size.fromHeight(40),
-                              child: Material(
-                                  color: Colors.grey[50],
-                                  child: TabBar(
-                                    onTap: (tab) => {
-                                      dispatch(
-                                          PersonalActionCreator.getArticleList(
-                                              1, tab))
-                                    },
-                                    labelColor: Colors.black,
-                                    controller: state.tabController,
-                                    indicatorColor: Colors.blueGrey,
-                                    // isScrollable: true,
-                                    indicatorPadding: EdgeInsets.symmetric(
-                                        horizontal: Adapt.width(80)),
-                                    unselectedLabelColor: Colors.black45,
-                                    tabs: <Widget>[
-                                      Tab(
-                                        text: '笔记',
-                                      ),
-                                      Tab(text: '收藏'),
-                                      Tab(text: '点赞'),
-                                    ],
-                                  ))),
-                        ),
-                      ),
-                    ];
-                  },
-                  body: TabBarView(
-                    controller: state.tabController,
-                    children: <Widget>[
-                      SmartRefresher(
-                          enablePullDown: true,
-                          enablePullUp: true,
-                          controller: state.refreshController,
-                          onRefresh: () => {
-                                dispatch(
-                                    PersonalActionCreator.getArticleList(1, 0))
-                              },
-                          onLoading: () => {
-                                dispatch(PersonalActionCreator.getArticleList(
-                                    state.pageIndex0 + 1, 0))
-                              },
-                          child: ArticleList(articleList: state.articleList0)),
-                      SmartRefresher(
-                          enablePullDown: true,
-                          enablePullUp: true,
-                          controller: state.refreshController,
-                          onRefresh: () => {
-                                dispatch(
-                                    PersonalActionCreator.getArticleList(1, 1))
-                              },
-                          onLoading: () => {
-                                dispatch(PersonalActionCreator.getArticleList(
-                                    state.pageIndex1 + 1, 1))
-                              },
-                          child: ArticleList(articleList: state.articleList1)),
-                      SmartRefresher(
-                          enablePullDown: true,
-                          enablePullUp: true,
-                          controller: state.refreshController,
-                          onRefresh: () => {
-                                dispatch(
-                                    PersonalActionCreator.getArticleList(1, 2))
-                              },
-                          onLoading: () => {
-                                dispatch(PersonalActionCreator.getArticleList(
-                                    state.pageIndex2 + 1, 2))
-                              },
-                          child: ArticleList(articleList: state.articleList2)),
-                    ],
-                  ))
-        ]));
+                                      ))),
+                            ),
+                          ),
+                        ];
+                      },
+                      body: TabBarView(
+                        controller: state.tabController,
+                        children: <Widget>[
+                          SmartRefresher(
+                              enablePullDown: true,
+                              enablePullUp: true,
+                              controller: state.refreshController,
+                              onRefresh: () => {
+                                    dispatch(
+                                        PersonalActionCreator.getArticleList(
+                                            1, 0))
+                                  },
+                              onLoading: () => {
+                                    dispatch(
+                                        PersonalActionCreator.getArticleList(
+                                            state.pageIndex0 + 1, 0))
+                                  },
+                              child:
+                                  ArticleList(articleList: state.articleList0)),
+                          SmartRefresher(
+                              enablePullDown: true,
+                              enablePullUp: true,
+                              controller: state.refreshController,
+                              onRefresh: () => {
+                                    dispatch(
+                                        PersonalActionCreator.getArticleList(
+                                            1, 1))
+                                  },
+                              onLoading: () => {
+                                    dispatch(
+                                        PersonalActionCreator.getArticleList(
+                                            state.pageIndex1 + 1, 1))
+                                  },
+                              child:
+                                  ArticleList(articleList: state.articleList1)),
+                          SmartRefresher(
+                              enablePullDown: true,
+                              enablePullUp: true,
+                              controller: state.refreshController,
+                              onRefresh: () => {
+                                    dispatch(
+                                        PersonalActionCreator.getArticleList(
+                                            1, 2))
+                                  },
+                              onLoading: () => {
+                                    dispatch(
+                                        PersonalActionCreator.getArticleList(
+                                            state.pageIndex2 + 1, 2))
+                                  },
+                              child:
+                                  ArticleList(articleList: state.articleList2)),
+                        ],
+                      ))
+            ])));
   });
 }

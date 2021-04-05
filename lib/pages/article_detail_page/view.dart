@@ -264,9 +264,6 @@ Widget buildView(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                  SizedBox(
-                                    height: Adapt.height(10),
-                                  ),
                                   SwiperPanel(
                                     backdrops: state.articleInfo.imgList,
                                   ),

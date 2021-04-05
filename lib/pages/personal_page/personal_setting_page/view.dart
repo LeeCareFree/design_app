@@ -12,142 +12,157 @@ import 'state.dart';
 Widget buildView(
     PersonalSettingState state, Dispatch dispatch, ViewService viewService) {
   final _theme = ThemeStyle.getTheme(viewService.context);
-  return Scaffold(
-    backgroundColor: _theme.backgroundColor,
-    appBar: AppBar(
-      iconTheme: _theme.iconTheme,
-      elevation: 3.0,
-      backgroundColor: _theme.bottomAppBarColor,
-      brightness: _theme.brightness,
-      title: Text(
-        '编辑资料',
-        style: TextStyle(color: Colors.black, fontSize: Adapt.sp(32)),
-      ),
-      centerTitle: true,
-    ),
-    body: SingleChildScrollView(
-      child: Column(
-        children: [
-          _Menu(
-            text: '头像',
-            oldProfile: state.oldProfile,
-            profile: state.profile,
-            press: () =>
-                {dispatch(PersonalSettingActionCreator.pickImg('profile'))},
-            type: 'required',
+  return WillPopScope(
+      onWillPop: () {
+        Navigator.of(viewService.context).pushReplacementNamed('personalPage',
+            result: false, arguments: {'uid': state.accountInfo?.uid});
+
+        ///true：表示执行页面返回    false:表示不执行返回页面操作，这里因为要传值，所以接管返回操作
+        return Future.value(false);
+      },
+      child: Scaffold(
+        backgroundColor: _theme.backgroundColor,
+        appBar: AppBar(
+          iconTheme: _theme.iconTheme,
+          elevation: 3.0,
+          backgroundColor: _theme.bottomAppBarColor,
+          brightness: _theme.brightness,
+          title: Text(
+            '编辑资料',
+            style: TextStyle(color: Colors.black, fontSize: Adapt.sp(32)),
           ),
-          _Menu(
-            text: '昵称',
-            content: Text(
-              state.nickname ?? '未填写',
-              style: TextStyle(
-                  color: state.nickname != null ? Colors.black : Colors.grey),
-            ),
-            type: 'required',
-            press: () => {
-              Navigator.push(
-                  viewService.context,
-                  PopRoute(
-                      child: BottomInputDialog(
-                          textEditingController: state.nicknamController,
-                          submit: () => {
-                                dispatch(
-                                    PersonalSettingActionCreator.setContent(
-                                        'nickname',
-                                        state.nicknamController.text)),
-                                Navigator.pop(viewService.context)
-                              })))
-            },
-          ),
-          _Menu(
-            text: '简介',
-            content: Text(
-              state.personalShow ?? '未填写',
-              style: TextStyle(
-                  color:
-                      state.personalShow != null ? Colors.black : Colors.grey),
-            ),
-            press: () => {
-              Navigator.push(
-                  viewService.context,
-                  PopRoute(
-                      child: BottomInputDialog(
-                    textEditingController: state.personalShowController,
-                    submit: () => {
-                      dispatch(PersonalSettingActionCreator.setContent(
-                          'personalShow', state.personalShowController.text)),
-                      Navigator.pop(viewService.context)
-                    },
-                  )))
-            },
-          ),
-          _Menu(
-            oldBackgroundImg: state.oldBackgroundImg,
-            text: '封面',
-            backgroundImg: state.backgroundImg,
-            content: Container(),
-            press: () => {
-              dispatch(PersonalSettingActionCreator.pickImg('backgroundImg'))
-            },
-          ),
-          _Menu(
-            text: '性别',
-            content: Text(
-              state.gender == 1
-                  ? '男'
-                  : state.gender == 2
-                      ? '女'
-                      : '未选择',
-              style: TextStyle(
-                  color: state.gender != 0 ? Colors.black : Colors.grey),
-            ),
-            press: () => {
-              showDialog(
-                context: viewService.context,
-                builder: (_) => _TypeList(
-                  onTap: (d) => {
-                    dispatch(
-                        PersonalSettingActionCreator.setContent('gender', d))
-                  },
-                  selected: state.gender == 1 ? '男' : '女',
+          centerTitle: true,
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              _Menu(
+                text: '头像',
+                oldProfile: state.oldProfile,
+                profile: state.profile,
+                press: () =>
+                    {dispatch(PersonalSettingActionCreator.pickImg('profile'))},
+                type: 'required',
+              ),
+              _Menu(
+                text: '昵称',
+                content: Text(
+                  state.nickname ?? '未填写',
+                  style: TextStyle(
+                      color:
+                          state.nickname != null ? Colors.black : Colors.grey),
+                ),
+                type: 'required',
+                press: () => {
+                  Navigator.push(
+                      viewService.context,
+                      PopRoute(
+                          child: BottomInputDialog(
+                              textEditingController: state.nicknamController,
+                              submit: () => {
+                                    dispatch(
+                                        PersonalSettingActionCreator.setContent(
+                                            'nickname',
+                                            state.nicknamController.text)),
+                                    Navigator.pop(viewService.context)
+                                  })))
+                },
+              ),
+              _Menu(
+                text: '简介',
+                content: Text(
+                  state.personalShow ?? '未填写',
+                  style: TextStyle(
+                      color: state.personalShow != null
+                          ? Colors.black
+                          : Colors.grey),
+                ),
+                press: () => {
+                  Navigator.push(
+                      viewService.context,
+                      PopRoute(
+                          child: BottomInputDialog(
+                        textEditingController: state.personalShowController,
+                        submit: () => {
+                          dispatch(PersonalSettingActionCreator.setContent(
+                              'personalShow',
+                              state.personalShowController.text)),
+                          Navigator.pop(viewService.context)
+                        },
+                      )))
+                },
+              ),
+              _Menu(
+                oldBackgroundImg: state.oldBackgroundImg,
+                text: '封面',
+                backgroundImg: state.backgroundImg,
+                content: Container(),
+                press: () => {
+                  dispatch(
+                      PersonalSettingActionCreator.pickImg('backgroundImg'))
+                },
+              ),
+              _Menu(
+                text: '性别',
+                content: Text(
+                  state.gender == 1
+                      ? '男'
+                      : state.gender == 2
+                          ? '女'
+                          : '未选择',
+                  style: TextStyle(
+                      color: state.gender != 0 ? Colors.black : Colors.grey),
+                ),
+                press: () => {
+                  showDialog(
+                    context: viewService.context,
+                    builder: (_) => _TypeList(
+                      onTap: (d) => {
+                        dispatch(PersonalSettingActionCreator.setContent(
+                            'gender', d))
+                      },
+                      selected: state.gender == 1 ? '男' : '女',
+                    ),
+                  )
+                },
+              ),
+              _Menu(
+                text: '位置',
+                content: Text(
+                  state.location ?? '未选择',
+                  style: TextStyle(
+                      color:
+                          state.location != null ? Colors.black : Colors.grey),
+                ),
+                press: () =>
+                    dispatch(PersonalSettingActionCreator.pickLocation()),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blueGrey),
+                    borderRadius: BorderRadius.circular(Adapt.radius(30))),
+                margin: EdgeInsets.all(Adapt.height(60)),
+                child: TextButton(
+                  onPressed: () =>
+                      dispatch(PersonalSettingActionCreator.submit()),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(children: [
+                        Text(
+                          '确认提交',
+                          style: TextStyle(color: Colors.black54),
+                        )
+                      ]),
+                    ],
+                  ),
                 ),
               )
-            },
+            ],
           ),
-          _Menu(
-            text: '位置',
-            content: Text(
-              state.location ?? '未选择',
-              style: TextStyle(
-                  color: state.location != null ? Colors.black : Colors.grey),
-            ),
-            press: () => dispatch(PersonalSettingActionCreator.pickLocation()),
-          ),
-          Container(
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.blueGrey),
-                borderRadius: BorderRadius.circular(Adapt.radius(30))),
-            margin: EdgeInsets.all(Adapt.height(60)),
-            child: TextButton(
-              onPressed: () => dispatch(PersonalSettingActionCreator.submit()),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(children: [
-                    Text(
-                      '确认提交',
-                      style: TextStyle(color: Colors.black54),
-                    )
-                  ]),
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-    ),
-  );
+        ),
+      ));
 }
 
 class _Menu extends StatelessWidget {
