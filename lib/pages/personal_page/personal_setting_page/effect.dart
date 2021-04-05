@@ -22,11 +22,18 @@ Effect<PersonalSettingState> buildEffect() {
     PersonalSettingAction.pickImg: _onPickImg,
     PersonalSettingAction.submit: _onSubmit,
     PersonalSettingAction.pickLocation: _onPickLocation,
+    PersonalSettingAction.back: _onBack,
     Lifecycle.initState: _onInit
   });
 }
 
 void _onAction(Action action, Context<PersonalSettingState> ctx) {}
+void _onBack(Action action, Context<PersonalSettingState> ctx) {
+  AccountInfo accountInfo = action.payload;
+  Navigator.of(ctx.context)
+      .pop({'uid': accountInfo?.uid, 'accountInfo': accountInfo});
+}
+
 void _onPickLocation(Action action, Context<PersonalSettingState> ctx) async {
   Result result = await CityPickers.showCityPicker(
     context: ctx.context,
@@ -111,18 +118,8 @@ void _onSubmit(Action action, Context<PersonalSettingState> ctx) async {
     var data = await DioUtil.request('setting', formData: formData);
     data = json.decode(data.toString());
     if (data['code'] == 200) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString(
-        'username',
-        ctx.state.nickname,
-      );
-      // prefs.setString(
-      //   'avatar',
-      // );
-      Navigator.of(ctx.context).pop();
-      Navigator.of(ctx.context).restorablePopAndPushNamed('personalPage',
-          arguments: {'uid': ctx.state.accountInfo?.uid});
-      Fluttertoast.showToast(msg: data['msg'] ?? '编辑成功!');
+      AccountInfo accountInfo = AccountInfo.fromJson(data['data']);
+      ctx.dispatch(PersonalSettingActionCreator.back(accountInfo));
     } else {
       Fluttertoast.showToast(msg: data['msg'] ?? '编辑失败!');
     }

@@ -601,7 +601,19 @@ class _FixedRow extends StatelessWidget {
                             Icons.sms_outlined,
                             size: Adapt.height(50),
                           ),
-                          onPressed: () => {}),
+                          onPressed: () => {
+                                Navigator.push(
+                                    context,
+                                    PopRoute(
+                                        child: BottomInputDialog(
+                                      textEditingController: controller,
+                                      submit: () => {
+                                        dispatch(ArticleDetailActionCreator
+                                            .pubilshComment()),
+                                        Navigator.pop(context)
+                                      },
+                                    )))
+                              }),
                     ),
                     Text(
                       articleDetail?.comments?.length.toString(),

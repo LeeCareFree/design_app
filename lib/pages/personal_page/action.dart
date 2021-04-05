@@ -13,11 +13,22 @@ enum PersonalAction {
   getArticleList,
   upDateArticleList,
   initArticle,
+  navigatorPush,
+  back,
 }
 
 class PersonalActionCreator {
   static Action onAction() {
     return const Action(PersonalAction.action);
+  }
+
+  static Action navigatorPush(String routerName, Object arguments) {
+    return Action(PersonalAction.navigatorPush,
+        payload: [routerName, arguments]);
+  }
+
+  static Action back() {
+    return const Action(PersonalAction.back);
   }
 
   static Action initArticle(int type, List list) {

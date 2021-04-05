@@ -41,19 +41,23 @@ class _Menu extends StatelessWidget {
   const _Menu({this.press, this.text});
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: FlatButton(
-        padding: EdgeInsets.all(20),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        color: Color(0xFFF5F6F9),
+    return Container(
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.blueGrey),
+          borderRadius: BorderRadius.circular(Adapt.radius(30))),
+      margin: EdgeInsets.all(Adapt.height(30)),
+      child: TextButton(
         onPressed: press,
         child: Row(
           children: [
-            Icon(Icons.logout),
+            Icon(Icons.logout, color: Colors.black54),
             SizedBox(width: 20),
-            Expanded(child: Text(text)),
-            Icon(Icons.chevron_right_outlined),
+            Expanded(
+                child: Text(
+              text,
+              style: TextStyle(color: Colors.black54),
+            )),
+            Icon(Icons.chevron_right_outlined, color: Colors.black54),
           ],
         ),
       ),

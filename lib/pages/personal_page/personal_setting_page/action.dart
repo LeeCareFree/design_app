@@ -1,3 +1,4 @@
+import 'package:bluespace/models/account_info.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
@@ -9,11 +10,16 @@ enum PersonalSettingAction {
   setImg,
   setContent,
   pickLocation,
+  back
 }
 
 class PersonalSettingActionCreator {
   static Action onAction() {
     return const Action(PersonalSettingAction.action);
+  }
+
+  static Action back(AccountInfo accountInfo) {
+    return Action(PersonalSettingAction.back, payload: accountInfo);
   }
 
   static Action pickImg(String type) {

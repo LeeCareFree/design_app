@@ -18,7 +18,7 @@ Effect<MineState> buildEffect() {
     MineAction.refreshPage: _onRefreshPage,
     MineAction.action: _onAction,
     MineAction.navigatorPush: _navigatorPush,
-    // MineAction.login: _onLogin,
+    MineAction.toPersoanlPage: _onToPersoanlPage,
   });
 }
 
@@ -43,16 +43,13 @@ Future _navigatorPush(Action action, Context<MineState> ctx) async {
   await Navigator.of(ctx.context).pushNamed(routerName, arguments: data);
 }
 
-// Future _onLogin(Action action, Context<MineState> ctx) async {
-//   var r = (await Navigator.of(ctx.context).pushNamed('loginPage')) as Map;
-//   if (r == null) return;
-//   if (r['s'] == true) {
-//     String name = r['name'];
-//     String avatar = ctx.state.user?.avatar;
-//     String uid = ctx.state.user?.uid;
-//     ctx.dispatch(MineActionCreator.onInit(name, avatar, uid));
-//   }
-// }
+Future _onToPersoanlPage(Action action, Context<MineState> ctx) async {
+  var r = (await Navigator.of(ctx.context)
+      .pushNamed('personalPage', arguments: {'uid': ctx.state.uid})) as Map;
+  if (r == null) return;
+  AccountInfo accountInfo = r['accountInfo'];
+  ctx.dispatch(MineActionCreator.initAccountInfo(accountInfo));
+}
 
 Future _onInit(Action action, Context<MineState> ctx) async {
   ctx.state.refreshController = new RefreshController();

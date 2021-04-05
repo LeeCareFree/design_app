@@ -38,7 +38,7 @@ Widget buildView(MineState state, Dispatch dispatch, ViewService viewService) {
               _SecondPanel(
                   uid: state.uid,
                   accountInfo: state.accountInfo,
-                  onTap: () => dispatch(MineActionCreator.showTip('这是提示'))),
+                  onTap: () => dispatch(MineActionCreator.toPersoanlPage())),
               viewService.buildComponent('order'),
               viewService.buildComponent('mineList')
             ],
@@ -122,10 +122,7 @@ class _SecondPanel extends StatelessWidget {
                       color: const Color(0xFFFFFFFF),
                       size: 30,
                     ),
-                    onPressed: () => {
-                          Navigator.of(context).pushNamed('personalPage',
-                              arguments: {'uid': uid})
-                        })
+                    onPressed: onTap)
               ]),
         ),
       ),

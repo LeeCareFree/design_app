@@ -19,11 +19,22 @@ Effect<PersonalState> buildEffect() {
     Lifecycle.initState: _onInit,
     Lifecycle.dispose: _onDispose,
     PersonalAction.follow: _onFollow,
-    PersonalAction.getArticleList: _onGetArticleList
+    PersonalAction.getArticleList: _onGetArticleList,
+    PersonalAction.back: _onBack,
+    PersonalAction.navigatorPush: _navigatorPush,
   });
 }
 
 void _onAction(Action action, Context<PersonalState> ctx) {}
+void _onBack(Action action, Context<PersonalState> ctx) {
+  Navigator.of(ctx.context).pop({'accountInfo': ctx.state.accountInfo});
+}
+
+void _navigatorPush(Action action, Context<PersonalState> ctx) async {
+  String routerName = action.payload[0];
+  Object data = action.payload[1];
+  await Navigator.of(ctx.context).pushNamed(routerName, arguments: data);
+}
 
 Future _onGetArticleList(Action action, Context<PersonalState> ctx) async {
   String arrname = action.payload[1] == 0

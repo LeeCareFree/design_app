@@ -52,11 +52,5 @@ MineState initState(Map<String, dynamic> args) {
     ..overlayStateKey = GlobalKey<OverlayEntryManageState>();
   state.orderState = OrderComponentState();
   state.mineListState = MineListState();
-  // state.settingsState = SettingsState()
-  //   ..appLanguage = Item.fromParams(name: "System Default")
-  //   ..adultContent = false
-  //   ..enableNotifications = true;
-  // state.name = '';
-  state.avatar = '';
   return state;
 }
