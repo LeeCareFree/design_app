@@ -197,9 +197,9 @@ class _PartList extends StatelessWidget {
         SizedBox(
           height: Adapt.height(30),
         ),
-        SwiperPanel(
+        desc.imgList.length != 0 ? SwiperPanel(
           backdrops: desc.imgList,
-        ),
+        ) : Container()
       ],
     ));
   }
