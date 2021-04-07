@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-11 18:16:47
- * @LastEditTime: 2021-03-30 11:51:31
+ * @LastEditTime: 2021-04-05 15:25:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \design_app\lib\components\searchbar_delegate.dart
@@ -297,7 +297,10 @@ Widget _buildResultCell(SearchArticle s, BuildContext context) {
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(Adapt.width(5)),
                   topRight: Radius.circular(Adapt.width(5))),
-              child: ItemFitWidthNetImage(img, Adapt.screenW() / 2 - 10)),
+              child: FadeInImage(
+                  image: NetworkImage(img),
+                  placeholder: AssetImage('assets/images/outfigure.gif'),
+                  fit: BoxFit.cover)),
         ),
         Container(
           padding: EdgeInsets.symmetric(horizontal: Adapt.width(20)),
@@ -404,10 +407,13 @@ class _ResultListState extends State<_ResultList> {
           mainAxisSpacing: 1,
           itemCount: results.length,
           itemBuilder: (context, i) {
-            return InkWell(
+            return GestureDetector(
                 onTap: () {
                   Navigator.of(context).pushNamed('articleDetailPage',
-                      arguments: {'aid': results[i].aid});
+                      arguments: {
+                        'aid': results[i].aid,
+                        'type': results[i].type
+                      });
                 },
                 child: _buildResultCell(results[i], context));
           },
