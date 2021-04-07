@@ -246,13 +246,15 @@ class Comments {
   String _cid;
   String _uid;
   String _content;
+  String _commenttime;
   User _user;
 
-  Comments({String cid, String uid, String content, User user}) {
+  Comments({String cid, String uid, String content, User user, String commenttime}) {
     this._cid = cid;
     this._uid = uid;
     this._content = content;
     this._user = user;
+    this._commenttime = commenttime;
   }
 
   String get cid => _cid;
@@ -261,6 +263,8 @@ class Comments {
   set uid(String uid) => _uid = uid;
   String get content => _content;
   set content(String content) => _content = content;
+  String get commenttime => _commenttime;
+  set commenttime(String commenttime) => _commenttime = commenttime;
   User get user => _user;
   set user(User user) => _user = user;
 
@@ -268,6 +272,7 @@ class Comments {
     _cid = json['cid'];
     _uid = json['uid'];
     _content = json['content'];
+    _commenttime = json['commenttime'];
     _user = json['user'] != null ? new User.fromJson(json['user']) : null;
   }
 
@@ -276,6 +281,7 @@ class Comments {
     data['cid'] = this._cid;
     data['uid'] = this._uid;
     data['content'] = this._content;
+    data['commenttime'] = this._commenttime;
     if (this._user != null) {
       data['user'] = this._user.toJson();
     }

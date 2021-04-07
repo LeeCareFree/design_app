@@ -851,7 +851,7 @@ class _CommentListWidget extends StatelessWidget {
                                               'test'),
                                     ),
                                     Text(
-                                      '03-16',
+                                      '${commentList[index].commenttime}',
                                       style: TextStyle(
                                           color: Colors.grey,
                                           fontSize: Adapt.sp(24)),
