@@ -27,11 +27,20 @@ Effect<HomeState> buildEffect() {
     HomeAction.getBanner: _onGetBanner,
     Lifecycle.initState: _onInit,
     HomeAction.searchBarTapped: _onSearchBarTapped,
-    HomeAction.getArticleList: _onGetArticleList
+    HomeAction.getArticleList: _onGetArticleList,
+    HomeAction.goArticleDetail: _goArticleDetail
   });
 }
 
 void _onAction(Action action, Context<HomeState> ctx) {}
+void _goArticleDetail(Action action, Context<HomeState> ctx) async {
+  String routerName = action.payload[0];
+  Object data = action.payload[1];
+  var r = await Navigator.of(ctx.context).pushNamed(routerName, arguments: data)
+      as Map;
+  if (r == null) return null;
+  ctx.dispatch(HomeActionCreator.updateDelArticle(r['delAid']));
+}
 
 Future _onGetBanner(Action action, Context<HomeState> ctx) async {
   var response = await DioUtil.request('slideshow');
@@ -66,6 +75,7 @@ Future _onInit(Action action, Context<HomeState> ctx) async {
                 : i == 3
                     ? 'video'
                     : '';
+    print(way);
     var response = await DioUtil.request('articlelist',
         formData: {'page': 1, 'size': 10, 'uid': ctx.state.uid, 'way': way});
     var dataJson = json.decode(response.toString());

@@ -1,10 +1,10 @@
 import 'package:fish_redux/fish_redux.dart';
 
 //TODO replace with your own action
-enum LikeAction { action }
+enum ChatAction { action }
 
-class LikeActionCreator {
+class ChatActionCreator {
   static Action onAction() {
-    return const Action(LikeAction.action);
+    return const Action(ChatAction.action);
   }
 }

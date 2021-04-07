@@ -9,12 +9,22 @@ enum HomeAction {
   searchBarTapped,
   getArticleList,
   initArticle,
-  upDateArticleList
+  upDateArticleList,
+  goArticleDetail,
+  updateDelArticle
 }
 
 class HomeActionCreator {
   static Action onAction() {
     return const Action(HomeAction.action);
+  }
+
+  static Action updateDelArticle(String delAid) {
+    return Action(HomeAction.updateDelArticle, payload: delAid);
+  }
+
+  static Action goArticleDetail(String routerName, Object arguments) {
+    return Action(HomeAction.goArticleDetail, payload: [routerName, arguments]);
   }
 
   static Action upDateArticleList(int type, List articleList, int pageIndex) {

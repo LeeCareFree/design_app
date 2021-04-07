@@ -71,7 +71,10 @@ class _SecondPanel extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(accountInfo?.proNum.toString() ?? '',
+                    Text(
+                        accountInfo?.proNum.toString() == 'null'
+                            ? '-'
+                            : accountInfo?.proNum.toString(),
                         style: TextStyle(
                           color: const Color(0xFFFFFFFF),
                           fontSize: Adapt.sp(24),
@@ -87,7 +90,10 @@ class _SecondPanel extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(accountInfo?.followNum.toString() ?? '',
+                    Text(
+                        accountInfo?.followNum.toString() == 'null'
+                            ? '-'
+                            : accountInfo?.followNum.toString(),
                         style: TextStyle(
                           color: const Color(0xFFFFFFFF),
                           fontSize: Adapt.sp(24),
@@ -103,7 +109,10 @@ class _SecondPanel extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(accountInfo?.collNum.toString() ?? '',
+                    Text(
+                        accountInfo?.collNum.toString() == 'null'
+                            ? '-'
+                            : accountInfo?.collNum.toString(),
                         style: TextStyle(
                           color: const Color(0xFFFFFFFF),
                           fontSize: Adapt.sp(24),

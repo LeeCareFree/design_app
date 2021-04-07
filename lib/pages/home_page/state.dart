@@ -16,9 +16,11 @@ class HomeState implements Cloneable<HomeState> {
   int pageIndex2 = 1;
   int pageIndex3 = 1;
   String uid;
+  String delAid;
   @override
   HomeState clone() {
     return HomeState()
+      ..delAid = delAid
       ..tabs = tabs
       ..uid = uid
       ..pageIndex0 = pageIndex0
@@ -37,6 +39,7 @@ class HomeState implements Cloneable<HomeState> {
 
 HomeState initState(Map<String, dynamic> args) {
   return HomeState()
+    ..delAid = args['delAid']
     ..tabs = ['关注', '全部', '图文', '视频']
     ..bannerList = new List()
     ..articleList0 = new List()

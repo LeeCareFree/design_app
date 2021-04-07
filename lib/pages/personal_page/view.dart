@@ -195,8 +195,10 @@ Widget buildView(
                                         PersonalActionCreator.getArticleList(
                                             state.pageIndex0 + 1, 0))
                                   },
-                              child:
-                                  ArticleList(articleList: state.articleList0)),
+                              child: ArticleList(
+                                  articleList: state.articleList0,
+                                  type: 'personal',
+                                  dispatch: dispatch)),
                           SmartRefresher(
                               enablePullDown: true,
                               enablePullUp: true,
@@ -211,8 +213,10 @@ Widget buildView(
                                         PersonalActionCreator.getArticleList(
                                             state.pageIndex1 + 1, 1))
                                   },
-                              child:
-                                  ArticleList(articleList: state.articleList1)),
+                              child: ArticleList(
+                                  articleList: state.articleList1,
+                                  type: 'personal',
+                                  dispatch: dispatch)),
                           SmartRefresher(
                               enablePullDown: true,
                               enablePullUp: true,
@@ -227,8 +231,10 @@ Widget buildView(
                                         PersonalActionCreator.getArticleList(
                                             state.pageIndex2 + 1, 2))
                                   },
-                              child:
-                                  ArticleList(articleList: state.articleList2)),
+                              child: ArticleList(
+                                  articleList: state.articleList2,
+                                  type: 'personal',
+                                  dispatch: dispatch)),
                         ],
                       ))
             ])));

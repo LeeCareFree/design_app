@@ -1,4 +1,5 @@
 import 'package:bluespace/components/gifRefresh.dart';
+import 'package:bluespace/components/searchBar.dart';
 import 'package:bluespace/components/stickTabBarDelegate.dart';
 import 'package:bluespace/pages/personal_page/view.dart';
 import 'package:bluespace/utils/adapt.dart';
@@ -16,18 +17,13 @@ import 'state.dart';
 Widget buildView(HomeState state, Dispatch dispatch, ViewService viewService) {
   return Builder(builder: (context) {
     final ThemeData _theme = ThemeStyle.getTheme(context);
-    void test(_refreshController) async {
-      await Future.delayed(Duration(milliseconds: 1000));
-      _refreshController.loadComplete();
-    }
-
     return Scaffold(
         backgroundColor: _theme.backgroundColor,
         appBar: AppBar(
           backgroundColor: _theme.bottomAppBarColor,
           brightness: Brightness.light,
           elevation: 3.0,
-          title: _SearchBar(
+          title: SearchBar(
             onTap: () => dispatch(HomeActionCreator.onSearchBarTapped()),
           ),
         ),
@@ -97,7 +93,11 @@ Widget buildView(HomeState state, Dispatch dispatch, ViewService viewService) {
                         dispatch(HomeActionCreator.getArticleList(
                             state.pageIndex0 + 1, 0))
                       },
-                  child: ArticleList(articleList: state.articleList0)),
+                  child: ArticleList(
+                    articleList: state.articleList0,
+                    type: 'home',
+                    dispatch: dispatch,
+                  )),
               SmartRefresher(
                   enablePullDown: true,
                   enablePullUp: true,
@@ -110,7 +110,11 @@ Widget buildView(HomeState state, Dispatch dispatch, ViewService viewService) {
                         dispatch(HomeActionCreator.getArticleList(
                             state.pageIndex1 + 1, 1))
                       },
-                  child: ArticleList(articleList: state.articleList1)),
+                  child: ArticleList(
+                    articleList: state.articleList1,
+                    type: 'home',
+                    dispatch: dispatch,
+                  )),
               SmartRefresher(
                   enablePullDown: true,
                   enablePullUp: true,
@@ -123,7 +127,11 @@ Widget buildView(HomeState state, Dispatch dispatch, ViewService viewService) {
                         dispatch(HomeActionCreator.getArticleList(
                             state.pageIndex2 + 1, 2))
                       },
-                  child: ArticleList(articleList: state.articleList2)),
+                  child: ArticleList(
+                    articleList: state.articleList2,
+                    type: 'home',
+                    dispatch: dispatch,
+                  )),
               SmartRefresher(
                   enablePullDown: true,
                   enablePullUp: true,
@@ -136,47 +144,14 @@ Widget buildView(HomeState state, Dispatch dispatch, ViewService viewService) {
                         dispatch(HomeActionCreator.getArticleList(
                             state.pageIndex3 + 1, 3))
                       },
-                  child: ArticleList(articleList: state.articleList3)),
+                  child: ArticleList(
+                    articleList: state.articleList3,
+                    type: 'home',
+                    dispatch: dispatch,
+                  )),
             ])));
   });
   // return Container();
-}
-
-class _SearchBar extends StatelessWidget {
-  final Function onTap;
-  const _SearchBar({this.onTap});
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.only(left: Adapt.width(30), right: Adapt.width(30)),
-        height: Adapt.height(65),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(Adapt.radius(40)),
-          color: Colors.white,
-        ),
-        child: Row(
-          children: <Widget>[
-            Icon(
-              Icons.search,
-              color: Colors.grey,
-            ),
-            SizedBox(width: Adapt.width(20)),
-            SizedBox(
-              width: Adapt.screenW() - Adapt.width(200),
-              child: Text(
-                '搜索',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: Colors.grey, fontSize: Adapt.sp(28)),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
 
 class _Loading extends StatelessWidget {

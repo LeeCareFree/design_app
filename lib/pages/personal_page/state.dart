@@ -23,9 +23,11 @@ class PersonalState implements Cloneable<PersonalState> {
   int pageIndex0 = 1;
   int pageIndex1 = 1;
   int pageIndex2 = 1;
+  String delAid;
   @override
   PersonalState clone() {
     return PersonalState()
+      ..delAid = delAid
       ..articleList0 = articleList0
       ..articleList1 = articleList1
       ..articleList2 = articleList2
@@ -49,6 +51,10 @@ class PersonalState implements Cloneable<PersonalState> {
 PersonalState initState(Map<String, dynamic> args) {
   PersonalState state = new PersonalState();
   state.uid = args['uid'];
+  state.delAid = args['delAid'];
   state.isLoading = true;
+  state.articleList0 = [];
+  state.articleList1 = [];
+  state.articleList2 = [];
   return state;
 }

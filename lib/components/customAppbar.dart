@@ -167,7 +167,7 @@ class _UserInfoWidget extends StatelessWidget {
           height: Adapt.height(20),
         ),
         Text(
-          accountInfo?.introduction ?? '诗长满羽毛栖息在窗台',
+          accountInfo?.introduction == 'null' ? '-' : accountInfo?.introduction,
           style: TextStyle(color: Colors.white),
         ),
         SizedBox(
@@ -183,7 +183,9 @@ class _UserInfoWidget extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    accountInfo?.followNum.toString(),
+                    accountInfo?.followNum.toString() == 'null'
+                        ? '-'
+                        : accountInfo?.followNum.toString(),
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: Adapt.sp(30),
@@ -208,7 +210,9 @@ class _UserInfoWidget extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    accountInfo?.fansNum.toString(),
+                    accountInfo?.fansNum.toString() == 'null'
+                        ? '-'
+                        : accountInfo?.fansNum.toString(),
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: Adapt.sp(30),
@@ -230,7 +234,9 @@ class _UserInfoWidget extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    accountInfo?.likeColl.toString(),
+                    accountInfo?.likeColl.toString() == 'null'
+                        ? '-'
+                        : accountInfo?.likeColl.toString(),
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: Adapt.sp(30),

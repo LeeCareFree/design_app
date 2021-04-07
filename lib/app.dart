@@ -47,8 +47,9 @@ class _AppState extends State<App> {
               }
             },
             child: RefreshConfiguration(
-                headerBuilder: () =>
-                    GifHeader1(), // 配置默认头部指示器,假如你每个页面的头部指示器都一样的话,你需要设置这个
+                headerBuilder: () => MaterialClassicHeader(
+                    color: Colors
+                        .blueGrey), // 配置默认头部指示器,假如你每个页面的头部指示器都一样的话,你需要设置这个
                 footerBuilder: () => GifFooter1(), // 配置默认底部指示器
                 headerTriggerDistance: 60.0, // 头部触发刷新的越界距离
                 springDescription: SpringDescription(

@@ -1,31 +1,10 @@
-import 'package:fish_redux/fish_redux.dart';
-import 'package:flutter/material.dart';
 import 'package:bluespace/utils/adapt.dart';
-import 'package:bluespace/style/themeStyle.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-import 'action.dart';
-import 'state.dart';
-
-Widget buildView(LikeState state, Dispatch dispatch, ViewService viewService) {
-  return Builder(builder: (context) {
-    final ThemeData _theme = ThemeStyle.getTheme(context);
-    return Scaffold(
-      backgroundColor: _theme.backgroundColor,
-      appBar: AppBar(
-        backgroundColor: _theme.bottomAppBarColor,
-        brightness: Brightness.light,
-        elevation: 3.0,
-        title: _SearchBar(
-          onTap: () => {}
-        ),
-      ),
-    );
-  });
-}
-
-class _SearchBar extends StatelessWidget {
+class SearchBar extends StatelessWidget {
   final Function onTap;
-  const _SearchBar({this.onTap});
+  const SearchBar({this.onTap});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

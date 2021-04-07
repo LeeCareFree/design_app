@@ -7,6 +7,9 @@
  * @FilePath: \design_app\lib\components\article_list.dart
  */
 import 'package:bluespace/models/article_list_data.dart';
+import 'package:bluespace/pages/home_page/action.dart';
+import 'package:bluespace/pages/personal_page/action.dart';
+import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:bluespace/utils/adapt.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -15,8 +18,10 @@ import 'package:bluespace/components/fitImage.dart';
 
 class ArticleList extends StatelessWidget {
   final List articleList;
-
-  ArticleList({Key key, this.articleList}) : super(key: key);
+  final Dispatch dispatch;
+  final String type;
+  ArticleList({Key key, this.articleList, this.dispatch, this.type})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +33,12 @@ class ArticleList extends StatelessWidget {
       itemBuilder: (context, i) {
         final ArticleListData item = ArticleListData.fromJson(articleList[i]);
         return InkWell(
-          onTap: () {
-            Navigator.of(context).pushNamed('articleDetailPage',
-                arguments: {'aid': item.aid, 'type': item.type});
+          onTap: () => {
+            type == 'personal'
+                ? dispatch(PersonalActionCreator.goArticleDetail(
+                    'articleDetailPage', {'type': item.type, 'aid': item.aid}))
+                : dispatch(HomeActionCreator.goArticleDetail(
+                    'articleDetailPage', {'type': item.type, 'aid': item.aid}))
           },
           child: ArticleItem(
             img: item.type == "2" ? item.imgList[0] : item.cover,

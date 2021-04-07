@@ -15,11 +15,22 @@ enum PersonalAction {
   initArticle,
   navigatorPush,
   back,
+  goArticleDetail,
+  updateDelArticle
 }
 
 class PersonalActionCreator {
   static Action onAction() {
     return const Action(PersonalAction.action);
+  }
+
+  static Action updateDelArticle(String delAid) {
+    return Action(PersonalAction.updateDelArticle, payload: delAid);
+  }
+
+  static Action goArticleDetail(String routerName, Object arguments) {
+    return Action(PersonalAction.goArticleDetail,
+        payload: [routerName, arguments]);
   }
 
   static Action navigatorPush(String routerName, Object arguments) {

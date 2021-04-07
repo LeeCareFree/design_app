@@ -59,7 +59,7 @@ Widget buildView(
 }
 
 List<BottomNavigationBarItem> _buildBottomNavigationBarItem() {
-  var _appBarTitles = ['首页', '分类', '发布', '好物', '我的'];
+  var _appBarTitles = ['首页', '装修', '发布', '消息', '我的'];
   List<BottomNavigationBarItem> _list;
   if (_list == null) {
     var _tabImages = [
@@ -68,16 +68,16 @@ List<BottomNavigationBarItem> _buildBottomNavigationBarItem() {
         Icons.home,
       ],
       [
-        Icons.sort,
-        Icons.sort,
+        Icons.person_search_outlined,
+        Icons.person_search_outlined,
       ],
       [
         Icons.add,
         Icons.add,
       ],
       [
-        Icons.local_mall,
-        Icons.local_mall,
+        Icons.sms_outlined,
+        Icons.sms_outlined,
       ],
       [
         Icons.account_circle,

@@ -237,7 +237,7 @@ void _onPublishArticle(Action action, Context<DecorateState> ctx) async {
       Fluttertoast.showToast(msg: '发布成功');
       print(data['data']['aid']);
       Navigator.of(ctx.context).pushReplacementNamed('articleDetailPage',
-          arguments: {'aid': data['data']['aid'], 'type': '2'});
+          arguments: {'aid': data['data']['aid'], 'type': '1'});
     }
   } else {
     Fluttertoast.showToast(msg: '发布不能为空！');

@@ -22,10 +22,21 @@ Effect<PersonalState> buildEffect() {
     PersonalAction.getArticleList: _onGetArticleList,
     PersonalAction.back: _onBack,
     PersonalAction.navigatorPush: _navigatorPush,
+    PersonalAction.goArticleDetail: _goArticleDetail
   });
 }
 
 void _onAction(Action action, Context<PersonalState> ctx) {}
+
+void _goArticleDetail(Action action, Context<PersonalState> ctx) async {
+  String routerName = action.payload[0];
+  Object data = action.payload[1];
+  var r = await Navigator.of(ctx.context).pushNamed(routerName, arguments: data)
+      as Map;
+  if (r == null) return null;
+  ctx.dispatch(PersonalActionCreator.updateDelArticle(r['delAid']));
+}
+
 void _onBack(Action action, Context<PersonalState> ctx) {
   Navigator.of(ctx.context).pop({'accountInfo': ctx.state.accountInfo});
 }
@@ -33,7 +44,10 @@ void _onBack(Action action, Context<PersonalState> ctx) {
 void _navigatorPush(Action action, Context<PersonalState> ctx) async {
   String routerName = action.payload[0];
   Object data = action.payload[1];
-  await Navigator.of(ctx.context).pushNamed(routerName, arguments: data);
+  var r = await Navigator.of(ctx.context).pushNamed(routerName, arguments: data)
+      as Map;
+  if (r == null) return null;
+  ctx.dispatch(PersonalActionCreator.initAccountInfo(r['accountInfo']));
 }
 
 Future _onGetArticleList(Action action, Context<PersonalState> ctx) async {

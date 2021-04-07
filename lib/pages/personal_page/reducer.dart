@@ -14,7 +14,8 @@ Reducer<PersonalState> buildReducer() {
       PersonalAction.setLoading: _setLoading,
       PersonalAction.updataIsFollow: _onupdataIsFollow,
       PersonalAction.initArticle: _onInitArticle,
-      PersonalAction.upDateArticleList: _onUpDateArticleList
+      PersonalAction.upDateArticleList: _onUpDateArticleList,
+      PersonalAction.updateDelArticle: _onUpdateDelArticle
     },
   );
 }
@@ -22,6 +23,26 @@ Reducer<PersonalState> buildReducer() {
 PersonalState _onupdataIsFollow(PersonalState state, Action action) {
   final PersonalState newState = state.clone();
   newState..isFollow = action.payload;
+  return newState;
+}
+
+PersonalState _onUpdateDelArticle(PersonalState state, Action action) {
+  final PersonalState newState = state.clone();
+  for (var i = 0; i < newState.articleList0.length; i++) {
+    if (newState.articleList0[i]['aid'] == action.payload) {
+      newState..articleList0.remove(newState.articleList0[i]);
+    }
+  }
+  for (var i = 0; i < newState.articleList1.length; i++) {
+    if (newState.articleList1[i]['aid'] == action.payload) {
+      newState..articleList1.remove(newState.articleList1[i]);
+    }
+  }
+  for (var i = 0; i < newState.articleList2.length; i++) {
+    if (newState.articleList2[i]['aid'] == action.payload) {
+      newState..articleList2.remove(newState.articleList2[i]);
+    }
+  }
   return newState;
 }
 

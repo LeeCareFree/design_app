@@ -60,10 +60,12 @@ Future _pushToMainPage(BuildContext context) async {
       pageBuilder: (_, __, ___) {
         return Routes.routes.buildPage('mainPage', {
           'pages': List<Widget>.unmodifiable([
-            Routes.routes.buildPage('homePage', null),
+            Routes.routes.buildPage('homePage', {
+              'delAid': null,
+            }),
             Routes.routes.buildPage('sortPage', null),
             Routes.routes.buildPage('createPage', null),
-            Routes.routes.buildPage('likePage', null),
+            Routes.routes.buildPage('chatPage', null),
             Routes.routes.buildPage('minePage', null)
           ])
         });

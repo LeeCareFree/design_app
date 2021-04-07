@@ -39,7 +39,7 @@ void _onDeleteArticle(Action action, Context<ArticleDetailState> ctx) async {
   if (res['code'] == 200) {
     Navigator.pop(ctx.context);
     Navigator.pop(ctx.context);
-    Navigator.pop(ctx.context);
+    Navigator.pop(ctx.context, {'delAid': ctx.state.aid});
     Fluttertoast.showToast(msg: res['msg'] ?? '文章删除成功!');
   } else {
     Fluttertoast.showToast(msg: res['msg'] ?? '删除文章失败!');

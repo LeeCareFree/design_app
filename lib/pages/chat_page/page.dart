@@ -5,18 +5,18 @@ import 'reducer.dart';
 import 'state.dart';
 import 'view.dart';
 
-class LikePage extends Page<LikeState, Map<String, dynamic>> {
-  LikePage()
+class ChatPage extends Page<ChatState, Map<String, dynamic>> {
+  ChatPage()
       : super(
             initState: initState,
             effect: buildEffect(),
             reducer: buildReducer(),
             view: buildView,
-            dependencies: Dependencies<LikeState>(
+            dependencies: Dependencies<ChatState>(
                 adapter: null,
-                slots: <String, Dependent<LikeState>>{
+                slots: <String, Dependent<ChatState>>{
                 }),
-            middleware: <Middleware<LikeState>>[
+            middleware: <Middleware<ChatState>>[
             ],);
 
 }

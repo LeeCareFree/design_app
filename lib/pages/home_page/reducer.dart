@@ -9,13 +9,34 @@ Reducer<HomeState> buildReducer() {
       HomeAction.action: _onAction,
       HomeAction.initBanner: _onInitBanner,
       HomeAction.initArticle: _onInitArticle,
-      HomeAction.upDateArticleList: _onUpDateArticleList
+      HomeAction.upDateArticleList: _onUpDateArticleList,
+      HomeAction.updateDelArticle: _onUpdateDelArticle
     },
   );
 }
 
 HomeState _onAction(HomeState state, Action action) {
   final HomeState newState = state.clone();
+  return newState;
+}
+
+HomeState _onUpdateDelArticle(HomeState state, Action action) {
+  final HomeState newState = state.clone();
+  for (var i = 0; i < newState.articleList1.length; i++) {
+    if (newState.articleList1[i]['aid'] == action.payload) {
+      newState..articleList1.remove(newState.articleList1[i]);
+    }
+  }
+  for (var i = 0; i < newState.articleList2.length; i++) {
+    if (newState.articleList2[i]['aid'] == action.payload) {
+      newState..articleList2.remove(newState.articleList2[i]);
+    }
+  }
+  for (var i = 0; i < newState.articleList3.length; i++) {
+    if (newState.articleList3[i]['aid'] == action.payload) {
+      newState..articleList3.remove(newState.articleList3[i]);
+    }
+  }
   return newState;
 }
 
