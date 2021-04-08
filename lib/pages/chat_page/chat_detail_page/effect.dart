@@ -21,26 +21,24 @@ void _onAction(Action action, Context<ChatDetailState> ctx) {}
 void _onSendMessage(Action action, Context<ChatDetailState> ctx) async {
   if (action.payload == 'send' &&
       ctx.state.textEditingController.text != null) {
-    ctx.state.socket.emit(
-      "message",
-      ChatModel(
-        id: ctx.state.socket.id,
-        message: ctx.state.textEditingController.text,
-        timestamp: DateTime.now(),
-        username: 'lee',
-      ).toJson(),
-    );
-    action.payload.clear();
+    ctx.state.socket.emit("sendMessage",
+        {"uid": ctx.state.uid, "message": ctx.state.textEditingController.text}
+        // ChatModel(
+        //   id: ctx.state.socket.id,
+        //   message: ctx.state.textEditingController.text,
+        //   timestamp: DateTime.now(),
+        //   username: 'lee',
+        // ).toJson(),
+        );
   } else {
-    ctx.state.socket.emit(
-      "getMessage",
-      // ChatModel(
-      //   id: ctx.state.socket.id,
-      //   message: ctx.state.textEditingController.text,
-      //   timestamp: DateTime.now(),
-      //   username: 'lee',
-      // ).toJson(),
-    );
+    ctx.state.socket.emit("getMessage", (data) => {print(data)}
+        // ChatModel(
+        //   id: ctx.state.socket.id,
+        //   message: ctx.state.textEditingController.text,
+        //   timestamp: DateTime.now(),
+        //   username: 'lee',
+        // ).toJson(),
+        );
   }
 
   // sendTyping(false);
@@ -52,6 +50,7 @@ void _onInit(Action action, Context<ChatDetailState> ctx) async {
   ctx.state.textEditingController = TextEditingController();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final uid = prefs.getString('uid') ?? '';
+  ctx.state.uid = uid;
   try {
     ctx.state.socket = io('http://192.168.0.107:3001', <String, dynamic>{
       'transports': ['websocket'],
@@ -64,7 +63,7 @@ void _onInit(Action action, Context<ChatDetailState> ctx) async {
     // ctx.state.socket.on('typing', handleTyping);
     // new user
     print(uid);
-    ctx.state.socket.emit('new user', {"username": uid});
+    ctx.state.socket.emit('createUser', uid);
     ctx.state.socket.on('message', (data) => print('data$data'));
     ctx.state.socket
         .on('getMessageList', (data) => ctx.state.streamSocket.addResponse);

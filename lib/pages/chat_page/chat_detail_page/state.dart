@@ -9,9 +9,11 @@ class ChatDetailState implements Cloneable<ChatDetailState> {
   TextEditingController textEditingController;
   FocusNode focusNode;
   ScrollController scrollController;
+  String uid;
   @override
   ChatDetailState clone() {
     return ChatDetailState()
+      ..uid = uid
       ..scrollController = scrollController
       ..streamSocket = streamSocket
       ..focusNode = focusNode
