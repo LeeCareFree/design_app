@@ -64,29 +64,34 @@ Widget buildView(
                     //                 AlwaysStoppedAnimation<Color>(Colors.black)))
                     //     :
                     Container(
-              child: StreamBuilder(
-                stream: state.streamSocket.getResponse,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                        child: CircularProgressIndicator(
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.black)));
-                  } else {
-                    // listMessage.addAll(snapshot.data.documents);
-                    return Text(snapshot.data.documents.toString());
-
-                    // ListView.builder(
-                    //   padding: EdgeInsets.all(10.0),
-                    //   itemBuilder: (context, index) => buildItem(index, snapshot.data.documents[index]),
-                    //   itemCount: snapshot.data.documents.length,
-                    //   reverse: true,
-                    //   controller: state.scrollController,
-                    // );
-                  }
-                },
-              ),
+                        child: TextButton(
+              child: Text('接收'),
+              onPressed: () =>
+                  {dispatch(ChatDetailActionCreator.sendMessage(''))},
             )
+                        // StreamBuilder(
+                        //     stream: state.streamSocket.getResponse,
+                        //     builder: (context, snapshot) {
+                        //       // if (!snapshot.hasData) {
+                        //       //   return Center(
+                        //       //       child: CircularProgressIndicator(
+                        //       //           valueColor:
+                        //       //               AlwaysStoppedAnimation<Color>(Colors.black)));
+                        //       // } else {
+                        //       // listMessage.addAll(snapshot.data.documents);
+                        //       return Text(snapshot.data.documents.toString());
+
+                        //       // ListView.builder(
+                        //       //   padding: EdgeInsets.all(10.0),
+                        //       //   itemBuilder: (context, index) => buildItem(index, snapshot.data.documents[index]),
+                        //       //   itemCount: snapshot.data.documents.length,
+                        //       //   reverse: true,
+                        //       //   controller: state.scrollController,
+                        //       // );
+                        //     }
+                        //     // },
+                        //     ),
+                        )
 
                 // : StreamBuilder(
                 //     stream: FirebaseFirestore.instance

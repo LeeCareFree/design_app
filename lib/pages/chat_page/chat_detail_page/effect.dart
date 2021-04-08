@@ -21,17 +21,11 @@ void _onAction(Action action, Context<ChatDetailState> ctx) {}
 void _onSendMessage(Action action, Context<ChatDetailState> ctx) async {
   if (action.payload == 'send' &&
       ctx.state.textEditingController.text != null) {
-    ctx.state.socket.emit("sendMessage",
-        {"uid": ctx.state.uid, "message": ctx.state.textEditingController.text}
-        // ChatModel(
-        //   id: ctx.state.socket.id,
-        //   message: ctx.state.textEditingController.text,
-        //   timestamp: DateTime.now(),
-        //   username: 'lee',
-        // ).toJson(),
-        );
-  } else {
-    ctx.state.socket.emit("getMessage", (data) => {print(data)}
+    ctx.state.socket.emit("sendMessage", {
+      "uid": ctx.state.uid,
+      "guid": '1fbebca0-867b-4f7e-80c0-144f080ed644',
+      "message": ctx.state.textEditingController.text
+    }
         // ChatModel(
         //   id: ctx.state.socket.id,
         //   message: ctx.state.textEditingController.text,
@@ -57,19 +51,20 @@ void _onInit(Action action, Context<ChatDetailState> ctx) async {
       'autoConnect': true,
     });
     ctx.state.socket.connect();
-    ctx.state.socket
-        .on('connect', (_) => print('connect: ${ctx.state.socket.id}'));
+    ctx.state.socket.on('connection',
+        (_) => {ctx.state.socket.emit('fromServer', (_) => print(_))});
     // socket.on('location', handleLocationListen);
     // ctx.state.socket.on('typing', handleTyping);
     // new user
     print(uid);
     ctx.state.socket.emit('createUser', uid);
-    ctx.state.socket.on('message', (data) => print('data$data'));
+    ctx.state.socket.on('getMessage', (data) => print('data$data'));
+
     ctx.state.socket
         .on('getMessageList', (data) => ctx.state.streamSocket.addResponse);
-    ctx.state.socket.on('disconnect', (_) => print('disconnect'));
-    ctx.state.socket.on('fromServer', (_) => print(_));
-    ctx.dispatch(ChatDetailActionCreator.sendMessage(''));
+    ctx.state.socket.on('disconnect', (_) => print('111$_'));
+    // ctx.state.socket.on('getMessage', (data) => print(data));
+    // ctx.state.socket.on('useLeft', (data) => print(data));
     // gotoMe();
   } catch (e) {
     print(e.toString());
