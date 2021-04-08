@@ -12,7 +12,7 @@ export 'home_page/page.dart';
 export 'sort_page/page.dart';
 export 'create_page/page.dart';
 export 'chat_page/page.dart';
-export 'chat_page/friend_page/page.dart';
+export 'chat_page/chat_detail_page/page.dart';
 export 'mine_page/page.dart';
 export 'mine_page/app_setting_page/page.dart';
 export 'publish_page/page.dart';

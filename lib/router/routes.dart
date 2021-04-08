@@ -20,7 +20,7 @@ class Routes {
       'sortPage': SortPage(),
       'createPage': CreatePage(),
       'chatPage': ChatPage(),
-      'friendPage': FriendPage(),
+      'chatDetailPage': ChatDetailPage(),
       'minePage': MinePage(),
       'appSettingPage': AppSettingPage(),
       'publishPage': PublishPage(),
