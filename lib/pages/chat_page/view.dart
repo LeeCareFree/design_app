@@ -31,7 +31,10 @@ Widget buildView(ChatState state, Dispatch dispatch, ViewService viewService) {
               height: Adapt.height(20),
             ),
           ),
-          _ChatList(messageList: state.messageList ?? <Widget>[])
+          _ChatList(
+              messageList: state.messageList != null
+                  ? state.messageList
+                  : MessageList(messlist: []))
         ],
       ));
 }
