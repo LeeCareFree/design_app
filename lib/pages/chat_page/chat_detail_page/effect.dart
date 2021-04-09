@@ -1,3 +1,10 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:bluespace/components/message_item.dart';
+import 'package:bluespace/globalState/action.dart';
+import 'package:bluespace/globalState/store.dart';
+import 'package:bluespace/models/chat_list.dart';
 import 'package:bluespace/models/chat_model.dart';
 import 'package:bluespace/pages/chat_page/chat_detail_page/view.dart';
 import 'package:fish_redux/fish_redux.dart';
@@ -19,58 +26,49 @@ Effect<ChatDetailState> buildEffect() {
 void _onAction(Action action, Context<ChatDetailState> ctx) {}
 
 void _onSendMessage(Action action, Context<ChatDetailState> ctx) async {
-  if (action.payload == 'send' &&
-      ctx.state.textEditingController.text != null) {
+  // GlobalStore.store.dispatch(GlobalActionCreator.seedMessage(action.payload));
+  // print(ctx.state.userInfo?.avatar);
+  Detaillist detaillist = Detaillist.fromJson({
+    "uid": ctx.state.uid,
+    "message": ctx.state.textEditingController.text,
+    "avatar": ctx.state.myavatar
+  });
+  if (ctx.state.textEditingController.text != null) {
     ctx.state.socket.emit("sendMessage", {
       "uid": ctx.state.uid,
-      "guid": '1fbebca0-867b-4f7e-80c0-144f080ed644',
+      // "guid": ctx.state.uid,
+      "guid": ctx.state.guid,
       "message": ctx.state.textEditingController.text
-    }
-        // ChatModel(
-        //   id: ctx.state.socket.id,
-        //   message: ctx.state.textEditingController.text,
-        //   timestamp: DateTime.now(),
-        //   username: 'lee',
-        // ).toJson(),
-        );
+    });
+    ctx.dispatch(ChatDetailActionCreator.setMessage(detaillist));
   }
-
-  // sendTyping(false);
 }
 
 void _onInit(Action action, Context<ChatDetailState> ctx) async {
-  ctx.state.streamSocket = StreamSocket();
   ctx.state.scrollController = ScrollController();
   ctx.state.textEditingController = TextEditingController();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final uid = prefs.getString('uid') ?? '';
+  final myavatar = prefs.getString('avatar') ?? '';
+  ctx.state.myavatar = myavatar;
   ctx.state.uid = uid;
-  try {
-    ctx.state.socket = io('http://192.168.0.107:3001', <String, dynamic>{
-      'transports': ['websocket'],
-      'autoConnect': true,
-    });
-    ctx.state.socket.connect();
-    ctx.state.socket.on('connection',
-        (_) => {ctx.state.socket.emit('fromServer', (_) => print(_))});
-    // socket.on('location', handleLocationListen);
-    // ctx.state.socket.on('typing', handleTyping);
-    // new user
-    print(uid);
-    ctx.state.socket.emit('createUser', uid);
-    ctx.state.socket.on('getMessage', (data) => print('data$data'));
-
-    ctx.state.socket
-        .on('getMessageList', (data) => ctx.state.streamSocket.addResponse);
-    ctx.state.socket.on('disconnect', (_) => print('111$_'));
-    // ctx.state.socket.on('getMessage', (data) => print(data));
-    // ctx.state.socket.on('useLeft', (data) => print(data));
-    // gotoMe();
-  } catch (e) {
-    print(e.toString());
-  }
+  ctx.state.socket.on(
+      'getMessage',
+      (data) => {
+            ctx.dispatch(
+                ChatDetailActionCreator.setMessage(Detaillist.fromJson(data)))
+          });
+  ctx.state.socket.emit("messageDetail", {
+    "uid": ctx.state.uid,
+    // "guid": ctx.state.uid,
+    "guid": ctx.state.guid,
+  });
+  ctx.state.socket.on(
+      'getMessageDetail',
+      (data) => {
+            ctx.dispatch(
+                ChatDetailActionCreator.upDateChatList(ChatList.fromJson(data)))
+          });
 }
 
-void _onDispose(Action action, Context<ChatDetailState> ctx) {
-  ctx.state.socket.close();
-}
+void _onDispose(Action action, Context<ChatDetailState> ctx) {}

@@ -167,7 +167,7 @@ class _UserInfoWidget extends StatelessWidget {
           height: Adapt.height(20),
         ),
         Text(
-          accountInfo?.introduction == 'null' ? '-' : accountInfo?.introduction,
+          accountInfo?.introduction == null ? '-' : accountInfo?.introduction,
           style: TextStyle(color: Colors.white),
         ),
         SizedBox(
@@ -361,23 +361,33 @@ class _UserInfoWidget extends StatelessWidget {
                           color: Colors.black45,
                           borderRadius:
                               BorderRadius.circular(Adapt.radius(50))),
-                      child: Row(
-                        children: [
-                          Text(
-                            '发消息',
-                            style: TextStyle(
-                                fontSize: Adapt.sp(24), color: Colors.white),
-                          ),
-                          SizedBox(
-                            width: Adapt.width(10),
-                          ),
-                          Icon(
-                            Icons.sms_outlined,
-                            color: Colors.white,
-                            size: 15,
-                          )
-                        ],
-                      ),
+                      child: GestureDetector(
+                          onTap: () => {
+                                Navigator.of(context)
+                                    .pushNamed('chatDetailPage', arguments: {
+                                  "guid": accountInfo.uid,
+                                  "avatar": accountInfo.avatar,
+                                  "nickname": accountInfo.nickname
+                                })
+                              },
+                          child: Row(
+                            children: [
+                              Text(
+                                '发消息',
+                                style: TextStyle(
+                                    fontSize: Adapt.sp(24),
+                                    color: Colors.white),
+                              ),
+                              SizedBox(
+                                width: Adapt.width(10),
+                              ),
+                              Icon(
+                                Icons.sms_outlined,
+                                color: Colors.white,
+                                size: 15,
+                              )
+                            ],
+                          )),
                     ),
                   )
           ],

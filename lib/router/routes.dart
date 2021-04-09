@@ -36,13 +36,16 @@ class Routes {
             (Object pagestate, GlobalState appState) {
           final GlobalBaseState p = pagestate;
           if (p.themeColor != appState.themeColor ||
-              p.userInfo != appState.userInfo) {
+              p.userInfo != appState.userInfo ||
+              p.socket != appState.socket ||
+              p.messageList != appState.messageList) {
             if (pagestate is Cloneable) {
               final Object copy = pagestate.clone();
               final GlobalBaseState newState = copy;
               newState.themeColor = appState.themeColor;
+              newState.socket = appState.socket;
+              newState.messageList = appState.messageList;
               newState.userInfo = appState.userInfo;
-              print('test${newState.userInfo}');
               return newState;
             }
           }

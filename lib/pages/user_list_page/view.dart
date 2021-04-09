@@ -2,6 +2,7 @@ import 'package:bluespace/components/loading.dart';
 import 'package:bluespace/models/follow_fans_list.dart';
 import 'package:bluespace/style/themeStyle.dart';
 import 'package:bluespace/utils/adapt.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -81,11 +82,10 @@ class _UserListWidget extends StatelessWidget {
                       direction: Axis.horizontal,
                       children: [
                         Expanded(
-                          flex: 2,
-                          child: ClipOval(
-                            child: Image.network(
+                          flex: 1,
+                          child: CircleAvatar(
+                            backgroundImage: CachedNetworkImageProvider(
                               followFansList?.result[index]?.avatar,
-                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
@@ -93,7 +93,7 @@ class _UserListWidget extends StatelessWidget {
                           width: Adapt.width(20),
                         ),
                         Expanded(
-                          flex: 8,
+                          flex: 5,
                           child: Text(
                             followFansList?.result[index]?.nickname,
                             style: TextStyle(fontWeight: FontWeight.bold),
@@ -102,7 +102,7 @@ class _UserListWidget extends StatelessWidget {
                         // followFansList?.result[index].isFocus
                         //     ?
                         Expanded(
-                            flex: 3,
+                            flex: 2,
                             child: _FollowFansWidget(
                                 isFocus:
                                     followFansList?.result[index]?.isFocus ??

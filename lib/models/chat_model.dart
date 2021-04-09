@@ -1,33 +1,27 @@
-import 'package:flutter/material.dart';
-
 class ChatModel {
-  String id;
-  String username;
+  String avatar;
+  String nickname;
+  String uid;
   String message;
-  DateTime timestamp;
+  String time;
 
-  ChatModel({
-    @required this.id,
-    @required this.username,
-    @required this.message,
-    @required this.timestamp,
-  });
+  ChatModel({this.avatar, this.nickname, this.uid, this.message, this.time});
 
   ChatModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    username = json['username'];
+    avatar = json['avatar'];
+    nickname = json['nickname'];
+    uid = json['uid'];
     message = json['message'];
-    timestamp = json['timestamp'] != null
-        ? DateTime.fromMillisecondsSinceEpoch(json['timestamp'])
-        : null;
+    time = json['time'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['username'] = this.username;
+    data['avatar'] = this.avatar;
+    data['nickname'] = this.nickname;
+    data['uid'] = this.uid;
     data['message'] = this.message;
-    data['timestamp'] = this.timestamp.millisecondsSinceEpoch;
+    data['time'] = this.time;
     return data;
   }
 }

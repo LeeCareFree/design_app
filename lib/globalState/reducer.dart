@@ -11,6 +11,8 @@ Reducer<GlobalState> buildReducer() {
   return asReducer(
     <Object, Reducer<GlobalState>>{
       GlobalAction.action: _onAction,
+      GlobalAction.updateSocket: _onUpdateSocket,
+      GlobalAction.updateMessageList: _onUpdateMessageList,
       GlobalAction.setUser: _onSetUser,
       GlobalAction.changeThemeColor: _onchangeThemeColor,
     },
@@ -19,6 +21,18 @@ Reducer<GlobalState> buildReducer() {
 
 GlobalState _onAction(GlobalState state, Action action) {
   final GlobalState newState = state.clone();
+  return newState;
+}
+
+GlobalState _onUpdateMessageList(GlobalState state, Action action) {
+  final GlobalState newState = state.clone();
+  newState.messageList = action.payload;
+  return newState;
+}
+
+GlobalState _onUpdateSocket(GlobalState state, Action action) {
+  final GlobalState newState = state.clone();
+  newState.socket = action.payload;
   return newState;
 }
 

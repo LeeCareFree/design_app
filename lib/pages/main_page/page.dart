@@ -9,7 +9,7 @@ class MainPage extends Page<MainPageState, Map<String, dynamic>> {
   MainPage()
       : super(
           initState: initState,
-          // effect: buildEffect(),
+          effect: buildEffect(),
           reducer: buildReducer(),
           view: buildView,
           shouldUpdate: (oldState, newState) {

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bluespace/models/chat_list.dart';
 import 'package:bluespace/router/PopRouter.dart';
 import 'package:bluespace/style/themeStyle.dart';
 import 'package:bluespace/utils/adapt.dart';
@@ -29,15 +30,14 @@ Widget buildView(
                   child: Container(
                     margin: EdgeInsets.only(right: Adapt.width(20)),
                     child: CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          'http://8.129.214.128:3001/upload/avatar/avatar_88704c52-3f86-4932-b4a0-af83dbc8e85f_1617779678742_single.jpg'),
+                      backgroundImage: NetworkImage(state.avatar ?? ''),
                       radius: Adapt.width(50),
                     ),
                   )),
               Expanded(
                   flex: 7,
                   child: Text(
-                    '李同学',
+                    state.nickname ?? '',
                     style: TextStyle(
                         fontSize: Adapt.sp(32),
                         color: Colors.black,
@@ -56,68 +56,25 @@ Widget buildView(
           children: <Widget>[
             // List of messages
             Flexible(
-                child:
-                    // state.socket?.id == ''
-                    //     ? Center(
-                    //         child: CircularProgressIndicator(
-                    //             valueColor:
-                    //                 AlwaysStoppedAnimation<Color>(Colors.black)))
-                    //     :
-                    Container(
-                        child: TextButton(
-              child: Text('接收'),
-              onPressed: () =>
-                  {dispatch(ChatDetailActionCreator.sendMessage(''))},
-            )
-                        // StreamBuilder(
-                        //     stream: state.streamSocket.getResponse,
-                        //     builder: (context, snapshot) {
-                        //       // if (!snapshot.hasData) {
-                        //       //   return Center(
-                        //       //       child: CircularProgressIndicator(
-                        //       //           valueColor:
-                        //       //               AlwaysStoppedAnimation<Color>(Colors.black)));
-                        //       // } else {
-                        //       // listMessage.addAll(snapshot.data.documents);
-                        //       return Text(snapshot.data.documents.toString());
-
-                        //       // ListView.builder(
-                        //       //   padding: EdgeInsets.all(10.0),
-                        //       //   itemBuilder: (context, index) => buildItem(index, snapshot.data.documents[index]),
-                        //       //   itemCount: snapshot.data.documents.length,
-                        //       //   reverse: true,
-                        //       //   controller: state.scrollController,
-                        //       // );
-                        //     }
-                        //     // },
-                        //     ),
-                        )
-
-                // : StreamBuilder(
-                //     stream: FirebaseFirestore.instance
-                //         .collection('messages')
-                //         .doc(groupChatId)
-                //         .collection(groupChatId)
-                //         .orderBy('timestamp', descending: true)
-                //         .limit(_limit)
-                //         .snapshots(),
-                //     builder: (context, snapshot) {
-                //       if (!snapshot.hasData) {
-                //         return Center(
-                //             child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(themeColor)));
-                //       } else {
-                //         listMessage.addAll(snapshot.data.documents);
-                //         return ListView.builder(
-                //           padding: EdgeInsets.all(10.0),
-                //           itemBuilder: (context, index) => buildItem(index, snapshot.data.documents[index]),
-                //           itemCount: snapshot.data.documents.length,
-                //           reverse: true,
-                //           controller: listScrollController,
-                //         );
-                //       }
-                //     },
-                // ),
-                ),
+              child:
+                  // state.socket?.id == ''
+                  //     ? Center(
+                  //         child: CircularProgressIndicator(
+                  //             valueColor:
+                  //                 AlwaysStoppedAnimation<Color>(Colors.black)))
+                  //     :
+                  ListView(
+                reverse: false,
+                padding: EdgeInsets.all(16),
+                // itemBuilder: state.messages ?? [],
+                children: state.chatList?.detaillist != null
+                    ? state.chatList?.detaillist
+                        ?.map((e) => _MessageItem(
+                            isMe: e.uid == state.uid, detaillist: e))
+                        ?.toList()
+                    : <Widget>[],
+              ),
+            ),
 
             // Input content
             Container(
@@ -167,7 +124,7 @@ Widget buildView(
                     child: IconButton(
                       icon: Icon(Icons.send),
                       onPressed: () =>
-                          dispatch(ChatDetailActionCreator.sendMessage('send')),
+                          dispatch(ChatDetailActionCreator.sendMessage()),
                       color: Colors.grey,
                     ),
                   ),
@@ -199,14 +156,56 @@ Widget buildView(
   );
 }
 
-class StreamSocket {
-  final _socketResponse = StreamController<String>();
-
-  void Function(String) get addResponse => _socketResponse.sink.add;
-
-  Stream<String> get getResponse => _socketResponse.stream;
-
-  void dispose() {
-    _socketResponse.close();
+class _MessageItem extends StatelessWidget {
+  final bool isMe;
+  final Detaillist detaillist;
+  const _MessageItem({this.detaillist, this.isMe});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        margin: EdgeInsets.only(top: Adapt.height(20)),
+        child: Row(
+          mainAxisAlignment:
+              isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                isMe
+                    ? Container(
+                        padding: EdgeInsets.all(Adapt.width(20)),
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.circular(Adapt.radius(30)),
+                            color: Colors.blueGrey),
+                        child: Text(
+                          detaillist.message,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      )
+                    : CircleAvatar(
+                        backgroundImage:
+                            CachedNetworkImageProvider(detaillist.avatar ?? ''),
+                      ),
+                SizedBox(width: Adapt.width(20)),
+                isMe
+                    ? CircleAvatar(
+                        backgroundImage:
+                            CachedNetworkImageProvider(detaillist.avatar ?? ''),
+                      )
+                    : Container(
+                        padding: EdgeInsets.all(Adapt.width(20)),
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.circular(Adapt.radius(30)),
+                            color: Colors.grey[100]),
+                        child: Text(
+                          detaillist.message,
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+              ],
+            )
+          ],
+        ));
   }
 }

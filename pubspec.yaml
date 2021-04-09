@@ -51,7 +51,7 @@ dependencies:
   flutter_gifimage: ^1.0.1
   chewie: ^1.0.0
   flutter_image_compress: ^1.0.0
-  socket_io_client: ^2.0.0-beta.2
+  socket_io_client: ^0.9.12
   scoped_model: ^1.1.0
 
 

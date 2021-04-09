@@ -1,10 +1,10 @@
-class ChatList {
+class MessageItem {
   List<Detaillist> detaillist;
   String uid2;
 
-  ChatList({this.detaillist, this.uid2});
+  MessageItem({this.detaillist, this.uid2});
 
-  ChatList.fromJson(Map<String, dynamic> json) {
+  MessageItem.fromJson(Map<String, dynamic> json) {
     if (json['detaillist'] != null) {
       detaillist = new List<Detaillist>();
       json['detaillist'].forEach((v) {

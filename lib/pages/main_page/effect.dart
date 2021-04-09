@@ -1,37 +1,56 @@
-// import 'dart:io';
-// import 'dart:isolate';
-// import 'dart:ui';
+import 'package:bluespace/globalState/action.dart';
+import 'package:bluespace/globalState/store.dart';
+import 'package:bluespace/models/message_list.dart';
+import 'package:bluespace/pages/chat_page/chat_detail_page/view.dart';
+import 'package:bluespace/pages/main_page/action.dart';
+import 'package:bluespace/pages/main_page/state.dart';
+import 'package:fish_redux/fish_redux.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
-// import 'package:firebase_messaging/firebase_messaging.dart';
-// import 'package:fish_redux/fish_redux.dart';
-// import 'package:flutter/material.dart' hide Action, Page;
-// import 'package:flutter_downloader/flutter_downloader.dart';
-// import 'package:movie/actions/http/tmdb_api.dart';
-// import 'package:movie/actions/downloader_callback.dart';
-// import 'package:movie/actions/http/github_api.dart';
-// import 'package:movie/actions/local_notification.dart';
-// import 'package:movie/actions/user_info_operate.dart';
-// import 'package:movie/actions/version_comparison.dart';
-// import 'package:movie/models/notification_model.dart';
-// import 'package:movie/views/tvshow_detail_page/page.dart';
-// import 'package:movie/widgets/update_info_dialog.dart';
-// import 'package:movie/views/detail_page/page.dart';
-// import 'package:package_info/package_info.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-// import 'action.dart';
-// import 'state.dart';
-
-// Effect<MainPageState> buildEffect() {
-//   return combineEffects(<Object, Effect<MainPageState>>{
-//     MainPageAction.action: _onAction,
-//     Lifecycle.initState: _onInit,
-//     Lifecycle.dispose: _onDispose,
-//   });
-// }
+Effect<MainPageState> buildEffect() {
+  return combineEffects(<Object, Effect<MainPageState>>{
+    MainPageAction.action: _onAction,
+    Lifecycle.initState: _onInit,
+    Lifecycle.dispose: _onDispose,
+  });
+}
 
 // ReceivePort _port = ReceivePort();
-// void _onAction(Action action, Context<MainPageState> ctx) {}
+void _onAction(Action action, Context<MainPageState> ctx) {}
+void _onInit(Action action, Context<MainPageState> ctx) async {
+  print('mainpage');
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final uid = prefs.getString('uid') ?? '';
+  try {
+    ctx.state.socket = io('http://192.168.0.107:3001', <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': true,
+    });
+    ctx.state.socket.connect();
+    ctx.state.socket.emit('createUser', uid);
+    ctx.state.socket.emit('messageList', uid);
+    ctx.state.socket.on(
+        'getMessageList',
+        (data) => {
+              GlobalStore.store.dispatch(GlobalActionCreator.updateMessageList(
+                  MessageList.fromJson(data)))
+            });
+    GlobalStore.store
+        .dispatch(GlobalActionCreator.updateSocket(ctx.state.socket));
 
+    ctx.state.socket.on('disconnect', (_) => print(_));
+    print('into');
+    // ctx.state.socket.on('useLeft', (data) => print(data));
+  } catch (e) {
+    print(e.toString());
+  }
+}
+
+void _onDispose(Action action, Context<MainPageState> ctx) async {
+  ctx.state.socket.close();
+}
 // void _onInit(Action action, Context<MainPageState> ctx) async {
 //   await TMDBApi.instance.init();
 //   await UserInfoOperate.whenAppStart();

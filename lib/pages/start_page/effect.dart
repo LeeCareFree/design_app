@@ -171,10 +171,8 @@ Future _phoneNumSignIn(Action action, Context<StartState> ctx) async {
     ctx.state.submitAnimationController.reset();
   } else {
     ctx.state.submitAnimationController.reset();
-    GlobalStore.store.dispatch(GlobalActionCreator.setUser(UserInfo(
-        username: data['data']['username'],
-        token: data['data']['token'],
-        uid: data['data']['uid'])));
+    UserInfo userInfo = UserInfo.fromJson(data['data']);
+    GlobalStore.store.dispatch(GlobalActionCreator.setUser(userInfo));
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // token储存到本地
     final setTokenResult =

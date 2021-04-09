@@ -1,39 +1,36 @@
-class ChatList {
-  List<Detaillist> detaillist;
-  String uid2;
+class MessageList {
+  List<Messlist> messlist;
 
-  ChatList({this.detaillist, this.uid2});
+  MessageList({this.messlist});
 
-  ChatList.fromJson(Map<String, dynamic> json) {
-    if (json['detaillist'] != null) {
-      detaillist = new List<Detaillist>();
-      json['detaillist'].forEach((v) {
-        detaillist.add(new Detaillist.fromJson(v));
+  MessageList.fromJson(Map<String, dynamic> json) {
+    if (json['messlist'] != null) {
+      messlist = new List<Messlist>();
+      json['messlist'].forEach((v) {
+        messlist.add(new Messlist.fromJson(v));
       });
     }
-    uid2 = json['uid2'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.detaillist != null) {
-      data['detaillist'] = this.detaillist.map((v) => v.toJson()).toList();
+    if (this.messlist != null) {
+      data['messlist'] = this.messlist.map((v) => v.toJson()).toList();
     }
-    data['uid2'] = this.uid2;
     return data;
   }
 }
 
-class Detaillist {
+class Messlist {
   String uid;
   String nickname;
   String avatar;
   String message;
   String time;
 
-  Detaillist({this.uid, this.nickname, this.avatar, this.message, this.time});
+  Messlist({this.uid, this.nickname, this.avatar, this.message, this.time});
 
-  Detaillist.fromJson(Map<String, dynamic> json) {
+  Messlist.fromJson(Map<String, dynamic> json) {
     uid = json['uid'];
     nickname = json['nickname'];
     avatar = json['avatar'];

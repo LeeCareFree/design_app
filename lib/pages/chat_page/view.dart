@@ -1,4 +1,5 @@
 import 'package:bluespace/models/chat_list.dart';
+import 'package:bluespace/models/message_list.dart';
 import 'package:bluespace/style/themeStyle.dart';
 import 'package:bluespace/utils/adapt.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -24,20 +25,32 @@ Widget buildView(ChatState state, Dispatch dispatch, ViewService viewService) {
       body: CustomScrollView(
         scrollDirection: Axis.vertical,
         reverse: false,
-        slivers: [_ChatList(chatList: state.chatList)],
+        slivers: [
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: Adapt.height(20),
+            ),
+          ),
+          _ChatList(messageList: state.messageList ?? <Widget>[])
+        ],
       ));
 }
 
 class _ChatList extends StatelessWidget {
-  final ChatList chatList;
-  const _ChatList({this.chatList});
+  final MessageList messageList;
+  const _ChatList({this.messageList});
   @override
   Widget build(BuildContext context) {
     return SliverFixedExtentList(
       itemExtent: Adapt.height(120),
       delegate: SliverChildBuilderDelegate(
           (_, int index) => InkWell(
-              onTap: () => Navigator.of(context).pushNamed('chatDetailPage'),
+              onTap: () =>
+                  Navigator.of(context).pushNamed('chatDetailPage', arguments: {
+                    "guid": messageList.messlist[index]?.uid,
+                    "avatar": messageList.messlist[index]?.avatar,
+                    "nickname": messageList.messlist[index]?.nickname
+                  }),
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: Adapt.width(30)),
                 width: Adapt.screenW(),
@@ -54,12 +67,12 @@ class _ChatList extends StatelessWidget {
                       flex: 2,
                       child: CircleAvatar(
                         backgroundImage:
-                            NetworkImage(chatList.result[index]?.avatar),
+                            NetworkImage(messageList.messlist[index]?.avatar),
                         radius: Adapt.width(50),
                       ),
                     ),
                     Expanded(
-                        flex: 8,
+                        flex: 7,
                         child: Row(
                           children: [
                             SizedBox(width: Adapt.width(20)),
@@ -68,14 +81,14 @@ class _ChatList extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  chatList.result[index]?.nickname,
+                                  messageList.messlist[index]?.nickname,
                                   style: TextStyle(fontSize: Adapt.sp(32)),
                                 ),
                                 SizedBox(
                                   height: Adapt.height(10),
                                 ),
                                 Text(
-                                  chatList.result[index]?.lastMessage,
+                                  messageList.messlist[index]?.message,
                                   style: TextStyle(color: Colors.grey),
                                 )
                               ],
@@ -83,17 +96,21 @@ class _ChatList extends StatelessWidget {
                           ],
                         )),
                     Expanded(
-                        flex: 2,
+                        flex: 3,
                         child: Container(
                           padding: EdgeInsets.fromLTRB(
                               0, Adapt.height(20), Adapt.width(20), 0),
                           alignment: Alignment.topRight,
-                          child: Text(chatList.result[index]?.lastTime),
+                          child: Text(
+                            messageList.messlist[index]?.time,
+                            style: TextStyle(
+                                color: Colors.grey, fontSize: Adapt.sp(26)),
+                          ),
                         ))
                   ],
                 ),
               )),
-          childCount: chatList?.result?.length),
+          childCount: messageList?.messlist?.length),
     );
   }
 }
