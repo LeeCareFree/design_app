@@ -17,9 +17,22 @@ import 'state.dart';
 Widget buildView(
     ChatDetailState state, Dispatch dispatch, ViewService viewService) {
   Timer(
-      Duration(milliseconds: 300),
-      () => state.scrollController
-          .jumpTo(state.scrollController.position.maxScrollExtent));
+      Duration(milliseconds: 0),
+      () => state.scrollController.animateTo(
+            state.scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 1000),
+            curve: Curves.ease,
+          ));
+  state.focusNode.addListener(() {
+    if (state.focusNode.hasFocus) {
+      Timer(
+          Duration(milliseconds: 100),
+          () => state.scrollController
+              .jumpTo(state.scrollController.position.maxScrollExtent));
+    } else {
+      print('失去焦点');
+    }
+  });
   final _theme = ThemeStyle.getTheme(viewService.context);
   return WillPopScope(
       child: Scaffold(
@@ -215,7 +228,7 @@ class _MessageItem extends StatelessWidget {
                     padding: EdgeInsets.all(Adapt.width(20)),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(Adapt.radius(30)),
-                        color: Colors.grey[100]),
+                        color: Colors.grey[200]),
                     child: Text(
                       (detaillist.message).toString(),
                       style: TextStyle(color: Colors.black),

@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:bluespace/utils/adapt.dart';
 import 'package:bluespace/utils/exitApp.dart';
 import 'package:bluespace/components/keepalive_widget.dart';
@@ -44,7 +45,7 @@ Widget buildView(
         ),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: _theme.backgroundColor,
-          items: _buildBottomNavigationBarItem(),
+          items: _buildBottomNavigationBarItem(state),
           currentIndex: state.selectedIndex,
           selectedItemColor: _theme.tabBarTheme.labelColor,
           unselectedItemColor: _theme.tabBarTheme.unselectedLabelColor,
@@ -58,7 +59,8 @@ Widget buildView(
   );
 }
 
-List<BottomNavigationBarItem> _buildBottomNavigationBarItem() {
+List<BottomNavigationBarItem> _buildBottomNavigationBarItem(
+    MainPageState state) {
   var _appBarTitles = ['首页', '装修', '发布', '消息', '我的'];
   List<BottomNavigationBarItem> _list;
   if (_list == null) {
@@ -85,6 +87,39 @@ List<BottomNavigationBarItem> _buildBottomNavigationBarItem() {
       ],
     ];
     _list = List.generate(5, (i) {
+      if (i == 3 &&
+          state.messageList?.sum != 0 &&
+          state.messageList?.sum != null) {
+        return BottomNavigationBarItem(
+            // backgroundColor: const Color(0xFFEDF6FD),
+            icon: Badge(
+              badgeContent: Text(
+                state.messageList.sum.toString(),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: Adapt.sp(24)),
+              ),
+              child: Icon(_tabImages[3][0]),
+            ),
+            activeIcon: Badge(
+              badgeContent: Text(
+                state.messageList.sum.toString(),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: Adapt.sp(24)),
+              ),
+              child: Icon(_tabImages[3][0]),
+            ),
+            title: Padding(
+              padding: const EdgeInsets.only(top: 1.5),
+              child: Text(
+                _appBarTitles[3],
+                key: Key(_appBarTitles[3]),
+              ),
+            ));
+      }
       return BottomNavigationBarItem(
           // backgroundColor: const Color(0xFFEDF6FD),
           icon: Icon(_tabImages[i][0]),

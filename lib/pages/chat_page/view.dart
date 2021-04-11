@@ -22,110 +22,122 @@ Widget buildView(ChatState state, Dispatch dispatch, ViewService viewService) {
         ),
         centerTitle: true,
       ),
-      body: CustomScrollView(
-        scrollDirection: Axis.vertical,
-        reverse: false,
-        slivers: [
-          SliverToBoxAdapter(
-            child: SizedBox(
-              height: Adapt.height(20),
-            ),
-          ),
-          _ChatList(
-              messageList: state.messageList != null
-                  ? state.messageList
-                  : MessageList(messlist: []))
-        ],
-      ));
+      body: Padding(
+          padding: EdgeInsets.symmetric(vertical: Adapt.height(20)),
+          child: ListView(
+            scrollDirection: Axis.vertical,
+            reverse: false,
+            children: state.messageList?.messlist != null
+                ? state.messageList?.messlist
+                    ?.map((e) => _MessageList(
+                          messlist: e,
+                        ))
+                    ?.toList()
+                : <Widget>[],
+          )));
 }
 
-class _ChatList extends StatelessWidget {
-  final MessageList messageList;
-  const _ChatList({this.messageList});
+class _MessageList extends StatelessWidget {
+  final Messlist messlist;
+  const _MessageList({this.messlist});
   @override
   Widget build(BuildContext context) {
-    return SliverFixedExtentList(
-      itemExtent: Adapt.height(120),
-      delegate: SliverChildBuilderDelegate(
-          (_, int index) => InkWell(
-              onTap: () =>
-                  Navigator.of(context).pushNamed('chatDetailPage', arguments: {
-                    "guid": messageList.messlist[index]?.uid,
-                    "avatar": messageList.messlist[index]?.avatar,
-                    "nickname": messageList.messlist[index]?.nickname
+    return Container(
+      child: InkWell(
+          onTap: () => Navigator.of(context).pushNamed('chatDetailPage',
+                  arguments: {
+                    "guid": messlist.uid,
+                    "avatar": messlist.avatar,
+                    "nickname": messlist.nickname
                   }),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: Adapt.width(20)),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border:
-                        Border(bottom: BorderSide(color: Colors.grey[200]))),
-                child: Flex(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  direction: Axis.horizontal,
-                  children: [
-                    Expanded(
-                        flex: 2,
-                        child: Container(
-                          margin: EdgeInsets.only(right: Adapt.width(20)),
-                          child: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                messageList.messlist[index]?.avatar),
-                            radius: Adapt.width(50),
-                          ),
-                        )),
-                    Expanded(
-                        flex: 10,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          // direction: Axis.vertical,
+          child: Container(
+            padding: EdgeInsets.all(Adapt.height(20)),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border(bottom: BorderSide(color: Colors.grey[200]))),
+            child: Flex(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              direction: Axis.horizontal,
+              children: [
+                Expanded(
+                    flex: 2,
+                    child: Stack(children: [
+                      Container(
+                        margin: EdgeInsets.only(right: Adapt.width(20)),
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(messlist.avatar),
+                          radius: Adapt.width(50),
+                        ),
+                      ),
+                      messlist.messNum != null
+                          ? Container(
+                              margin: EdgeInsets.only(left: Adapt.height(60)),
+                              padding: EdgeInsets.all(Adapt.width(10)),
+                              // width: Adapt.width(30),
+                              // height: Adapt.height(30),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.red,
+                              ),
+                              child: Text(
+                                messlist.messNum.toString(),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: Adapt.sp(24)),
+                              ),
+                            )
+                          : Container(),
+                    ])),
+                Expanded(
+                    flex: 10,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      // direction: Axis.vertical,
+                      children: [
+                        Flex(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          direction: Axis.horizontal,
                           children: [
-                            Flex(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              direction: Axis.horizontal,
-                              children: [
-                                Text(
-                                  messageList.messlist[index]?.nickname,
-                                  style: TextStyle(fontSize: Adapt.sp(32)),
-                                ),
-                                Text(
-                                  messageList.messlist[index]?.time,
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: Adapt.sp(26)),
-                                ),
-                              ],
+                            Text(
+                              messlist.nickname,
+                              style: TextStyle(fontSize: Adapt.sp(32)),
                             ),
-                            SizedBox(
-                              height: Adapt.height(15),
+                            Text(
+                              messlist.time,
+                              style: TextStyle(
+                                  color: Colors.grey, fontSize: Adapt.sp(26)),
                             ),
-                            Row(children: [
-                              Container(
-                                  width: Adapt.width(580),
-                                  child: Text(
-                                    messageList.messlist[index]?.message,
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: Adapt.sp(28)),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ))
-                            ])
                           ],
-                        )),
-                    // Expanded(
-                    //     flex: 3,
-                    //     child: Container(
-                    //       padding: EdgeInsets.fromLTRB(
-                    //           0, Adapt.height(20), Adapt.width(20), 0),
-                    //       alignment: Alignment.topRight,
-                    //       child:
-                    //     ))
-                  ],
-                ),
-              )),
-          childCount: messageList?.messlist?.length),
+                        ),
+                        SizedBox(
+                          height: Adapt.height(15),
+                        ),
+                        Row(children: [
+                          Container(
+                              width: Adapt.width(580),
+                              child: Text(
+                                messlist.message,
+                                style: TextStyle(
+                                    color: Colors.grey, fontSize: Adapt.sp(28)),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              )),
+                        ])
+                      ],
+                    )),
+                // Expanded(
+                //     flex: 3,
+                //     child: Container(
+                //       padding: EdgeInsets.fromLTRB(
+                //           0, Adapt.height(20), Adapt.width(20), 0),
+                //       alignment: Alignment.topRight,
+                //       child:
+                //     ))
+              ],
+            ),
+          )),
     );
   }
 }

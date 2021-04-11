@@ -1,7 +1,8 @@
 class MessageList {
   List<Messlist> messlist;
+  int sum;
 
-  MessageList({this.messlist});
+  MessageList({this.messlist, this.sum});
 
   MessageList.fromJson(Map<String, dynamic> json) {
     if (json['messlist'] != null) {
@@ -10,6 +11,7 @@ class MessageList {
         messlist.add(new Messlist.fromJson(v));
       });
     }
+    sum = json['sum'];
   }
 
   Map<String, dynamic> toJson() {
@@ -17,6 +19,7 @@ class MessageList {
     if (this.messlist != null) {
       data['messlist'] = this.messlist.map((v) => v.toJson()).toList();
     }
+    data['sum'] = this.sum;
     return data;
   }
 }
@@ -26,6 +29,7 @@ class Messlist {
   String nickname;
   String avatar;
   String message;
+  int messNum;
   String time;
 
   Messlist({this.uid, this.nickname, this.avatar, this.message, this.time});
@@ -36,6 +40,7 @@ class Messlist {
     avatar = json['avatar'];
     message = json['message'];
     time = json['time'];
+    messNum = json['messNum'];
   }
 
   Map<String, dynamic> toJson() {
@@ -45,6 +50,7 @@ class Messlist {
     data['avatar'] = this.avatar;
     data['message'] = this.message;
     data['time'] = this.time;
+    data['messNum'] = this.messNum;
     return data;
   }
 }

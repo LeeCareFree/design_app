@@ -49,6 +49,7 @@ void _onSendMessage(Action action, Context<ChatDetailState> ctx) async {
 void _onInit(Action action, Context<ChatDetailState> ctx) async {
   ctx.state.scrollController = ScrollController();
   ctx.state.textEditingController = TextEditingController();
+  ctx.state.focusNode = FocusNode();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final uid = prefs.getString('uid') ?? '';
   final myavatar = prefs.getString('avatar') ?? '';
@@ -73,6 +74,16 @@ void _onInit(Action action, Context<ChatDetailState> ctx) async {
     if (messageDetailRes['code'] == 200) {
       ChatList chatList = ChatList.fromJson(messageDetailRes['data']);
       ctx.dispatch(ChatDetailActionCreator.upDateChatList(chatList));
+      ctx.state.socket.emit('messageList', ctx.state.uid);
+      print(ctx.state.uid);
+      ctx.state.socket.on(
+          'getMessageList',
+          (data) => {
+                print(data),
+                GlobalStore.store.dispatch(
+                    GlobalActionCreator.updateMessageList(
+                        MessageList.fromJson(data)))
+              });
     } else {
       Fluttertoast.showToast(msg: sumRes['msg'] ?? '获取消息失败！');
     }

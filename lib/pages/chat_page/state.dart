@@ -24,5 +24,5 @@ class ChatState implements GlobalBaseState, Cloneable<ChatState> {
 }
 
 ChatState initState(Map<String, dynamic> args) {
-  return ChatState();
+  return ChatState()..messageList = MessageList(messlist: []);
 }

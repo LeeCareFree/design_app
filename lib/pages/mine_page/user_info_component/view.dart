@@ -135,8 +135,8 @@ class _UserInfo extends StatelessWidget {
             ),
             Container(
               margin: EdgeInsets.only(left: Adapt.height(80) - _avatarMargin),
-              width: 10,
-              height: 10,
+              width: Adapt.width(20),
+              height: Adapt.height(20),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: const Color(0xFF5568E8),
