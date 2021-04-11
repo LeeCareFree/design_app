@@ -31,4 +31,7 @@ const servicePath = {
   'setting': serviceUrl + 'users/setting',
   // 设计师相关
   'getDesignerList': serviceUrl + 'stylist/getlist',
+  // 消息相关
+  'getMessageDetail': serviceUrl + 'message/getmessdetail',
+  'getMessageSum': serviceUrl + 'message/getsum',
 };

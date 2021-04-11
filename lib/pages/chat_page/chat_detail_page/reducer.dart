@@ -15,12 +15,8 @@ Reducer<ChatDetailState> buildReducer() {
 }
 
 ChatDetailState _onSetMessage(ChatDetailState state, Action action) {
-  print(action.payload);
   final ChatDetailState newState = state.clone();
-  newState.chatList?.detaillist = [
-    ...state.chatList?.detaillist,
-    ...[action.payload]
-  ];
+  newState.chatList?.detaillist.add(action.payload);
   return newState;
 }
 

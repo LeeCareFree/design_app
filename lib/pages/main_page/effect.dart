@@ -14,13 +14,13 @@ Effect<MainPageState> buildEffect() {
     MainPageAction.action: _onAction,
     Lifecycle.initState: _onInit,
     Lifecycle.dispose: _onDispose,
+    Lifecycle.build: _onBuild
   });
 }
 
 // ReceivePort _port = ReceivePort();
 void _onAction(Action action, Context<MainPageState> ctx) {}
 void _onInit(Action action, Context<MainPageState> ctx) async {
-  print('mainpage');
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final uid = prefs.getString('uid') ?? '';
   try {
@@ -34,6 +34,7 @@ void _onInit(Action action, Context<MainPageState> ctx) async {
     ctx.state.socket.on(
         'getMessageList',
         (data) => {
+              print(data),
               GlobalStore.store.dispatch(GlobalActionCreator.updateMessageList(
                   MessageList.fromJson(data)))
             });
@@ -41,7 +42,6 @@ void _onInit(Action action, Context<MainPageState> ctx) async {
         .dispatch(GlobalActionCreator.updateSocket(ctx.state.socket));
 
     ctx.state.socket.on('disconnect', (_) => print(_));
-    print('into');
     // ctx.state.socket.on('useLeft', (data) => print(data));
   } catch (e) {
     print(e.toString());
@@ -50,6 +50,19 @@ void _onInit(Action action, Context<MainPageState> ctx) async {
 
 void _onDispose(Action action, Context<MainPageState> ctx) async {
   ctx.state.socket.close();
+}
+
+void _onBuild(Action action, Context<MainPageState> ctx) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final uid = prefs.getString('uid') ?? '';
+  ctx.state.socket.emit('messageList', uid);
+  ctx.state.socket.on(
+      'getMessageList',
+      (data) => {
+            print(data),
+            GlobalStore.store.dispatch(GlobalActionCreator.updateMessageList(
+                MessageList.fromJson(data)))
+          });
 }
 // void _onInit(Action action, Context<MainPageState> ctx) async {
 //   await TMDBApi.instance.init();

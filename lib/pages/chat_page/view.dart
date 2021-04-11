@@ -55,61 +55,73 @@ class _ChatList extends StatelessWidget {
                     "nickname": messageList.messlist[index]?.nickname
                   }),
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: Adapt.width(30)),
-                width: Adapt.screenW(),
+                padding: EdgeInsets.symmetric(horizontal: Adapt.width(20)),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border:
                         Border(bottom: BorderSide(color: Colors.grey[200]))),
                 child: Flex(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   direction: Axis.horizontal,
                   children: [
                     Expanded(
-                      flex: 2,
-                      child: CircleAvatar(
-                        backgroundImage:
-                            NetworkImage(messageList.messlist[index]?.avatar),
-                        radius: Adapt.width(50),
-                      ),
-                    ),
+                        flex: 2,
+                        child: Container(
+                          margin: EdgeInsets.only(right: Adapt.width(20)),
+                          child: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                messageList.messlist[index]?.avatar),
+                            radius: Adapt.width(50),
+                          ),
+                        )),
                     Expanded(
-                        flex: 7,
-                        child: Row(
+                        flex: 10,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          // direction: Axis.vertical,
                           children: [
-                            SizedBox(width: Adapt.width(20)),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            Flex(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              direction: Axis.horizontal,
                               children: [
                                 Text(
                                   messageList.messlist[index]?.nickname,
                                   style: TextStyle(fontSize: Adapt.sp(32)),
                                 ),
-                                SizedBox(
-                                  height: Adapt.height(10),
-                                ),
                                 Text(
-                                  messageList.messlist[index]?.message,
-                                  style: TextStyle(color: Colors.grey),
-                                )
+                                  messageList.messlist[index]?.time,
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: Adapt.sp(26)),
+                                ),
                               ],
                             ),
+                            SizedBox(
+                              height: Adapt.height(15),
+                            ),
+                            Row(children: [
+                              Container(
+                                  width: Adapt.width(580),
+                                  child: Text(
+                                    messageList.messlist[index]?.message,
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: Adapt.sp(28)),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ))
+                            ])
                           ],
                         )),
-                    Expanded(
-                        flex: 3,
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(
-                              0, Adapt.height(20), Adapt.width(20), 0),
-                          alignment: Alignment.topRight,
-                          child: Text(
-                            messageList.messlist[index]?.time,
-                            style: TextStyle(
-                                color: Colors.grey, fontSize: Adapt.sp(26)),
-                          ),
-                        ))
+                    // Expanded(
+                    //     flex: 3,
+                    //     child: Container(
+                    //       padding: EdgeInsets.fromLTRB(
+                    //           0, Adapt.height(20), Adapt.width(20), 0),
+                    //       alignment: Alignment.topRight,
+                    //       child:
+                    //     ))
                   ],
                 ),
               )),

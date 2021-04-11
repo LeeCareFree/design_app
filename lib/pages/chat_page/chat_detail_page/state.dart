@@ -46,6 +46,7 @@ class ChatDetailState implements GlobalBaseState, Cloneable<ChatDetailState> {
 
 ChatDetailState initState(Map<String, dynamic> args) {
   return ChatDetailState()
+    ..chatList = ChatList(detaillist: [])
     ..guid = args['guid']
     ..avatar = args['avatar']
     ..nickname = args['nickname'];

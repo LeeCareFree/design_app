@@ -29,7 +29,7 @@ class Detaillist {
   String nickname;
   String avatar;
   String message;
-  String time;
+  int time;
 
   Detaillist({this.uid, this.nickname, this.avatar, this.message, this.time});
 
