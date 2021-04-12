@@ -34,7 +34,7 @@ Widget buildView(ChatState state, Dispatch dispatch, ViewService viewService) {
               child: ListView(
                 scrollDirection: Axis.vertical,
                 reverse: false,
-                children: state.messageList?.messlist != null
+                children: state.messageList?.messlist?.length != 0
                     ? state.messageList?.messlist
                         ?.map((e) => _MessageList(
                               messlist: e,

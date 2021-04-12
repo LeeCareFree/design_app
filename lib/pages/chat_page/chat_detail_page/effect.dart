@@ -29,16 +29,14 @@ void _onAction(Action action, Context<ChatDetailState> ctx) {}
 
 void _onSendMessage(Action action, Context<ChatDetailState> ctx) async {
   int time = new DateTime.now().millisecondsSinceEpoch;
-  DateTime dateTime;
+  String dateTime;
   if (ctx.state.chatList.detaillist.length != 0) {
     if (time > (ctx.state.chatList.detaillist.last.time + (5 * 60 * 1000))) {
-      dateTime = DateTime.now();
-      dateTime.toString().substring(0, 16);
+      dateTime = DateTime.now().toString();
     }
 
     // RelativeDateFormat.format(dateTime);
   }
-
   if (ctx.state.textEditingController.text != null) {
     ctx.state.socket.emit("sendMessage", {
       "uid": ctx.state.uid,
@@ -46,7 +44,7 @@ void _onSendMessage(Action action, Context<ChatDetailState> ctx) async {
       "guid": ctx.state.guid,
       "time": DateTime.now().millisecondsSinceEpoch,
       "message": ctx.state.textEditingController.text,
-      "endTime": dateTime != null ? dateTime : null
+      "endTime": dateTime != null ? dateTime.toString().substring(0, 16) : null
     });
 
     ctx.dispatch(ChatDetailActionCreator.setMessage(Detaillist.fromJson({
@@ -55,7 +53,7 @@ void _onSendMessage(Action action, Context<ChatDetailState> ctx) async {
       "message": ctx.state.textEditingController.text,
       "avatar": ctx.state.myavatar,
       "time": DateTime.now().millisecondsSinceEpoch,
-      "endTime": dateTime != null ? dateTime : null
+      "endTime": dateTime != null ? dateTime.toString().substring(0, 16) : null
     })));
   }
 }
