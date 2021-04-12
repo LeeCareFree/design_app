@@ -1,8 +1,6 @@
-import 'package:bluespace/components/message_item.dart';
 import 'package:bluespace/globalState/state.dart';
 import 'package:bluespace/models/account_info.dart';
 import 'package:bluespace/models/chat_list.dart';
-import 'package:bluespace/models/chat_model.dart';
 import 'package:bluespace/models/message_list.dart';
 import 'package:bluespace/models/user_info.dart';
 import 'package:bluespace/pages/chat_page/chat_detail_page/view.dart';

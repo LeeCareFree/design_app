@@ -192,49 +192,69 @@ class _MessageItem extends StatelessWidget {
   const _MessageItem({this.detaillist, this.isMe});
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: EdgeInsets.symmetric(vertical: Adapt.width(20)),
-        child: Row(
-          mainAxisAlignment:
-              isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
-          children: [
-            isMe
-                ? Container(
-                    constraints:
-                        BoxConstraints(maxWidth: Adapt.screenW() / 1.6),
-                    padding: EdgeInsets.all(Adapt.width(20)),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(Adapt.radius(30)),
-                        color: Colors.blueGrey),
-                    child: Text(
-                      (detaillist.message).toString(),
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )
-                : CircleAvatar(
-                    backgroundImage:
-                        CachedNetworkImageProvider(detaillist.avatar ?? ''),
-                  ),
-            SizedBox(width: Adapt.width(20)),
-            isMe
-                ? CircleAvatar(
-                    backgroundImage:
-                        CachedNetworkImageProvider(detaillist.avatar ?? ''),
-                  )
-                : Container(
-                    constraints:
-                        BoxConstraints(maxWidth: Adapt.screenW() / 1.6),
-                    // margin: EdgeInsets.only(right: Adapt.width(100)),
-                    padding: EdgeInsets.all(Adapt.width(20)),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(Adapt.radius(30)),
-                        color: Colors.grey[200]),
-                    child: Text(
-                      (detaillist.message).toString(),
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-          ],
-        ));
+    return Column(
+      children: [
+        detaillist.endTime != null
+            ? Text(detaillist.endTime,
+                style: TextStyle(color: Colors.grey, fontSize: Adapt.sp(26)))
+            : Container(),
+        Container(
+            padding: EdgeInsets.symmetric(vertical: Adapt.width(20)),
+            child: Row(
+              mainAxisAlignment:
+                  isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+              children: [
+                isMe
+                    ? Container(
+                        constraints:
+                            BoxConstraints(maxWidth: Adapt.screenW() / 1.6),
+                        padding: EdgeInsets.all(Adapt.width(20)),
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.circular(Adapt.radius(30)),
+                            color: Colors.blueGrey),
+                        child: Text(
+                          (detaillist.message).toString(),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      )
+                    : GestureDetector(
+                        onTap: () => {
+                              Navigator.of(context).pushNamed('personalPage',
+                                  arguments: {'uid': detaillist.uid}),
+                            },
+                        child: CircleAvatar(
+                          backgroundImage: CachedNetworkImageProvider(
+                              detaillist.avatar ?? ''),
+                        )),
+                SizedBox(width: Adapt.width(20)),
+                isMe
+                    ? GestureDetector(
+                        onTap: () => {
+                              Navigator.of(context).pushNamed('personalPage',
+                                  arguments: {'uid': detaillist.uid}),
+                            },
+                        child: CircleAvatar(
+                          backgroundImage: CachedNetworkImageProvider(
+                              detaillist.avatar ?? ''),
+                        ))
+                    : Container(
+                        constraints:
+                            BoxConstraints(maxWidth: Adapt.screenW() / 1.6),
+                        // margin: EdgeInsets.only(right: Adapt.width(100)),
+                        padding: EdgeInsets.all(Adapt.width(20)),
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.circular(Adapt.radius(30)),
+                            color: Colors.grey[200]),
+                        child: Text(
+                          (detaillist.message).toString(),
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+              ],
+            ))
+      ],
+    );
   }
 }

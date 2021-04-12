@@ -5,6 +5,7 @@ import 'package:bluespace/utils/adapt.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'action.dart';
 import 'state.dart';
@@ -22,19 +23,30 @@ Widget buildView(ChatState state, Dispatch dispatch, ViewService viewService) {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-          padding: EdgeInsets.symmetric(vertical: Adapt.height(20)),
-          child: ListView(
-            scrollDirection: Axis.vertical,
-            reverse: false,
-            children: state.messageList?.messlist != null
-                ? state.messageList?.messlist
-                    ?.map((e) => _MessageList(
-                          messlist: e,
-                        ))
-                    ?.toList()
-                : <Widget>[],
-          )));
+      body: Container(
+          margin: EdgeInsets.symmetric(vertical: Adapt.height(20)),
+          child: SmartRefresher(
+              enablePullDown: true,
+              controller: state.refreshController,
+              onRefresh: () => {
+                    dispatch(ChatActionCreator.refreshPage()),
+                  },
+              child: ListView(
+                scrollDirection: Axis.vertical,
+                reverse: false,
+                children: state.messageList?.messlist != null
+                    ? state.messageList?.messlist
+                        ?.map((e) => _MessageList(
+                              messlist: e,
+                            ))
+                        ?.toList()
+                    : [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [Text('暂无消息')],
+                        )
+                      ],
+              ))));
 }
 
 class _MessageList extends StatelessWidget {

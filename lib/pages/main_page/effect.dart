@@ -23,29 +23,26 @@ void _onAction(Action action, Context<MainPageState> ctx) {}
 void _onInit(Action action, Context<MainPageState> ctx) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final uid = prefs.getString('uid') ?? '';
-  try {
-    ctx.state.socket = io('http://192.168.0.107:3001', <String, dynamic>{
-      'transports': ['websocket'],
-      'autoConnect': true,
-    });
-    ctx.state.socket.connect();
-    ctx.state.socket.emit('createUser', uid);
-    ctx.state.socket.emit('messageList', uid);
-    ctx.state.socket.on(
-        'getMessageList',
-        (data) => {
-              print(data),
-              GlobalStore.store.dispatch(GlobalActionCreator.updateMessageList(
-                  MessageList.fromJson(data)))
-            });
-    GlobalStore.store
-        .dispatch(GlobalActionCreator.updateSocket(ctx.state.socket));
+  ctx.state.uid = uid;
+  ctx.state.socket = io('http://192.168.0.104:3001', <String, dynamic>{
+    'transports': ['websocket'],
+    'autoConnect': true,
+  });
+  ctx.state.socket.connect();
+  ctx.state.socket.emit('createUser', uid);
+  ctx.state.socket.emit('messageList', uid);
+  ctx.state.socket.on(
+      'getMessageList',
+      (data) => {
+            print(data),
+            GlobalStore.store.dispatch(GlobalActionCreator.updateMessageList(
+                MessageList.fromJson(data)))
+          });
+  GlobalStore.store
+      .dispatch(GlobalActionCreator.updateSocket(ctx.state.socket));
 
-    ctx.state.socket.on('disconnect', (_) => print(_));
-    // ctx.state.socket.on('useLeft', (data) => print(data));
-  } catch (e) {
-    print(e.toString());
-  }
+  ctx.state.socket.on('disconnect', (_) => print(_));
+  // ctx.state.socket.on('useLeft', (data) => print(data));
 }
 
 void _onDispose(Action action, Context<MainPageState> ctx) async {
@@ -53,9 +50,7 @@ void _onDispose(Action action, Context<MainPageState> ctx) async {
 }
 
 void _onBuild(Action action, Context<MainPageState> ctx) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  final uid = prefs.getString('uid') ?? '';
-  ctx.state.socket.emit('messageList', uid);
+  ctx.state.socket.emit('messageList', ctx.state.uid);
   ctx.state.socket.on(
       'getMessageList',
       (data) => {

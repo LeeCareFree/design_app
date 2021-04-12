@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:bluespace/components/message_item.dart';
 import 'package:bluespace/globalState/action.dart';
 import 'package:bluespace/globalState/store.dart';
 import 'package:bluespace/models/chat_list.dart';
-import 'package:bluespace/models/chat_model.dart';
 import 'package:bluespace/models/message_list.dart';
 import 'package:bluespace/net/service_method.dart';
 import 'package:bluespace/pages/chat_page/chat_detail_page/view.dart';
+import 'package:bluespace/utils/timeUtil.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/cupertino.dart' hide Action;
 import 'package:fluttertoast/fluttertoast.dart';
@@ -29,19 +28,34 @@ Effect<ChatDetailState> buildEffect() {
 void _onAction(Action action, Context<ChatDetailState> ctx) {}
 
 void _onSendMessage(Action action, Context<ChatDetailState> ctx) async {
-  // GlobalStore.store.dispatch(GlobalActionCreator.seedMessage(action.payload));
-  // print(ctx.state.userInfo?.avatar);
+  int time = new DateTime.now().millisecondsSinceEpoch;
+  DateTime dateTime;
+  if (ctx.state.chatList.detaillist.length != 0) {
+    if (time > (ctx.state.chatList.detaillist.last.time + (5 * 60 * 1000))) {
+      dateTime = DateTime.now();
+      dateTime.toString().substring(0, 16);
+    }
+
+    // RelativeDateFormat.format(dateTime);
+  }
+
   if (ctx.state.textEditingController.text != null) {
     ctx.state.socket.emit("sendMessage", {
       "uid": ctx.state.uid,
       // "guid": ctx.state.uid,
       "guid": ctx.state.guid,
-      "message": ctx.state.textEditingController.text
+      "time": DateTime.now().millisecondsSinceEpoch,
+      "message": ctx.state.textEditingController.text,
+      "endTime": dateTime != null ? dateTime : null
     });
+
     ctx.dispatch(ChatDetailActionCreator.setMessage(Detaillist.fromJson({
       "uid": ctx.state.uid,
+      "guid": ctx.state.guid,
       "message": ctx.state.textEditingController.text,
-      "avatar": ctx.state.myavatar
+      "avatar": ctx.state.myavatar,
+      "time": DateTime.now().millisecondsSinceEpoch,
+      "endTime": dateTime != null ? dateTime : null
     })));
   }
 }
@@ -74,18 +88,17 @@ void _onInit(Action action, Context<ChatDetailState> ctx) async {
     if (messageDetailRes['code'] == 200) {
       ChatList chatList = ChatList.fromJson(messageDetailRes['data']);
       ctx.dispatch(ChatDetailActionCreator.upDateChatList(chatList));
+      print(ctx.state.chatList.detaillist.last.time);
       ctx.state.socket.emit('messageList', ctx.state.uid);
-      print(ctx.state.uid);
       ctx.state.socket.on(
           'getMessageList',
           (data) => {
-                print(data),
                 GlobalStore.store.dispatch(
                     GlobalActionCreator.updateMessageList(
                         MessageList.fromJson(data)))
               });
     } else {
-      Fluttertoast.showToast(msg: sumRes['msg'] ?? '获取消息失败！');
+      Fluttertoast.showToast(msg: messageDetailRes['msg'] ?? '获取消息失败！');
     }
   } else {
     Fluttertoast.showToast(msg: sumRes['msg'] ?? '获取消息总数失败！');

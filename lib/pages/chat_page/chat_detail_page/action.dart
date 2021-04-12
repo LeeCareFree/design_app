@@ -1,6 +1,4 @@
-import 'package:bluespace/components/message_item.dart';
 import 'package:bluespace/models/chat_list.dart';
-import 'package:bluespace/models/chat_model.dart';
 import 'package:fish_redux/fish_redux.dart';
 
 //TODO replace with your own action

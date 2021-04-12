@@ -30,8 +30,15 @@ class Detaillist {
   String avatar;
   String message;
   int time;
+  String endTime;
 
-  Detaillist({this.uid, this.nickname, this.avatar, this.message, this.time});
+  Detaillist(
+      {this.uid,
+      this.nickname,
+      this.avatar,
+      this.message,
+      this.time,
+      this.endTime});
 
   Detaillist.fromJson(Map<String, dynamic> json) {
     uid = json['uid'];
@@ -39,6 +46,7 @@ class Detaillist {
     avatar = json['avatar'];
     message = json['message'];
     time = json['time'];
+    endTime = json['endTime'];
   }
 
   Map<String, dynamic> toJson() {
@@ -48,6 +56,7 @@ class Detaillist {
     data['avatar'] = this.avatar;
     data['message'] = this.message;
     data['time'] = this.time;
+    data['endTime'] = this.endTime;
     return data;
   }
 }
