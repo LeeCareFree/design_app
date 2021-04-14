@@ -20,6 +20,7 @@ class GlobalActionCreator {
   }
 
   static Action updateMessageList(MessageList messageList) {
+    print(messageList);
     return Action(GlobalAction.updateMessageList, payload: messageList);
   }
 

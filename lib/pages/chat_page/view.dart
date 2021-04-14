@@ -45,7 +45,7 @@ Widget buildView(ChatState state, Dispatch dispatch, ViewService viewService) {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [Text('暂无消息')],
                         )
-                      ],
+                      ].toList(),
               ))));
 }
 
@@ -82,7 +82,7 @@ class _MessageList extends StatelessWidget {
                           radius: Adapt.width(50),
                         ),
                       ),
-                      messlist.messNum != null
+                      (messlist.messNum != 0 && messlist.messNum != null)
                           ? Container(
                               margin: EdgeInsets.only(left: Adapt.height(60)),
                               padding: EdgeInsets.all(Adapt.width(10)),

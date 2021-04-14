@@ -33,5 +33,7 @@ class MainPageState implements GlobalBaseState, Cloneable<MainPageState> {
 }
 
 MainPageState initState(Map<String, dynamic> args) {
-  return MainPageState()..pages = args['pages'];
+  return MainPageState()
+    ..messageList = MessageList(messlist: [])
+    ..pages = args['pages'];
 }

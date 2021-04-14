@@ -13,7 +13,8 @@ class MainPage extends Page<MainPageState, Map<String, dynamic>> {
           reducer: buildReducer(),
           view: buildView,
           shouldUpdate: (oldState, newState) {
-            return oldState.selectedIndex != newState.selectedIndex;
+            return oldState.selectedIndex != newState.selectedIndex ||
+                oldState.messageList != newState.messageList;
           },
           dependencies: Dependencies<MainPageState>(
               adapter: null, slots: <String, Dependent<MainPageState>>{}),

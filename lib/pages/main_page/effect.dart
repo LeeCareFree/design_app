@@ -24,7 +24,7 @@ void _onInit(Action action, Context<MainPageState> ctx) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final uid = prefs.getString('uid') ?? '';
   ctx.state.uid = uid;
-  ctx.state.socket = io('http://192.168.0.104:3001', <String, dynamic>{
+  ctx.state.socket = io('http://192.168.0.107:3001', <String, dynamic>{
     'transports': ['websocket'],
     'autoConnect': true,
   });
@@ -34,7 +34,6 @@ void _onInit(Action action, Context<MainPageState> ctx) async {
   ctx.state.socket.on(
       'getMessageList',
       (data) => {
-            print(data),
             GlobalStore.store.dispatch(GlobalActionCreator.updateMessageList(
                 MessageList.fromJson(data)))
           });
@@ -50,14 +49,7 @@ void _onDispose(Action action, Context<MainPageState> ctx) async {
 }
 
 void _onBuild(Action action, Context<MainPageState> ctx) async {
-  ctx.state.socket.emit('messageList', ctx.state.uid);
-  ctx.state.socket.on(
-      'getMessageList',
-      (data) => {
-            print(data),
-            GlobalStore.store.dispatch(GlobalActionCreator.updateMessageList(
-                MessageList.fromJson(data)))
-          });
+  print('build');
 }
 // void _onInit(Action action, Context<MainPageState> ctx) async {
 //   await TMDBApi.instance.init();

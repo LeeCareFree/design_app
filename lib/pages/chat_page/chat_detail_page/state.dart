@@ -6,6 +6,7 @@ import 'package:bluespace/models/user_info.dart';
 import 'package:bluespace/pages/chat_page/chat_detail_page/view.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ChatDetailState implements GlobalBaseState, Cloneable<ChatDetailState> {
@@ -18,9 +19,11 @@ class ChatDetailState implements GlobalBaseState, Cloneable<ChatDetailState> {
   String avatar;
   String myavatar;
   ChatList chatList;
+  JPush jPush;
   @override
   ChatDetailState clone() {
     return ChatDetailState()
+      ..jPush = jPush
       ..socket = socket
       ..nickname = nickname
       ..myavatar = myavatar

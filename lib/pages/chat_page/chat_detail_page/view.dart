@@ -20,15 +20,18 @@ Widget buildView(
       Duration(milliseconds: 0),
       () => state.scrollController.animateTo(
             state.scrollController.position.maxScrollExtent,
-            duration: const Duration(milliseconds: 1000),
+            duration: const Duration(milliseconds: 300),
             curve: Curves.ease,
           ));
   state.focusNode.addListener(() {
     if (state.focusNode.hasFocus) {
       Timer(
-          Duration(milliseconds: 100),
-          () => state.scrollController
-              .jumpTo(state.scrollController.position.maxScrollExtent));
+          Duration(milliseconds: 300),
+          () => state.scrollController.animateTo(
+                state.scrollController.position.maxScrollExtent,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.ease,
+              ));
     } else {
       print('失去焦点');
     }
@@ -177,7 +180,6 @@ Widget buildView(
         state.socket.on(
             'getMessageList',
             (data) => {
-                  print(data),
                   GlobalStore.store.dispatch(
                       GlobalActionCreator.updateMessageList(
                           MessageList.fromJson(data)))

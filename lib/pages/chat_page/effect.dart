@@ -12,7 +12,8 @@ Effect<ChatState> buildEffect() {
   return combineEffects(<Object, Effect<ChatState>>{
     ChatAction.action: _onAction,
     Lifecycle.initState: _onInit,
-    ChatAction.refreshPage: _onRefreshPage
+    ChatAction.refreshPage: _onRefreshPage,
+    Lifecycle.build: _onBuild
   });
 }
 
@@ -40,4 +41,8 @@ void _onRefreshPage(Action action, Context<ChatState> ctx) {
                 MessageList.fromJson(data))),
             ctx.state.refreshController.refreshCompleted()
           });
+}
+
+void _onBuild(Action action, Context<ChatState> ctx) async {
+  print('build');
 }

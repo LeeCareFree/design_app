@@ -55,7 +55,6 @@ DecorateState _onUpdateHouseTypeImgs(DecorateState state, Action action) {
 }
 
 DecorateState _onUpDateTitleImages(DecorateState state, Action action) {
-  print(111);
   final DecorateState newState = state.clone();
   newState..titleImage = action.payload;
 

@@ -10,7 +10,9 @@ import 'package:bluespace/pages/chat_page/chat_detail_page/view.dart';
 import 'package:bluespace/utils/timeUtil.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/cupertino.dart' hide Action;
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'action.dart';
@@ -28,6 +30,19 @@ Effect<ChatDetailState> buildEffect() {
 void _onAction(Action action, Context<ChatDetailState> ctx) {}
 
 void _onSendMessage(Action action, Context<ChatDetailState> ctx) async {
+  var fireDate = DateTime.fromMillisecondsSinceEpoch(
+      DateTime.now().millisecondsSinceEpoch + 3000);
+  var localNotification = LocalNotification(
+    id: 234,
+    title: '技术胖的飞鸽传说',
+    buildId: 1,
+    content: '看到了说明已经成功了',
+    fireTime: fireDate,
+    subtitle: '一个测试',
+  );
+  ctx.state.jPush.sendLocalNotification(localNotification).then((res) {
+    print(res);
+  });
   int time = new DateTime.now().millisecondsSinceEpoch;
   String dateTime;
   if (ctx.state.chatList.detaillist.length != 0) {
@@ -59,6 +74,11 @@ void _onSendMessage(Action action, Context<ChatDetailState> ctx) async {
 }
 
 void _onInit(Action action, Context<ChatDetailState> ctx) async {
+  ctx.state.jPush = JPush();
+  ctx.state.jPush.addEventHandler(
+      onReceiveNotification: (Map<String, dynamic> message) async {
+    print(">>>>>>>>>>>>>>>>>flutter 接收到推送: $message");
+  });
   ctx.state.scrollController = ScrollController();
   ctx.state.textEditingController = TextEditingController();
   ctx.state.focusNode = FocusNode();
@@ -96,7 +116,7 @@ void _onInit(Action action, Context<ChatDetailState> ctx) async {
                         MessageList.fromJson(data)))
               });
     } else {
-      Fluttertoast.showToast(msg: messageDetailRes['msg'] ?? '获取消息失败！');
+      // Fluttertoast.showToast(msg: messageDetailRes['msg'] ?? '获取消息失败！');
     }
   } else {
     Fluttertoast.showToast(msg: sumRes['msg'] ?? '获取消息总数失败！');
@@ -124,3 +144,13 @@ void _onInit(Action action, Context<ChatDetailState> ctx) async {
 }
 
 void _onDispose(Action action, Context<ChatDetailState> ctx) async {}
+
+void _onInitJpush(Action action, Context<ChatDetailState> ctx) async {
+  //监听响应方法的编写
+
+  // if (!mounted) return;
+
+  // setState(() {
+  //   debugLable = platformVersion;
+  // });
+}

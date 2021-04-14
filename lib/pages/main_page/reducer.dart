@@ -7,13 +7,20 @@ Reducer<MainPageState> buildReducer() {
   return asReducer(
     <Object, Reducer<MainPageState>>{
       MainPageAction.action: _onAction,
-      MainPageAction.tabchanged: _onTabChanged
+      MainPageAction.tabchanged: _onTabChanged,
+      Lifecycle.build: _onBuild
     },
   );
 }
 
 MainPageState _onAction(MainPageState state, Action action) {
   final MainPageState newState = state.clone();
+  return newState;
+}
+
+MainPageState _onBuild(MainPageState state, Action action) {
+  final MainPageState newState = state.clone();
+  newState.messageList = state.messageList;
   return newState;
 }
 
