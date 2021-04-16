@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bluespace/models/account_info.dart';
+import 'package:bluespace/models/myhome_info.dart';
 import 'package:bluespace/net/service_method.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/animation.dart';
@@ -16,12 +17,14 @@ Effect<PersonalState> buildEffect() {
   return combineEffects(<Object, Effect<PersonalState>>{
     PersonalAction.action: _onAction,
     PersonalAction.getAccountInfo: _onGetAccountInfo,
+    PersonalAction.getDetailInfo: _onGetDetailInfo,
     Lifecycle.initState: _onInit,
     Lifecycle.dispose: _onDispose,
     PersonalAction.follow: _onFollow,
     PersonalAction.getArticleList: _onGetArticleList,
     PersonalAction.back: _onBack,
     PersonalAction.navigatorPush: _navigatorPush,
+    PersonalAction.toChangeMyhomeInfo: _toChangeMyhomeInfo,
     PersonalAction.goArticleDetail: _goArticleDetail
   });
 }
@@ -48,6 +51,15 @@ void _navigatorPush(Action action, Context<PersonalState> ctx) async {
       as Map;
   if (r == null) return null;
   ctx.dispatch(PersonalActionCreator.initAccountInfo(r['accountInfo']));
+}
+
+void _toChangeMyhomeInfo(Action action, Context<PersonalState> ctx) async {
+  String routerName = action.payload[0];
+  Object data = action.payload[1];
+  var r = await Navigator.of(ctx.context).pushNamed(routerName, arguments: data)
+      as Map;
+  if (r == null) return null;
+  ctx.dispatch(PersonalActionCreator.initHomeInfo(r['myhomeInfo']));
 }
 
 Future _onGetArticleList(Action action, Context<PersonalState> ctx) async {
@@ -161,7 +173,8 @@ void _onInit(Action action, Context<PersonalState> ctx) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String uid = prefs.getString('uid');
   ctx.state.mineUid = uid;
-  ctx.dispatch(PersonalActionCreator.getAccountInfo());
+  await ctx.dispatch(PersonalActionCreator.getAccountInfo());
+  ctx.dispatch(PersonalActionCreator.getDetailInfo());
   await ctx.dispatch(PersonalActionCreator.follow('query'));
   for (var i = 0; i < 3; i++) {
     String arrname = i == 0
@@ -185,6 +198,21 @@ void _onInit(Action action, Context<PersonalState> ctx) async {
     } else {
       Fluttertoast.showToast(msg: dataJson['msg'] ?? '获取文章列表失败!');
     }
+  }
+}
+
+void _onGetDetailInfo(Action action, Context<PersonalState> ctx) async {
+  // 获取一些用户信息
+  var res = await DioUtil.request('getDetailInfo',
+      formData: {'uid': ctx.state.accountInfo?.uid});
+  res = json.decode(res.toString());
+  // print(res);
+  if (res['code'] != 200) {
+    Fluttertoast.showToast(msg: res['msg'] ?? '请稍后再试！');
+  } else {
+    MyhomeInfo myhomeInfo = MyhomeInfo.fromJson(res['data']);
+    ctx.dispatch(PersonalActionCreator.initHomeInfo(myhomeInfo));
+    ctx.state.refreshController.refreshCompleted();
   }
 }
 

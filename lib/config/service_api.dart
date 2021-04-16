@@ -29,6 +29,8 @@ const servicePath = {
   'getarrlist': serviceUrl + 'users/getarrlist',
   // 获取作品收藏关注粉丝等列表
   'setting': serviceUrl + 'users/setting',
+  'settingMyhome': serviceUrl + 'users/setupdetails',
+  'getDetailInfo': serviceUrl + 'users/detailInfo',
   // 设计师相关
   'getDesignerList': serviceUrl + 'stylist/getlist',
   // 消息相关

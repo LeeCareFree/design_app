@@ -51,95 +51,129 @@ Widget buildView(
                                 color: Colors.grey[200]),
                           )),
                           SliverToBoxAdapter(
-                            child: Container(
-                                padding: EdgeInsets.fromLTRB(
-                                    Adapt.width(40),
-                                    Adapt.height(20),
-                                    Adapt.width(40),
-                                    Adapt.height(20)),
-                                height: Adapt.height(160),
-                                child: Flex(
-                                  direction: Axis.horizontal,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                        flex: 5,
-                                        child: Flex(
-                                          direction: Axis.vertical,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Expanded(
-                                                flex: 1,
-                                                child: Row(
+                            child: InkWell(
+                                onTap: () => state.mineUid !=
+                                        state.accountInfo?.uid
+                                    ? {}
+                                    : dispatch(PersonalActionCreator
+                                        .toChangeMyhomeInfo('myhomeSettingPage',
+                                            {'homeInfo': state.myhomeInfo})),
+                                child: Container(
+                                    padding: EdgeInsets.fromLTRB(
+                                        Adapt.width(40),
+                                        Adapt.height(20),
+                                        Adapt.width(0),
+                                        Adapt.height(20)),
+                                    height: Adapt.height(160),
+                                    child: Flex(
+                                      direction: Axis.horizontal,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                            flex: 5,
+                                            child: Flex(
+                                              direction: Axis.vertical,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                    flex: 1,
+                                                    child: Row(
+                                                      children: [
+                                                        Text(
+                                                          '我的家',
+                                                          style: TextStyle(
+                                                              fontSize:
+                                                                  Adapt.sp(32),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ],
+                                                    )),
+                                                Expanded(
+                                                    flex: 1,
+                                                    child: Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons.home_outlined,
+                                                          color: Colors.black45,
+                                                          size: 20,
+                                                        ),
+                                                        SizedBox(
+                                                          width:
+                                                              Adapt.width(10),
+                                                        ),
+                                                        Text(
+                                                          state.myhomeInfo
+                                                                      ?.area !=
+                                                                  null
+                                                              ? '${state.myhomeInfo.city}.${state.myhomeInfo.area}.${state.myhomeInfo.doorModel}'
+                                                              : '待完善',
+                                                          style: TextStyle(
+                                                            fontSize:
+                                                                Adapt.sp(26),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )),
+                                                Expanded(
+                                                    flex: 1,
+                                                    child: Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons
+                                                              .settings_applications_outlined,
+                                                          color: Colors.black45,
+                                                          size: 20,
+                                                        ),
+                                                        SizedBox(
+                                                          width:
+                                                              Adapt.width(10),
+                                                        ),
+                                                        Text(
+                                                            state.myhomeInfo
+                                                                        ?.progress !=
+                                                                    null
+                                                                ? state
+                                                                    .myhomeInfo
+                                                                    .progress
+                                                                : '待完善',
+                                                            style: TextStyle(
+                                                                fontSize:
+                                                                    Adapt.sp(
+                                                                        26)))
+                                                      ],
+                                                    )),
+                                              ],
+                                            )),
+                                        Expanded(
+                                          flex: 1,
+                                          child: state.mineUid !=
+                                                  state.accountInfo?.uid
+                                              ? Container()
+                                              : Row(
                                                   children: [
                                                     Text(
-                                                      '我的家',
+                                                      '修改',
                                                       style: TextStyle(
-                                                          fontSize:
-                                                              Adapt.sp(32),
-                                                          fontWeight:
-                                                              FontWeight.bold),
+                                                          color: Colors.grey),
                                                     ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: Adapt.height(5)),
+                                                      child: Icon(
+                                                        Icons
+                                                            .chevron_right_rounded,
+                                                        color: Colors.grey,
+                                                      ),
+                                                    )
                                                   ],
-                                                )),
-                                            Expanded(
-                                                flex: 1,
-                                                child: Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.home_outlined,
-                                                      color: Colors.black45,
-                                                      size: 20,
-                                                    ),
-                                                    SizedBox(
-                                                      width: Adapt.width(10),
-                                                    ),
-                                                    Text('广东广州.90平米.三室')
-                                                  ],
-                                                )),
-                                            Expanded(
-                                                flex: 1,
-                                                child: Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons
-                                                          .settings_applications_outlined,
-                                                      color: Colors.black45,
-                                                      size: 20,
-                                                    ),
-                                                    SizedBox(
-                                                      width: Adapt.width(10),
-                                                    ),
-                                                    Text('已完成装修')
-                                                  ],
-                                                )),
-                                          ],
-                                        )),
-                                    Expanded(
-                                        flex: 1,
-                                        child: GestureDetector(
-                                          onTap: () => {},
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                '修改',
-                                                style: TextStyle(
-                                                    color: Colors.grey),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: Adapt.height(5)),
-                                                child: Icon(
-                                                  Icons.chevron_right_rounded,
-                                                  color: Colors.grey,
                                                 ),
-                                              )
-                                            ],
-                                          ),
-                                        ))
-                                  ],
-                                )),
+                                        )
+                                      ],
+                                    ))),
                           ),
                           SliverToBoxAdapter(
                               child: Container(

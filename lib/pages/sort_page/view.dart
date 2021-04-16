@@ -208,13 +208,13 @@ class _DesignerListWidget extends StatelessWidget {
                           height: Adapt.height(15),
                         ),
                         Container(
-                          height: Adapt.height(45),
+                          height: Adapt.height(40),
                           child: GridView.builder(
                             shrinkWrap: true,
                             itemCount: designerList
                                 ?.result[index]?.detailInfo?.stylearr?.length,
                             scrollDirection: Axis.horizontal,
-                            reverse: true,
+                            // reverse: true,
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 1,
@@ -223,8 +223,6 @@ class _DesignerListWidget extends StatelessWidget {
                             ),
                             itemBuilder: (context, index) => Container(
                                 alignment: Alignment.center,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: Adapt.width(5)),
                                 decoration: BoxDecoration(
                                   color: Colors.green[200],
                                   borderRadius:

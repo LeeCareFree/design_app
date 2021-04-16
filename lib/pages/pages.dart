@@ -19,5 +19,6 @@ export 'publish_page/page.dart';
 export 'article_detail_page/page.dart';
 export 'personal_page/page.dart';
 export 'personal_page/personal_setting_page/page.dart';
+export 'personal_page/myhome_setting_page/page.dart';
 export 'decorate_page/page.dart';
 export 'user_list_page/page.dart';

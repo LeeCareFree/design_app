@@ -37,6 +37,7 @@ Widget buildView(
                           _UserInfoWidget(
                             avatar: state.articleInfo?.user?.avatar ?? '',
                             username: state.articleInfo?.user?.nickname ?? '',
+                            uid: state.articleInfo?.user?.uid ?? '',
                             dispatch: dispatch,
                             isFollow: state.isFollow ?? false,
                             isSelf: state.uid == state.articleInfo?.user?.uid,
@@ -172,6 +173,7 @@ Widget buildView(
                           children: [
                             _UserInfoWidget(
                               avatar: state.articleInfo?.user?.avatar ?? '',
+                              uid: state.articleInfo?.user?.uid ?? '',
                               username: state.articleInfo?.user?.nickname ?? '',
                               dispatch: dispatch,
                               isFollow: state.isFollow ?? false,
@@ -307,12 +309,14 @@ Widget buildView(
 class _UserInfoWidget extends StatelessWidget {
   final String username;
   final String avatar;
+  final String uid;
   final theme;
   final Dispatch dispatch;
   final bool isFollow;
   final bool isSelf;
   const _UserInfoWidget(
       {this.username,
+      this.uid,
       this.avatar,
       this.theme,
       this.dispatch,
@@ -331,13 +335,18 @@ class _UserInfoWidget extends StatelessWidget {
           // 用户头像
           Expanded(
               flex: 2,
-              child: Container(
-                margin: EdgeInsets.only(right: Adapt.width(20)),
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage(avatar),
-                  radius: Adapt.width(50),
-                ),
-              )),
+              child: GestureDetector(
+                  onTap: () => {
+                        Navigator.of(context)
+                            .pushNamed('personalPage', arguments: {'uid': uid})
+                      },
+                  child: Container(
+                    margin: EdgeInsets.only(right: Adapt.width(20)),
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(avatar),
+                      radius: Adapt.width(50),
+                    ),
+                  ))),
           // Expanded(
           //     flex: 1,
           //     child: SizedBox(

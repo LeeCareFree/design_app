@@ -27,6 +27,7 @@ class Routes {
       'articleDetailPage': ArticleDetailPage(),
       'personalPage': PersonalPage(),
       'personalSettingPage': PersonalSettingPage(),
+      'myhomeSettingPage': MyhomeSettingPage(),
       'decoratePage': DecoratePage(),
       'userListPage': UserListPage(),
     },

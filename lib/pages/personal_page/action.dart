@@ -1,4 +1,5 @@
 import 'package:bluespace/models/account_info.dart';
+import 'package:bluespace/models/myhome_info.dart';
 import 'package:fish_redux/fish_redux.dart';
 
 //TODO replace with your own action
@@ -6,7 +7,9 @@ enum PersonalAction {
   action,
   showTitle,
   getAccountInfo,
+  getDetailInfo,
   initAccountInfo,
+  initHomeInfo,
   setLoading,
   follow,
   updataIsFollow,
@@ -14,6 +17,7 @@ enum PersonalAction {
   upDateArticleList,
   initArticle,
   navigatorPush,
+  toChangeMyhomeInfo,
   back,
   goArticleDetail,
   updateDelArticle
@@ -35,6 +39,11 @@ class PersonalActionCreator {
 
   static Action navigatorPush(String routerName, Object arguments) {
     return Action(PersonalAction.navigatorPush,
+        payload: [routerName, arguments]);
+  }
+
+  static Action toChangeMyhomeInfo(String routerName, Object arguments) {
+    return Action(PersonalAction.toChangeMyhomeInfo,
         payload: [routerName, arguments]);
   }
 
@@ -67,12 +76,20 @@ class PersonalActionCreator {
     return const Action(PersonalAction.getAccountInfo);
   }
 
+  static Action getDetailInfo() {
+    return const Action(PersonalAction.getDetailInfo);
+  }
+
   static Action setLoading(bool loading) {
     return Action(PersonalAction.setLoading, payload: loading);
   }
 
   static Action initAccountInfo(AccountInfo accountInfo) {
     return Action(PersonalAction.initAccountInfo, payload: accountInfo);
+  }
+
+  static Action initHomeInfo(MyhomeInfo myhomeInfo) {
+    return Action(PersonalAction.initHomeInfo, payload: myhomeInfo);
   }
 
   static Action showTitle() {
