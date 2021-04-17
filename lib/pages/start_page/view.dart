@@ -86,6 +86,7 @@ Widget buildView(StartState state, Dispatch dispatch, ViewService viewService) {
                 children: <Widget>[
                   _BackGround(controller: state.animationController),
                   _LoginBody(
+                    passwordVisible: state.passwordVisible,
                     animationController: state.animationController,
                     submitAnimationController: state.submitAnimationController,
                     isPhoneLogin: state.isPhoneLogin,
@@ -122,29 +123,30 @@ class _BackGround extends StatelessWidget {
                     colorFilter:
                         ColorFilter.mode(Colors.black12, BlendMode.color),
                     fit: BoxFit.cover,
-                    image: new ExactAssetImage('assets/images/login_bg.png'))),
+                    image: CachedNetworkImageProvider(
+                        'http://8.129.214.128:3001/upload/publish/launch_image.jpg'))),
             alignment: Alignment.center,
             child: Container(
-              color: Color.fromRGBO(20, 20, 20, 0.8),
+              // color: Color.fromRGBO(20, 20, 20, 0.8),
               alignment: Alignment.center,
               height: headerHeight,
               width: Adapt.screenW(),
-              child: SlideTransition(
-                  position: Tween(begin: Offset(0, -1), end: Offset.zero)
-                      .animate(CurvedAnimation(
-                    parent: controller,
-                    curve: Interval(
-                      0.0,
-                      0.4,
-                      curve: Curves.ease,
-                    ),
-                  )),
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                    width: Adapt.height(150),
-                    height: Adapt.width(150),
-                    color: Colors.blueGrey,
-                  )),
+              // child: SlideTransition(
+              //     position: Tween(begin: Offset(0, -1), end: Offset.zero)
+              //         .animate(CurvedAnimation(
+              //       parent: controller,
+              //       curve: Interval(
+              //         0.0,
+              //         0.4,
+              //         curve: Curves.ease,
+              //       ),
+              //     )),
+              //     child: Image.asset(
+              //       'assets/images/logo.png',
+              //       width: Adapt.height(150),
+              //       height: Adapt.width(150),
+              //       color: Colors.blueGrey,
+              //     )),
             )),
       ),
       Expanded(child: SizedBox()),
@@ -195,8 +197,10 @@ class _LoginBody extends StatelessWidget {
   final FocusNode userFocusNode;
   final FocusNode pwdFocusNode;
   final bool isPhoneLogin;
+  final bool passwordVisible;
   const _LoginBody({
     this.dispatch,
+    this.passwordVisible,
     this.animationController,
     this.submitAnimationController,
     this.userTextController,
@@ -231,7 +235,7 @@ class _LoginBody extends StatelessWidget {
         child: Card(
           elevation: 10,
           child: Container(
-            height: Adapt.screenH() / 2 + Adapt.height(10),
+            height: Adapt.screenH() / 2,
             width: Adapt.screenW() * 0.9,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -239,9 +243,11 @@ class _LoginBody extends StatelessWidget {
                 AnimatedSwitcher(
                     duration: Duration(milliseconds: 300),
                     child: _PhoneNumberEntry(
+                      dispatch: dispatch,
                       onSubmit: (s) =>
                           dispatch(StartActionCreator.onLoginClicked()),
                       controller: animationController,
+                      passwordVisible: passwordVisible,
                       userFocusNode: userFocusNode,
                       pwdFocusNode: pwdFocusNode,
                       userTextController: userTextController,
@@ -274,54 +280,60 @@ class _LoginBody extends StatelessWidget {
                         ),
                       )),
                       child: GestureDetector(
-                        onTap: () => dispatch(StartActionCreator.onSignUp()),
-                        child: Text(
-                          '注册一个账户',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      ),
+                          onTap: () => dispatch(StartActionCreator.onSignUp()),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                '注册一个账户',
+                                style: TextStyle(
+                                    color: Colors.grey, fontSize: Adapt.sp(32)),
+                              ),
+                              Icon(Icons.arrow_right)
+                            ],
+                          )),
                     )),
-                Container(
-                  alignment: Alignment.bottomCenter,
-                  height: Adapt.height(120),
-                  child: FadeTransition(
-                    opacity:
-                        Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-                      parent: animationController,
-                      curve: Interval(
-                        0.7,
-                        1.0,
-                        curve: Curves.ease,
-                      ),
-                    )),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        InkWell(
-                          onTap: () =>
-                              dispatch(StartActionCreator.switchLoginMode()),
-                          child: Image.asset(
-                            isPhoneLogin
-                                ? 'assets/images/email_login.png'
-                                : 'assets/images/phone_login.png',
-                            width: Adapt.width(50),
-                          ),
-                        ),
-                        SizedBox(
-                          width: Adapt.width(20),
-                        ),
-                        InkWell(
-                          onTap: () =>
-                              dispatch(StartActionCreator.onWeixinSignIn()),
-                          child: Image.asset(
-                            'assets/images/weixin_login.png',
-                            width: Adapt.width(50),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // Container(
+                //   alignment: Alignment.bottomCenter,
+                //   height: Adapt.height(120),
+                //   child: FadeTransition(
+                //     opacity:
+                //         Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+                //       parent: animationController,
+                //       curve: Interval(
+                //         0.7,
+                //         1.0,
+                //         curve: Curves.ease,
+                //       ),
+                //     )),
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.center,
+                //       children: <Widget>[
+                //         InkWell(
+                //           onTap: () =>
+                //               dispatch(StartActionCreator.switchLoginMode()),
+                //           child: Image.asset(
+                //             isPhoneLogin
+                //                 ? 'assets/images/email_login.png'
+                //                 : 'assets/images/phone_login.png',
+                //             width: Adapt.width(50),
+                //           ),
+                //         ),
+                //         SizedBox(
+                //           width: Adapt.width(20),
+                //         ),
+                //         InkWell(
+                //           onTap: () =>
+                //               dispatch(StartActionCreator.onWeixinSignIn()),
+                //           child: Image.asset(
+                //             'assets/images/weixin_login.png',
+                //             width: Adapt.width(50),
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -338,8 +350,12 @@ class _PhoneNumberEntry extends StatelessWidget {
   final FocusNode userFocusNode;
   final FocusNode pwdFocusNode;
   final Function(String) onSubmit;
+  final bool passwordVisible;
+  final Dispatch dispatch;
   const _PhoneNumberEntry(
       {this.controller,
+      this.dispatch,
+      this.passwordVisible,
       this.userTextController,
       this.userFocusNode,
       this.pwdFocusNode,
@@ -378,7 +394,7 @@ class _PhoneNumberEntry extends StatelessWidget {
                 controller: userTextController,
                 keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.next,
-                style: TextStyle(fontSize: Adapt.sp(35)),
+                style: TextStyle(fontSize: Adapt.height(28)),
                 cursorColor: _theme.iconTheme.color,
                 decoration: InputDecoration(
                     fillColor: Colors.transparent,
@@ -404,14 +420,26 @@ class _PhoneNumberEntry extends StatelessWidget {
             child: TextField(
               focusNode: pwdFocusNode,
               controller: passwordTextController,
-              style: TextStyle(fontSize: Adapt.height(35)),
+              style: TextStyle(fontSize: Adapt.height(28)),
               cursorColor: _theme.iconTheme.color,
-              obscureText: true,
+              obscureText: !passwordVisible,
               decoration: InputDecoration(
                   fillColor: Colors.transparent,
                   hintText: '请输入密码',
                   floatingLabelBehavior: FloatingLabelBehavior.auto,
                   filled: true,
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                        //根据passwordVisible状态显示不同的图标
+                        passwordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: passwordVisible ? Colors.black : Colors.grey),
+                    onPressed: () {
+                      dispatch(StartActionCreator.setPasswordVisible());
+                      //更新状态控制密码显示或隐藏
+                    },
+                  ),
                   prefixStyle: TextStyle(fontSize: Adapt.sp(35)),
                   focusedBorder: new UnderlineInputBorder(
                       borderSide: new BorderSide(color: Colors.black87))),

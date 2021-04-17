@@ -9,12 +9,17 @@ enum StartAction {
   weixinSignin,
   switchLoginMode,
   onJump,
-  onCheckIsLogin
+  onCheckIsLogin,
+  setPasswordVisible,
 }
 
 class StartActionCreator {
   static Action onAction() {
     return const Action(StartAction.action);
+  }
+
+  static Action setPasswordVisible() {
+    return const Action(StartAction.setPasswordVisible);
   }
 
   static Action onLoginClicked() {

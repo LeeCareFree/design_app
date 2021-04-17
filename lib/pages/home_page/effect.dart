@@ -67,9 +67,9 @@ Future _onInit(Action action, Context<HomeState> ctx) async {
   for (var i = 0; i < 4; i++) {
     print(i);
     String way = i == 0
-        ? 'attention'
+        ? 'all'
         : i == 1
-            ? 'all'
+            ? 'attention'
             : i == 2
                 ? 'pic&text'
                 : i == 3
@@ -90,9 +90,9 @@ Future _onInit(Action action, Context<HomeState> ctx) async {
 
 Future _onGetArticleList(Action action, Context<HomeState> ctx) async {
   String way = action.payload[1] == 0
-      ? 'attention'
+      ? 'all'
       : action.payload[1] == 1
-          ? 'all'
+          ? 'attention'
           : action.payload[1] == 2
               ? 'pic&text'
               : action.payload[1] == 3

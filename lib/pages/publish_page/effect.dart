@@ -14,6 +14,7 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 
 import 'package:http_parser/http_parser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:video_compress/video_compress.dart';
 import 'package:video_player/video_player.dart';
 import 'action.dart';
 import 'state.dart';
@@ -74,42 +75,58 @@ Future _onPublish(Action action, Context<PublishState> ctx) async {
   UserInfo userInfo;
   String title = ctx.state.titleTextController.text;
   String content = ctx.state.contentTextController.text;
+  int type;
+  List<MultipartFile> imageList = new List<MultipartFile>();
+  MultipartFile video;
   if (title == '' || content == '') {
     Fluttertoast.showToast(msg: '标题和描述不能为空！');
   } else {
-    List<MultipartFile> imageList = new List<MultipartFile>();
-    for (Asset imageAsset in ctx.state.images) {
-      //将图片转为二进制数据
-      int quality = 100;
-      if (imageAsset.originalWidth > 1024) {
-        quality = 50;
-      } else if (imageAsset.originalWidth > 512) {
-        quality = 60;
-      } else if (imageAsset.originalWidth > 256) {
-        quality = 70;
-      }
-      ByteData byteData = await imageAsset.getByteData(quality: quality);
-      List<int> imageData = byteData.buffer.asUint8List();
-      MultipartFile multipartFile = new MultipartFile.fromBytes(
-        imageData,
-        //这个字段要有，否则后端接收为null
-        filename: imageAsset.name,
-        //请求contentType，设置一下，不设置的话默认的是application/octet/stream，后台可以接收到数据，但上传后是.octet-stream文件
-        contentType: MediaType("image", "jpg"),
-      );
-      imageList.add(multipartFile);
-    }
+    if (ctx.state.video != null) {
+      type = 3;
 
+      MediaInfo _compressedVideoInfo = MediaInfo(path: '');
+      //压缩视频
+      _compressedVideoInfo = await VideoCompress.compressVideo(
+          ctx.state.video.path,
+          quality: VideoQuality.MediumQuality,
+          deleteOrigin: false,
+          includeAudio: true);
+      video = await MultipartFile.fromFile(_compressedVideoInfo.path);
+    } else if (ctx.state.images != null) {
+      type = 2;
+      for (Asset imageAsset in ctx.state.images) {
+        //将图片转为二进制数据
+        int quality = 100;
+        if (imageAsset.originalWidth > 1024) {
+          quality = 50;
+        } else if (imageAsset.originalWidth > 512) {
+          quality = 60;
+        } else if (imageAsset.originalWidth > 256) {
+          quality = 70;
+        }
+        ByteData byteData = await imageAsset.getByteData(quality: quality);
+        List<int> imageData = byteData.buffer.asUint8List();
+        MultipartFile multipartFile = new MultipartFile.fromBytes(
+          imageData,
+          //这个字段要有，否则后端接收为null
+          filename: imageAsset.name,
+          //请求contentType，设置一下，不设置的话默认的是application/octet/stream，后台可以接收到数据，但上传后是.octet-stream文件
+          contentType: MediaType("image", "jpg"),
+        );
+        imageList.add(multipartFile);
+      }
+    }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final uid = prefs.getString('uid') ?? '';
     FormData formData = new FormData.fromMap({
       //后端要用multipartFiles接收参数，否则为null
       // 图片
-      'type': 2,
+      'type': type,
       'uid': uid,
       'title': title,
       'detail': content,
-      "files": imageList,
+      "video": video ?? null,
+      "files": imageList ?? null,
     });
     // 使用 dio上传图片
     var data = await DioUtil.request('create',

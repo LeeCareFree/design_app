@@ -623,6 +623,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.0"
+  video_compress:
+    dependency: "direct main"
+    description:
+      name: video_compress
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.0.0"
   video_player:
     dependency: transitive
     description:

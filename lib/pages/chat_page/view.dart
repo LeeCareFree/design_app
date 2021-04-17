@@ -31,22 +31,25 @@ Widget buildView(ChatState state, Dispatch dispatch, ViewService viewService) {
               onRefresh: () => {
                     dispatch(ChatActionCreator.refreshPage()),
                   },
-              child: ListView(
-                scrollDirection: Axis.vertical,
-                reverse: false,
-                children: state.messageList?.messlist?.length != 0
-                    ? state.messageList?.messlist
-                        ?.map((e) => _MessageList(
-                              messlist: e,
-                            ))
-                        ?.toList()
-                    : [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [Text('暂无消息')],
-                        )
-                      ].toList(),
-              ))));
+              child: state.messageList?.messlist?.length != 0
+                  ? ListView(
+                      scrollDirection: Axis.vertical,
+                      reverse: false,
+                      children: state.messageList?.messlist
+                              ?.map((e) => _MessageList(
+                                    messlist: e,
+                                  ))
+                              ?.toList() ??
+                          [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [Text('暂无消息')],
+                            )
+                          ].toList())
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [Text('暂无消息')],
+                    ))));
 }
 
 class _MessageList extends StatelessWidget {

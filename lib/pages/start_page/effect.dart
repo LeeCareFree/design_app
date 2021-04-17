@@ -5,7 +5,9 @@ import 'package:bluespace/globalState/store.dart';
 import 'package:bluespace/models/account_info.dart';
 import 'package:bluespace/models/user_info.dart';
 import 'package:bluespace/net/service_method.dart';
+import 'package:bluespace/pages/register_page/page.dart';
 import 'package:bluespace/router/routes.dart';
+import 'package:bluespace/utils/pop_result.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/cupertino.dart' hide Action;
 import 'package:fluttertoast/fluttertoast.dart';
@@ -205,48 +207,17 @@ void _getUserInfo(Action action, Context<StartState> ctx) async {
 }
 
 Future _onSignUp(Action action, Context<StartState> ctx) async {
-  print('注册');
-  String username = ctx.state.userTextController.text;
-  String password = ctx.state.passwordTextController.text;
-  if (username.isEmpty ||
-      !isPhone(username) ||
-      password.isEmpty ||
-      !isPwd(password)) {
-    ctx.state.submitAnimationController.reset();
-    Fluttertoast.showToast(msg: '请输入正确的手机号和密码！');
-    return;
-  }
-  Map<String, String> params = Map();
-  params['username'] = username;
-  params['password'] = password;
-  // params['vtoken'] = message['vtoken'];
-  // params['vsessionId'] = message['vsessionId'];
-  var data = await DioUtil.request('register', formData: params);
-  print(data);
-  // DioUtils.instance.requestNetwork<LoginModel>(Method.post, HttpApi.register,
-  //     params: params, queryParameters: null, onSuccess: (res) async {
-  //   if (res.data != null) {
-  //     ctx.dispatch(LoginPageActionCreator.getUserInfo());
-  //     Navigator.of(ctx.context).pop({'s': true, 'name': res.data.username});
-  //     ctx.state.submitAnimationController.reset();
-  //     Toast.show(res.msg);
-  //   }
-  //   Toast.show(res.msg);
-  // }, onError: (code, msg) {
-  //   Toast.show(msg);
-  // });
-  return null;
-  // Navigator.of(ctx.context)
-  //     .push(PageRouteBuilder(pageBuilder: (context, an, _) {
-  //   return FadeTransition(
-  //     opacity: an,
-  //     child: RegisterPage().buildPage(null),
-  //   );
-  // })).then((results) {
-  //   if (results is PopWithResults) {
-  //     PopWithResults popResult = results;
-  //     if (popResult.toPage == 'mainpage')
-  //       Navigator.of(ctx.context).pop(results.results);
-  //   }
-  // });
+  Navigator.of(ctx.context)
+      .push(PageRouteBuilder(pageBuilder: (context, an, _) {
+    return FadeTransition(
+      opacity: an,
+      child: RegisterPage().buildPage(null),
+    );
+  })).then((results) {
+    if (results is PopWithResults) {
+      PopWithResults popResult = results;
+      if (popResult.toPage == 'mainpage')
+        Navigator.of(ctx.context).pop(results.results);
+    }
+  });
 }

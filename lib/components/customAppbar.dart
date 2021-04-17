@@ -88,23 +88,33 @@ class CustomAppBarState extends State<CustomAppBar> {
       stretchTriggerOffset: Adapt.height(100), //触发拉伸偏移量
       centerTitle: true,
       flexibleSpace: FlexibleSpaceBar(
-        background: Container(
-          padding: EdgeInsets.fromLTRB(
-              Adapt.width(50), Adapt.height(150), 0, Adapt.height(0)),
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                fit: BoxFit.cover,
-                image: CachedNetworkImageProvider(
-                  widget.accountInfo?.bgimg ??
-                      'http://8.129.214.128:3001/upload/publish/Screenshot_20210314_133329.jpg',
-                )),
-          ),
-          child: _UserInfoWidget(
-            uid: widget.uid,
-            accountInfo: widget.accountInfo,
-            isFollow: widget.isFollow ?? false,
-            dispatch: widget.dispatch,
-          ),
+        background: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.blueGrey,
+                image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: CachedNetworkImageProvider(
+                      widget.accountInfo?.bgimg ??
+                          'http://8.129.214.128:3001/upload/publish/Screenshot_20210314_133329.jpg',
+                    )),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(color: Color(0x72000000)),
+            ),
+            Container(
+              padding: EdgeInsets.fromLTRB(
+                  Adapt.width(50), Adapt.height(150), 0, Adapt.height(0)),
+              child: _UserInfoWidget(
+                uid: widget.uid,
+                accountInfo: widget.accountInfo,
+                isFollow: widget.isFollow ?? false,
+                dispatch: widget.dispatch,
+              ),
+            ),
+          ],
         ),
         stretchModes: const <StretchMode>[
           StretchMode.zoomBackground,

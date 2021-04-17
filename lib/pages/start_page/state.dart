@@ -17,9 +17,11 @@ class StartState implements Cloneable<StartState> {
   PageController pageController;
   bool isLogin = true;
   String type = '';
+  bool passwordVisible = false;
   @override
   StartState clone() {
     return StartState()
+      ..passwordVisible = passwordVisible
       ..type = type
       ..user = user
       ..pwd = pwd

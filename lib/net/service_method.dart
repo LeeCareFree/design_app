@@ -16,13 +16,13 @@ class DioUtil {
   static bool loading = false;
   static Future request(url, {formData, context}) async {
     // flutter 抓包
-    // (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-    //     (HttpClient client) {
-    //   client.findProxy = (uri) {
-    //     // return "PROXY 192.168.0.105:8899";
-    //     return "PROXY 192.168.0.107:8899";
-    //   };
-    // };
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (HttpClient client) {
+      client.findProxy = (uri) {
+        // return "PROXY 192.168.0.105:8899";
+        return "PROXY 192.168.0.107:8899";
+      };
+    };
     try {
       // Options options = Options(headers: {HttpHeaders.acceptHeader:"accept: application/json"});
 
@@ -55,6 +55,28 @@ class DioUtil {
     } catch (e) {
       return print('ERROR:======>$e');
     }
+  }
+
+  static Future<Response> uploadFile(
+      String url, String filePath, String fileName) async {
+    var postData = FormData.fromMap({
+      "video": await MultipartFile.fromFile(filePath, filename: fileName)
+    }); //file是服务端接受的字段字段，如果接受字段不是这个需要修改
+    var option = Options(
+        method: "POST",
+        contentType: "multipart/form-data"); //上传文件的content-type 表单
+    return await dio.post(
+      url,
+      data: postData,
+      options: option,
+      onSendProgress: (int sent, int total) {
+        print("上传进度：" + sent.toString() + total.toString()
+            // NumUtil.getNumByValueDouble(sent / total * 100, 2)
+            //     .toStringAsFixed(2) +
+            // "%"
+            ); //取精度，如：56.45%
+      },
+    );
   }
 
   static Future upLoadImage(File image) async {

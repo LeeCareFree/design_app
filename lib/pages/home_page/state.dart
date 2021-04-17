@@ -40,7 +40,7 @@ class HomeState implements Cloneable<HomeState> {
 HomeState initState(Map<String, dynamic> args) {
   return HomeState()
     ..delAid = args['delAid']
-    ..tabs = ['关注', '全部', '图文', '视频']
+    ..tabs = ['全部', '关注', '图文', '视频']
     ..bannerList = new List()
     ..articleList0 = new List()
     ..articleList1 = new List()
