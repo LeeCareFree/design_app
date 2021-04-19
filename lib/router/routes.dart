@@ -30,6 +30,7 @@ class Routes {
       'myhomeSettingPage': MyhomeSettingPage(),
       'decoratePage': DecoratePage(),
       'userListPage': UserListPage(),
+      'videoPage': VideoPage(),
     },
     visitor: (String path, Page<Object, dynamic> page) {
       if (page.isTypeof<GlobalBaseState>()) {

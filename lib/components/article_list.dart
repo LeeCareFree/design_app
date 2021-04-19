@@ -36,9 +36,9 @@ class ArticleList extends StatelessWidget {
           onTap: () => {
             type == 'personal'
                 ? dispatch(PersonalActionCreator.goArticleDetail(
-                    'articleDetailPage', {'type': item.type, 'aid': item.aid}))
+                    'videoPage', {'type': item.type, 'aid': item.aid}))
                 : dispatch(HomeActionCreator.goArticleDetail(
-                    'articleDetailPage', {'type': item.type, 'aid': item.aid}))
+                    'videoPage', {'type': item.type, 'aid': item.aid}))
           },
           child: ArticleItem(
             img: item.type == "2" ? item.imgList[0] : item.cover,

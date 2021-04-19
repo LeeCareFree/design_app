@@ -22,3 +22,4 @@ export 'personal_page/personal_setting_page/page.dart';
 export 'personal_page/myhome_setting_page/page.dart';
 export 'decorate_page/page.dart';
 export 'user_list_page/page.dart';
+export 'video_page/page.dart';
