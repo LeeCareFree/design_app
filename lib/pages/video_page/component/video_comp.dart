@@ -1,3 +1,5 @@
+import 'package:bluespace/models/article_detail.dart';
+import 'package:bluespace/models/user_info.dart';
 import 'package:bluespace/pages/video_page/component/video_gesture.dart';
 import 'package:bluespace/utils/adapt.dart';
 import 'package:flutter/cupertino.dart';
@@ -135,12 +137,14 @@ class VideoLoadingPlaceHolder extends StatelessWidget {
 
 class VideoUserInfo extends StatelessWidget {
   final String desc;
+  final User userInfo;
   // final Function onGoodGift;
-  const VideoUserInfo({
-    Key key,
-    // @required this.onGoodGift,
-    this.desc,
-  }) : super(key: key);
+  const VideoUserInfo(
+      {Key key,
+      // @required this.onGoodGift,
+      this.desc,
+      this.userInfo})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -149,6 +153,14 @@ class VideoUserInfo extends StatelessWidget {
         left: 12,
       ),
       margin: EdgeInsets.only(right: 80),
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+            color: Colors.black12,
+            offset: Offset(50.0, 550.0), //阴影xy轴偏移量
+            blurRadius: 30.0, //阴影模糊程度
+            spreadRadius: 1.0 //阴影扩散程度
+            )
+      ]),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,12 +168,30 @@ class VideoUserInfo extends StatelessWidget {
           Row(
             children: [
               CircleAvatar(
-                backgroundImage:
-                    NetworkImage("http://8.129.214.128:3001/avatar/lee.jpg"),
+                backgroundImage: NetworkImage(userInfo?.avatar),
                 radius: Adapt.width(50),
               ),
-              Text('lee'),
-              TextButton(onPressed: () => {}, child: Text('关注'))
+              SizedBox(width: Adapt.width(30)),
+              Text(
+                userInfo.nickname,
+                style: TextStyle(color: Colors.white),
+              ),
+              SizedBox(width: Adapt.width(30)),
+              Container(
+                  height: Adapt.height(50),
+                  decoration: BoxDecoration(
+                      color: Colors.white38,
+                      borderRadius: BorderRadius.circular(Adapt.radius(50))),
+                  child: TextButton(
+                      onPressed: () => {},
+                      child: Text(
+                        '关注',
+                        style: TextStyle(
+                            fontSize: Adapt.sp(24),
+                            fontWeight: FontWeight.bold,
+                            // letterSpacing: Adapt.px(10),
+                            color: Colors.blueGrey),
+                      )))
             ],
           ),
           Container(height: Adapt.height(10)),

@@ -22,6 +22,11 @@ HomeState _onAction(HomeState state, Action action) {
 
 HomeState _onUpdateDelArticle(HomeState state, Action action) {
   final HomeState newState = state.clone();
+  for (var i = 0; i < newState.articleList0.length; i++) {
+    if (newState.articleList0[i]['aid'] == action.payload) {
+      newState..articleList0.remove(newState.articleList0[i]);
+    }
+  }
   for (var i = 0; i < newState.articleList1.length; i++) {
     if (newState.articleList1[i]['aid'] == action.payload) {
       newState..articleList1.remove(newState.articleList1[i]);

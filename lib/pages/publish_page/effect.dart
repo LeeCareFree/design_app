@@ -84,11 +84,9 @@ Future _onPublish(Action action, Context<PublishState> ctx) async {
     if (ctx.state.video != null) {
       type = 3;
 
-      MediaInfo _compressedVideoInfo = MediaInfo(path: '');
-      //压缩视频
-      _compressedVideoInfo = await VideoCompress.compressVideo(
+      MediaInfo _compressedVideoInfo = await VideoCompress.compressVideo(
           ctx.state.video.path,
-          quality: VideoQuality.MediumQuality,
+          quality: VideoQuality.LowQuality,
           deleteOrigin: false,
           includeAudio: true);
       video = await MultipartFile.fromFile(_compressedVideoInfo.path);
@@ -136,8 +134,13 @@ Future _onPublish(Action action, Context<PublishState> ctx) async {
       Fluttertoast.showToast(msg: data['msg'] ?? '请稍后再试！');
     } else {
       Fluttertoast.showToast(msg: '发布成功');
-      Navigator.of(ctx.context).pushReplacementNamed('articleDetailPage',
-          arguments: {'aid': data['data']['aid'], 'type': '2'});
+      if (type == 3) {
+        Navigator.of(ctx.context).pushReplacementNamed('videoPage',
+            arguments: {'aid': data['data']['aid'], 'type': type});
+      } else {
+        Navigator.of(ctx.context).pushReplacementNamed('articleDetailPage',
+            arguments: {'aid': data['data']['aid'], 'type': type});
+      }
     }
   }
 }

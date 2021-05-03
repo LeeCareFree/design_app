@@ -1,4 +1,5 @@
-import 'package:bluespace/pages/video_page/video.dart';
+import 'package:bluespace/models/article_detail.dart';
+import 'package:bluespace/models/article_list_data.dart';
 import 'package:flutter/material.dart';
 import 'package:fijkplayer/fijkplayer.dart';
 
@@ -39,12 +40,12 @@ class VideoListController {
   int get videoCount => playerList.length;
 
   /// 在当前的list后面继续增加视频，并预加载封面
-  addVideoInfo(List<UserVideo> list) {
+  addVideoInfo(List<ArticleInfo> list) {
     for (var info in list) {
       playerList.add(
         FijkPlayer()
           ..setDataSource(
-            info.url,
+            info.videoUrl,
             autoPlay: playerList.length == 0,
             showCover: true,
           )
@@ -54,7 +55,7 @@ class VideoListController {
   }
 
   /// 初始化
-  init(PageController pageController, List<UserVideo> initialList) {
+  init(PageController pageController, List<ArticleInfo> initialList) {
     addVideoInfo(initialList);
     setPageContrller(pageController);
   }

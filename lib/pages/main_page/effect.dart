@@ -24,7 +24,7 @@ void _onInit(Action action, Context<MainPageState> ctx) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final uid = prefs.getString('uid') ?? '';
   ctx.state.uid = uid;
-  ctx.state.socket = io('http://192.168.0.107:3001', <String, dynamic>{
+  ctx.state.socket = io('http://8.129.214.128:3001', <String, dynamic>{
     'transports': ['websocket'],
     'autoConnect': true,
   });

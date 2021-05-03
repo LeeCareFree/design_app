@@ -9,6 +9,7 @@
 import 'package:bluespace/models/article_list_data.dart';
 import 'package:bluespace/pages/home_page/action.dart';
 import 'package:bluespace/pages/personal_page/action.dart';
+import 'package:fijkplayer/fijkplayer.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:bluespace/utils/adapt.dart';
@@ -36,12 +37,15 @@ class ArticleList extends StatelessWidget {
           onTap: () => {
             type == 'personal'
                 ? dispatch(PersonalActionCreator.goArticleDetail(
-                    'videoPage', {'type': item.type, 'aid': item.aid}))
+                    item.type == '3' ? 'videoPage' : 'articleDetailPage',
+                    {'type': item.type, 'aid': item.aid}))
                 : dispatch(HomeActionCreator.goArticleDetail(
-                    'videoPage', {'type': item.type, 'aid': item.aid}))
+                    item.type == '3' ? 'videoPage' : 'articleDetailPage',
+                    {'type': item.type, 'aid': item.aid}))
           },
           child: ArticleItem(
             img: item.type == "2" ? item.imgList[0] : item.cover,
+            videoUrl: item.videoUrl,
             title: item.title,
             username: item.user.nickname ?? item.user.username,
             avatar: item.user.avatar,
@@ -72,9 +76,12 @@ class ArticleItem extends StatelessWidget {
   final String cost;
   final String location;
   final int coll;
+  final String videoUrl;
+  FijkState state;
 
   ArticleItem(
       {this.img,
+      this.videoUrl,
       this.title,
       this.username,
       this.avatar,
@@ -83,11 +90,23 @@ class ArticleItem extends StatelessWidget {
       this.doorModel,
       this.area,
       this.cost,
-      this.location});
+      this.location,
+      this.state});
 
   @override
   Widget build(BuildContext context) {
     final ThemeData _theme = ThemeStyle.getTheme(context);
+    state = FijkState.initialized;
+    FijkPlayer player = videoUrl != null
+        ? (FijkPlayer()
+          ..state
+          ..setDataSource(
+            videoUrl,
+            autoPlay: true,
+            showCover: true,
+          ))
+        : null;
+
     return Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,15 +115,25 @@ class ArticleItem extends StatelessWidget {
           Container(
             // height: 250,
             width: Adapt.screenW(),
-            child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(Adapt.width(5)),
-                    topRight: Radius.circular(Adapt.width(5))),
-                child: FadeInImage(
-                    // image: NetworkImage(url),
-                    image: NetworkImage(img),
-                    placeholder: AssetImage('assets/images/outfigure.gif'),
-                    fit: BoxFit.cover)),
+            child: player == null
+                ? ClipRRect(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(Adapt.width(5)),
+                        topRight: Radius.circular(Adapt.width(5))),
+                    child: FadeInImage(
+                        // image: NetworkImage(url),
+                        image: NetworkImage(img),
+                        placeholder: AssetImage('assets/images/outfigure.gif'),
+                        fit: BoxFit.cover))
+                : Container(
+                    height: Adapt.height(200),
+                    width: Adapt.width(200),
+                    child: FijkView(
+                      fit: FijkFit.fitHeight,
+                      player: player,
+                      color: Colors.black,
+                      panelBuilder: (_, __, ___, ____, _____) => Container(),
+                    )),
           ),
           type == '1'
               ? Container(

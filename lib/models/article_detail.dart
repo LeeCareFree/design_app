@@ -7,6 +7,7 @@ class ArticleInfo {
   int _coll;
   String _createtime;
   String _cover;
+  String _videoUrl;
   String _doorModel;
   String _area;
   String _cost;
@@ -40,6 +41,7 @@ class ArticleInfo {
       String detail,
       List<String> imgList,
       User user,
+      String videoUrl,
       List<Comments> comments}) {
     this._desc = desc;
     this._type = type;
@@ -49,6 +51,7 @@ class ArticleInfo {
     this._coll = coll;
     this._createtime = createtime;
     this._cover = cover;
+    this._videoUrl = videoUrl;
     this._doorModel = doorModel;
     this._area = area;
     this._cost = cost;
@@ -79,6 +82,8 @@ class ArticleInfo {
   set createtime(String createtime) => _createtime = createtime;
   String get cover => _cover;
   set cover(String cover) => _cover = cover;
+  String get videoUrl => _videoUrl;
+  set videoUrl(String videoUrl) => _videoUrl = videoUrl;
   String get doorModel => _doorModel;
   set doorModel(String doorModel) => _doorModel = doorModel;
   String get area => _area;
@@ -119,6 +124,7 @@ class ArticleInfo {
     _coll = json['coll'];
     _createtime = json['createtime'];
     _cover = json['cover'];
+    _videoUrl = json['videoUrl'];
     _doorModel = json['doorModel'];
     _area = json['area'];
     _cost = json['cost'];
@@ -150,6 +156,7 @@ class ArticleInfo {
     data['coll'] = this._coll;
     data['createtime'] = this._createtime;
     data['cover'] = this._cover;
+    data['videoUrl'] = this._videoUrl;
     data['doorModel'] = this._doorModel;
     data['area'] = this._area;
     data['cost'] = this._cost;
@@ -249,7 +256,8 @@ class Comments {
   String _commenttime;
   User _user;
 
-  Comments({String cid, String uid, String content, User user, String commenttime}) {
+  Comments(
+      {String cid, String uid, String content, User user, String commenttime}) {
     this._cid = cid;
     this._uid = uid;
     this._content = content;

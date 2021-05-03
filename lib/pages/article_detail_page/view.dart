@@ -149,8 +149,7 @@ Widget buildView(
                                   controller: state.commentTextController,
                                   commentFocusNode: state.commentFocusNode,
                                   commentLikeCount: state.commentLikeCount,
-                                  isSelf:
-                                      state.uid == state.articleInfo?.user?.uid,
+                                  uid: state.uid,
                                   dispatch: dispatch,
                                 ),
                               ]))
@@ -295,6 +294,7 @@ Widget buildView(
                                     commentFocusNode: state.commentFocusNode,
                                     commentLikeCount: state.commentLikeCount,
                                     dispatch: dispatch,
+                                    uid: state.uid,
                                   ),
                                 ]))
                           ],
@@ -644,7 +644,7 @@ class _CommentWidget extends StatelessWidget {
   final FocusNode commentFocusNode;
   final Dispatch dispatch;
   final int commentLikeCount;
-  final bool isSelf;
+  final String uid;
   const _CommentWidget(
       {this.avatar,
       this.commentList,
@@ -652,7 +652,7 @@ class _CommentWidget extends StatelessWidget {
       this.commentFocusNode,
       this.dispatch,
       this.commentLikeCount,
-      this.isSelf});
+      this.uid});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -729,7 +729,7 @@ class _CommentWidget extends StatelessWidget {
             commentList: commentList,
             dispatch: dispatch,
             commentLikeCount: commentLikeCount,
-            isSelf: isSelf,
+            uid: uid,
           )
         ],
       ),
@@ -741,9 +741,9 @@ class _CommentListWidget extends StatelessWidget {
   final List<Comments> commentList;
   final Dispatch dispatch;
   final int commentLikeCount;
-  final bool isSelf;
+  final String uid;
   const _CommentListWidget(
-      {this.commentList, this.dispatch, this.commentLikeCount, this.isSelf});
+      {this.commentList, this.dispatch, this.commentLikeCount, this.uid});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -763,12 +763,13 @@ class _CommentListWidget extends StatelessWidget {
                     context: context,
                     builder: (context) {
                       return Container(
-                        height: isSelf ? Adapt.height(300) : Adapt.height(400),
+                        height: (uid == commentList[index].uid)
+                            ? Adapt.height(400)
+                            : Adapt.height(300),
                         child: Column(
                           children: <Widget>[
-                            isSelf
-                                ? Container()
-                                : ListTile(
+                            (uid == commentList[index].uid)
+                                ? ListTile(
                                     leading: Icon(Icons.delete_outline),
                                     title: Text("删除"),
                                     onTap: () => {
@@ -776,7 +777,8 @@ class _CommentListWidget extends StatelessWidget {
                                           .deleteComment(
                                               commentList[index].cid))
                                     },
-                                  ),
+                                  )
+                                : Container(),
                             ListTile(
                               leading: Icon(Icons.copy),
                               title: Text("复制"),

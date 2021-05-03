@@ -13,6 +13,7 @@ class ArticleListData {
   String title;
   String detail;
   String cover;
+  String videoUrl;
   String doorModel;
   String area;
   String cost;
@@ -28,6 +29,7 @@ class ArticleListData {
       this.title,
       this.detail,
       this.cover,
+      this.videoUrl,
       this.doorModel,
       this.area,
       this.cost,
@@ -43,6 +45,7 @@ class ArticleListData {
     title = json['title'];
     detail = json['detail'];
     cover = json['cover'];
+    videoUrl = json['videoUrl'];
     doorModel = json['doorModel'];
     area = json['area'];
     cost = json['cost'];
@@ -60,6 +63,7 @@ class ArticleListData {
     data['title'] = this.title;
     data['detail'] = this.detail;
     data['cover'] = this.cover;
+    data['videoUrl'] = this.videoUrl;
     data['doorModel'] = this.doorModel;
     data['area'] = this.area;
     data['cost'] = this.cost;
