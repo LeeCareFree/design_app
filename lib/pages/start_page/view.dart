@@ -86,7 +86,7 @@ Widget buildView(StartState state, Dispatch dispatch, ViewService viewService) {
                 children: <Widget>[
                   _BackGround(controller: state.animationController),
                   _LoginBody(
-                    passwordVisible: state.passwordVisible,
+                    passwordVisible: state.passwordVisible ?? false,
                     animationController: state.animationController,
                     submitAnimationController: state.submitAnimationController,
                     isPhoneLogin: state.isPhoneLogin,
@@ -247,7 +247,7 @@ class _LoginBody extends StatelessWidget {
                       onSubmit: (s) =>
                           dispatch(StartActionCreator.onLoginClicked()),
                       controller: animationController,
-                      passwordVisible: passwordVisible,
+                      passwordVisible: passwordVisible ?? false,
                       userFocusNode: userFocusNode,
                       pwdFocusNode: pwdFocusNode,
                       userTextController: userTextController,

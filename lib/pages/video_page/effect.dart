@@ -5,10 +5,12 @@ import 'package:bluespace/models/article_list_data.dart';
 import 'package:bluespace/net/service_method.dart';
 import 'package:bluespace/pages/video_page/component/videoListController.dart';
 import 'package:bluespace/pages/video_page/component/videoScaffold.dart';
+import 'package:chewie/chewie.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/cupertino.dart' hide Action;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:video_player/video_player.dart';
 import 'action.dart';
 import 'state.dart';
 
@@ -226,6 +228,17 @@ void _onInit(Action action, Context<VideoState> ctx) async {
   await ctx.dispatch(VideoActionCreator.checkStatus());
   await ctx.dispatch(VideoActionCreator.getUserAvatar());
   await ctx.dispatch(VideoActionCreator.follow('query'));
+  ctx.state.videoPlayerController = VideoPlayerController.network(
+      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4');
+  await ctx.state.videoPlayerController.initialize();
+  ctx.state.chewieController = ChewieController(
+    videoPlayerController: ctx.state.videoPlayerController,
+    autoPlay: true,
+    looping: true,
+  );
+  ctx.state.playerWidget = Chewie(
+    controller: ctx.state.chewieController,
+  );
   ctx.state.videoListController.init(
     ctx.state.pageController,
     ctx.state.videoList,

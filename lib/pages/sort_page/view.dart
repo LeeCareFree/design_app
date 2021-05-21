@@ -29,17 +29,23 @@ Widget buildView(SortState state, Dispatch dispatch, ViewService viewService) {
               ),
         ),
         body: DefaultDropdownMenuController(
-            onSelected: ({int menuIndex, dynamic data}) {
+            onSelected: ({int menuIndex, List data}) {
               dispatch(SortActionCreator.tapHead(menuIndex));
-              print("int menuIndex, dynamic data = $menuIndex,$data");
+              // print(data);
               if (menuIndex == 0) {
-                // value1 = '选中下标$menuIndex,\n选中内容$data';
+                dispatch(SortActionCreator.conditionalSearch(
+                    'designfee', data[0]['value']));
               }
               if (menuIndex == 1) {
-                // value2 = '选中下标$menuIndex,\n选中内容$data';
+                var arrList = [];
+                print(data);
+                data.map((e) => {print(111)});
+                dispatch(SortActionCreator.conditionalSearch(
+                    'stylearr', data[0]['value']));
               }
               if (menuIndex == 2) {
-                // value3 = '选中下标$menuIndex,\n选中内容$data';
+                dispatch(SortActionCreator.conditionalSearch(
+                    'service', data[0]['value']));
               }
             },
             child: Stack(children: [
@@ -241,45 +247,29 @@ class _DesignerListWidget extends StatelessWidget {
                         SizedBox(
                           height: Adapt.height(15),
                         ),
-                        Row(
-                          children: [
-                            GestureDetector(
-                                child: Container(
-                              width: Adapt.width(160),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Image.network(
-                                  designerList?.result[index]?.avatar ?? '',
-                                ),
-                              ),
-                            )),
-                            SizedBox(
-                              width: Adapt.width(20),
-                            ),
-                            GestureDetector(
-                                child: Container(
-                              width: Adapt.width(160),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Image.network(
-                                  designerList?.result[index]?.avatar ?? '',
-                                ),
-                              ),
-                            )),
-                            SizedBox(
-                              width: Adapt.width(20),
-                            ),
-                            GestureDetector(
-                                child: Container(
-                              width: Adapt.width(160),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Image.network(
-                                  designerList?.result[index]?.avatar ?? '',
-                                ),
-                              ),
-                            )),
-                          ],
+                        Container(
+                          width: Adapt.screenW() - Adapt.width(200),
+                          height: Adapt.height(150),
+                          child: ListView(
+                            reverse: false,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            children: designerList?.result[index]?.prodImgList
+                                ?.map((e) => GestureDetector(
+                                    child: Card(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadiusDirectional
+                                                    .circular(
+                                                        Adapt.radius(20))),
+                                        clipBehavior: Clip.antiAlias,
+                                        child: Image.network(
+                                          designerList?.result[index]
+                                                  ?.prodImgList[0] ??
+                                              '',
+                                        ))))
+                                .toList(),
+                          ),
                         )
                       ],
                     )

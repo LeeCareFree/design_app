@@ -57,7 +57,7 @@ class DropdownMenuController extends ChangeNotifier {
   }
 }
 
-typedef DropdownMenuOnSelected({int menuIndex, dynamic data});
+typedef DropdownMenuOnSelected({int menuIndex, List data});
 
 class DefaultDropdownMenuController extends StatefulWidget {
   const DefaultDropdownMenuController({
@@ -741,162 +741,162 @@ class _MenuListState<T> extends DropdownState<DropdownListMenu<T>> {
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Expanded(
-                              child: Container(
-                            margin:
-                                const EdgeInsets.symmetric(horizontal: 12.0),
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  child: TextField(
-                                    inputFormatters: [
-                                      // ignore: deprecated_member_use
-                                      WhitelistingTextInputFormatter.digitsOnly
-                                    ],
-                                    keyboardType: widget
-                                                .customInput?.keyboardType ==
-                                            TextInputType.number
-                                        ? const TextInputType.numberWithOptions(
-                                            decimal: true)
-                                        : widget.customInput?.keyboardType ??
-                                            TextInputType.text,
-                                    autofocus: false,
-                                    textAlign: TextAlign.center,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintStyle: const TextStyle(
-                                          color: Color(0XFFC0C4CC),
-                                          fontSize: 18.0),
-                                      hintText:
-                                          "${widget.customInput?.startHintText ?? ''}",
-                                    ),
-                                    //使用controller保存输入框的值
-                                    controller: TextEditingController.fromValue(
-                                        TextEditingValue(
-                                            text: minPrince.toString(),
-                                            selection:
-                                                new TextSelection.fromPosition(
-                                                    TextPosition(
-                                                        affinity: TextAffinity
-                                                            .downstream,
-                                                        offset: minPrince
-                                                            .toString()
-                                                            .length)))),
+//                           Expanded(
+//                               child: Container(
+//                             margin:
+//                                 const EdgeInsets.symmetric(horizontal: 12.0),
+//                             child: Column(
+//                               children: <Widget>[
+//                                 Container(
+//                                   child: TextField(
+//                                     inputFormatters: [
+//                                       // ignore: deprecated_member_use
+//                                       WhitelistingTextInputFormatter.digitsOnly
+//                                     ],
+//                                     keyboardType: widget
+//                                                 .customInput?.keyboardType ==
+//                                             TextInputType.number
+//                                         ? const TextInputType.numberWithOptions(
+//                                             decimal: true)
+//                                         : widget.customInput?.keyboardType ??
+//                                             TextInputType.text,
+//                                     autofocus: false,
+//                                     textAlign: TextAlign.center,
+//                                     decoration: InputDecoration(
+//                                       border: InputBorder.none,
+//                                       hintStyle: const TextStyle(
+//                                           color: Color(0XFFC0C4CC),
+//                                           fontSize: 18.0),
+//                                       hintText:
+//                                           "${widget.customInput?.startHintText ?? ''}",
+//                                     ),
+//                                     //使用controller保存输入框的值
+//                                     controller: TextEditingController.fromValue(
+//                                         TextEditingValue(
+//                                             text: minPrince.toString(),
+//                                             selection:
+//                                                 new TextSelection.fromPosition(
+//                                                     TextPosition(
+//                                                         affinity: TextAffinity
+//                                                             .downstream,
+//                                                         offset: minPrince
+//                                                             .toString()
+//                                                             .length)))),
 
-                                    onChanged: (text) {
-                                      setState(() {
-                                        minPrince = text;
-//                                      princes['minPrince'] = minPrince;
-                                        princes[
-                                            widget.customInput?.startInput ??
-                                                'value1'] = minPrince;
-                                        if (minPrince == '' &&
-                                            maxPrince == '') {
-                                          _subclassIndex.add(_selectedIndex);
-                                        } else {
-                                          _subclassIndex.clear();
-                                          _subclassIndex.remove(_selectedIndex);
-                                        }
-                                      });
-                                    },
-                                    onSubmitted: (text) {
-//                                    setState(() {
-//                                      minPrince = text;
-//
-////                                      princes['minPrince'] = minPrince;
-//                                      _subclassIndex.remove(_selectedIndex);
-//                                    });
-                                    },
-                                  ),
-                                ),
-                                const Divider(
-                                  height: .5,
-                                  color: Color(0XFF909399),
-                                )
-                              ],
-                            ),
-                          )),
-                          Container(
-                            margin:
-                                const EdgeInsets.symmetric(horizontal: 11.0),
-                            child: const Text(
-                              "至",
-                              style: TextStyle(
-                                  color: Color(0XFF606266), fontSize: 15.0),
-                            ),
-                          ),
-                          Expanded(
-                              child: Container(
-                            margin:
-                                const EdgeInsets.symmetric(horizontal: 12.0),
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  child: TextField(
-                                    inputFormatters: [
-                                      // ignore: deprecated_member_use
-                                      WhitelistingTextInputFormatter.digitsOnly
-                                    ],
-                                    keyboardType: widget
-                                                .customInput?.keyboardType ==
-                                            TextInputType.number
-                                        ? const TextInputType.numberWithOptions(
-                                            decimal: true)
-                                        : widget.customInput?.keyboardType ??
-                                            TextInputType.text,
-                                    autofocus: false,
-                                    textAlign: TextAlign.center,
-                                    decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText:
-                                            "${widget.customInput?.endHintText ?? ''}",
-                                        hintStyle: const TextStyle(
-                                            color: Color(0XFFC0C4CC),
-                                            fontSize: 18.0)),
-                                    //使用controller保存输入框的值
-                                    controller: TextEditingController.fromValue(
-                                        TextEditingValue(
-                                            text: maxPrince.toString(),
-                                            selection:
-                                                new TextSelection.fromPosition(
-                                                    TextPosition(
-                                                        affinity: TextAffinity
-                                                            .downstream,
-                                                        offset: maxPrince
-                                                            .toString()
-                                                            .length)))),
-                                    onChanged: (text) {
-                                      setState(() {
-                                        maxPrince = text;
-                                        princes[widget.customInput?.endInput ??
-                                            'value2'] = maxPrince;
-                                        if (minPrince == '' &&
-                                            maxPrince == '') {
-                                          print(
-                                              "${minPrince == ''}||minPrince$minPrince,maxPrince$maxPrince ===${maxPrince == ''}");
-                                          _subclassIndex.add(_selectedIndex);
-                                        } else {
-                                          _subclassIndex.clear();
-                                          _subclassIndex.remove(_selectedIndex);
-                                        }
-                                      });
-                                    },
-                                    onSubmitted: (text) {
-//                                    setState(() {
-//                                      maxPrince = text;
-//                                      princes[widget.customInput.endInput??'value2'] = maxPrince;
-//                                      _subclassIndex.remove(_selectedIndex);
-//                                    });
-                                    },
-                                  ),
-                                ),
-                                const Divider(
-                                  height: .5,
-                                  color: Color(0XFF909399),
-                                )
-                              ],
-                            ),
-                          )),
+//                                     onChanged: (text) {
+//                                       setState(() {
+//                                         minPrince = text;
+// //                                      princes['minPrince'] = minPrince;
+//                                         princes[
+//                                             widget.customInput?.startInput ??
+//                                                 'value1'] = minPrince;
+//                                         if (minPrince == '' &&
+//                                             maxPrince == '') {
+//                                           _subclassIndex.add(_selectedIndex);
+//                                         } else {
+//                                           _subclassIndex.clear();
+//                                           _subclassIndex.remove(_selectedIndex);
+//                                         }
+//                                       });
+//                                     },
+//                                     onSubmitted: (text) {
+// //                                    setState(() {
+// //                                      minPrince = text;
+// //
+// ////                                      princes['minPrince'] = minPrince;
+// //                                      _subclassIndex.remove(_selectedIndex);
+// //                                    });
+//                                     },
+//                                   ),
+//                                 ),
+//                                 const Divider(
+//                                   height: .5,
+//                                   color: Color(0XFF909399),
+//                                 )
+//                               ],
+//                             ),
+//                           )),
+                          // Container(
+                          //   margin:
+                          //       const EdgeInsets.symmetric(horizontal: 11.0),
+                          //   child: const Text(
+                          //     "至",
+                          //     style: TextStyle(
+                          //         color: Color(0XFF606266), fontSize: 15.0),
+                          //   ),
+                          // ),
+//                           Expanded(
+//                               child: Container(
+//                             margin:
+//                                 const EdgeInsets.symmetric(horizontal: 12.0),
+//                             child: Column(
+//                               children: <Widget>[
+//                                 Container(
+//                                   child: TextField(
+//                                     inputFormatters: [
+//                                       // ignore: deprecated_member_use
+//                                       WhitelistingTextInputFormatter.digitsOnly
+//                                     ],
+//                                     keyboardType: widget
+//                                                 .customInput?.keyboardType ==
+//                                             TextInputType.number
+//                                         ? const TextInputType.numberWithOptions(
+//                                             decimal: true)
+//                                         : widget.customInput?.keyboardType ??
+//                                             TextInputType.text,
+//                                     autofocus: false,
+//                                     textAlign: TextAlign.center,
+//                                     decoration: InputDecoration(
+//                                         border: InputBorder.none,
+//                                         hintText:
+//                                             "${widget.customInput?.endHintText ?? ''}",
+//                                         hintStyle: const TextStyle(
+//                                             color: Color(0XFFC0C4CC),
+//                                             fontSize: 18.0)),
+//                                     //使用controller保存输入框的值
+//                                     controller: TextEditingController.fromValue(
+//                                         TextEditingValue(
+//                                             text: maxPrince.toString(),
+//                                             selection:
+//                                                 new TextSelection.fromPosition(
+//                                                     TextPosition(
+//                                                         affinity: TextAffinity
+//                                                             .downstream,
+//                                                         offset: maxPrince
+//                                                             .toString()
+//                                                             .length)))),
+//                                     onChanged: (text) {
+//                                       setState(() {
+//                                         maxPrince = text;
+//                                         princes[widget.customInput?.endInput ??
+//                                             'value2'] = maxPrince;
+//                                         if (minPrince == '' &&
+//                                             maxPrince == '') {
+//                                           print(
+//                                               "${minPrince == ''}||minPrince$minPrince,maxPrince$maxPrince ===${maxPrince == ''}");
+//                                           _subclassIndex.add(_selectedIndex);
+//                                         } else {
+//                                           _subclassIndex.clear();
+//                                           _subclassIndex.remove(_selectedIndex);
+//                                         }
+//                                       });
+//                                     },
+//                                     onSubmitted: (text) {
+// //                                    setState(() {
+// //                                      maxPrince = text;
+// //                                      princes[widget.customInput.endInput??'value2'] = maxPrince;
+// //                                      _subclassIndex.remove(_selectedIndex);
+// //                                    });
+//                                     },
+//                                   ),
+//                                 ),
+//                                 const Divider(
+//                                   height: .5,
+//                                   color: Color(0XFF909399),
+//                                 )
+//                               ],
+//                             ),
+//                           )),
                         ],
                       )
                     : Container(),

@@ -39,6 +39,8 @@ class StartState implements Cloneable<StartState> {
 
 StartState initState(Map<String, dynamic> args) {
   StartState state = new StartState();
+  state.isLogin = true;
+  state.passwordVisible = false;
   if (args != null) {
     state.type = args['type'] ?? '';
   }

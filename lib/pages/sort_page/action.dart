@@ -2,7 +2,13 @@ import 'package:bluespace/models/designer_list.dart';
 import 'package:fish_redux/fish_redux.dart';
 
 //TODO replace with your own action
-enum SortAction { action, tapHead, getDesignerList, initDesignerList }
+enum SortAction {
+  action,
+  tapHead,
+  getDesignerList,
+  initDesignerList,
+  conditionalSearch
+}
 
 class SortActionCreator {
   static Action onAction() {
@@ -21,5 +27,9 @@ class SortActionCreator {
 
   static Action initDesignerList(DesignerList designerList) {
     return Action(SortAction.initDesignerList, payload: designerList);
+  }
+
+  static Action conditionalSearch(String type, var value) {
+    return Action(SortAction.conditionalSearch, payload: [type, value]);
   }
 }

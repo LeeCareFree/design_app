@@ -4,6 +4,8 @@ import 'package:bluespace/pages/video_page/component/videoListController.dart';
 import 'package:bluespace/pages/video_page/component/videoScaffold.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:chewie/chewie.dart';
+import 'package:video_player/video_player.dart';
 
 class VideoState implements Cloneable<VideoState> {
   // List<String> videoList;
@@ -19,6 +21,9 @@ class VideoState implements Cloneable<VideoState> {
   bool isLoading;
   ArticleInfo articleInfo;
   FocusNode commentFocusNode;
+  VideoPlayerController videoPlayerController;
+  ChewieController chewieController;
+  Widget playerWidget;
   String avatar;
   String aid;
   String uid;
@@ -38,7 +43,10 @@ class VideoState implements Cloneable<VideoState> {
       ..tkController = tkController
       ..pageController = pageController
       ..videoList = videoList
-      ..videoListController = videoListController;
+      ..videoListController = videoListController
+      ..videoPlayerController = videoPlayerController
+      ..chewieController = chewieController
+      ..playerWidget = playerWidget;
   }
 }
 

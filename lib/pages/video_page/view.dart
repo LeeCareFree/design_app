@@ -119,12 +119,7 @@ Widget buildView(VideoState state, Dispatch dispatch, ViewService viewService) {
                   // bool isF = SafeMap(favoriteMap)[i].boolean ?? false;
                   var player = state.videoListController.playerOfIndex(i);
                   // video
-                  Widget currentVideo = FijkView(
-                    fit: FijkFit.fitHeight,
-                    player: player,
-                    color: Colors.black,
-                    panelBuilder: (_, __, ___, ____, _____) => Container(),
-                  );
+                  Widget currentVideo = state.playerWidget;
 
                   currentVideo = VideoPage(
                     hidePauseIcon: player.state != FijkState.paused,
