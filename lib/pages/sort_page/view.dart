@@ -33,6 +33,7 @@ Widget buildView(SortState state, Dispatch dispatch, ViewService viewService) {
               dispatch(SortActionCreator.tapHead(menuIndex));
               // print(data);
               if (menuIndex == 0) {
+                print(data);
                 dispatch(SortActionCreator.conditionalSearch(
                     'designfee', data[0]['value']));
               }
@@ -44,6 +45,7 @@ Widget buildView(SortState state, Dispatch dispatch, ViewService viewService) {
                     'stylearr', data[0]['value']));
               }
               if (menuIndex == 2) {
+                print(data);
                 dispatch(SortActionCreator.conditionalSearch(
                     'service', data[0]['value']));
               }

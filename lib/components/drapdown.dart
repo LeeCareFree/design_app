@@ -652,8 +652,8 @@ class _MenuListState<T> extends DropdownState<DropdownListMenu<T>> {
     _subclassIndex = [widget.selectedIndex];
     _selectedIndex = widget.selectedIndex;
     _isMultiple = widget.isMultiple;
-    princes[widget.customInput?.startInput ?? 'value1'] = null;
-    princes[widget.customInput?.endInput ?? 'value2'] = null;
+    // princes[widget.customInput?.startInput] = null;
+    // princes[widget.customInput?.endInput] = null;
     super.initState();
   }
 
@@ -928,11 +928,11 @@ class _MenuListState<T> extends DropdownState<DropdownListMenu<T>> {
         );
       }
       Map _item = {
-        widget.customInput?.startInput ?? 'value1': minPrince,
-        widget.customInput?.endInput ?? 'value2': maxPrince
+        // widget.customInput?.startInput: minPrince,
+        // widget.customInput?.endInput: maxPrince
       };
       List _list = []..addAll(_subclassIndex);
-      _list.add(_item);
+      // _list.add(_item);
       return widget.buttonBuilder(context, _list, fixOnTap: () {
         _getFixOnTap();
       }, resetOnTap: () {
@@ -953,10 +953,10 @@ class _MenuListState<T> extends DropdownState<DropdownListMenu<T>> {
     setState(() {
       ///赋值深拷贝，防止清除_subclassIndex时影响_superclassIndex，两种方式
 //                         _superclassIndex = json.decode(json.encode(_subclassIndex));///此方式影响性能
-      princes[widget.customInput?.startInput ?? 'value1'] = minPrince;
-      princes[widget.customInput?.endInput ?? 'value2'] = maxPrince;
+      princes[widget.customInput?.startInput] = minPrince;
+      princes[widget.customInput?.endInput] = maxPrince;
       _superclassIndex = []..addAll(_subclassIndex);
-      _superclassIndex.add(princes);
+      // _superclassIndex.add(princes);
     });
     assert(controller != null);
     controller.select(_superclassIndex);
@@ -980,8 +980,8 @@ class _MenuListState<T> extends DropdownState<DropdownListMenu<T>> {
       case DropdownEvent.HIDE:
         setState(() {
           if (_subclassIndex != _superclassIndex) {
-            minPrince = princes[widget.customInput?.startInput ?? 'value1'];
-            maxPrince = princes[widget.customInput?.endInput ?? 'value2'];
+            minPrince = princes[widget.customInput?.startInput];
+            maxPrince = princes[widget.customInput?.endInput];
             if (_superclassIndex.length == 0)
               _superclassIndex.add(_selectedIndex);
             _subclassIndex = []..addAll(_superclassIndex);
