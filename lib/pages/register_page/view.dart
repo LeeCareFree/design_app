@@ -126,7 +126,7 @@ class _SubmitButton extends StatelessWidget {
                     .animate(submitWidth)
                     .value,
                 child: FlatButton(
-                  color: Colors.black87,
+                  color: Colors.blueGrey,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(Adapt.radius(50))),
                   child: Text('注册',
