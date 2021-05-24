@@ -1,4 +1,5 @@
 import 'package:bluespace/models/account_info.dart';
+import 'package:bluespace/models/designer_info.dart';
 import 'package:bluespace/models/myhome_info.dart';
 import 'package:fish_redux/fish_redux.dart';
 
@@ -20,7 +21,8 @@ enum PersonalAction {
   toChangeMyhomeInfo,
   back,
   goArticleDetail,
-  updateDelArticle
+  updateDelArticle,
+  initDesignerInfo
 }
 
 class PersonalActionCreator {
@@ -90,6 +92,10 @@ class PersonalActionCreator {
 
   static Action initHomeInfo(MyhomeInfo myhomeInfo) {
     return Action(PersonalAction.initHomeInfo, payload: myhomeInfo);
+  }
+
+  static Action initDesignerInfo(DesignerInfo designerInfo) {
+    return Action(PersonalAction.initDesignerInfo, payload: designerInfo);
   }
 
   static Action showTitle() {

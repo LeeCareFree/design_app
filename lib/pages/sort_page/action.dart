@@ -7,7 +7,8 @@ enum SortAction {
   tapHead,
   getDesignerList,
   initDesignerList,
-  conditionalSearch
+  conditionalSearch,
+  updateParams
 }
 
 class SortActionCreator {
@@ -19,6 +20,10 @@ class SortActionCreator {
     return Action(
       SortAction.getDesignerList,
     );
+  }
+
+  static Action updateParams(String type, List value) {
+    return Action(SortAction.updateParams, payload: [type, value]);
   }
 
   static Action tapHead(int index) {

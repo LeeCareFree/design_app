@@ -29,25 +29,29 @@ Widget buildView(SortState state, Dispatch dispatch, ViewService viewService) {
               ),
         ),
         body: DefaultDropdownMenuController(
-            onSelected: ({int menuIndex, List data}) {
+            onSelected: ({int menuIndex, List data}) async {
               dispatch(SortActionCreator.tapHead(menuIndex));
-              // print(data);
               if (menuIndex == 0) {
-                print(data);
+                await dispatch(SortActionCreator.updateParams(
+                    'designfee', [data[0]['value']]));
                 dispatch(SortActionCreator.conditionalSearch(
                     'designfee', data[0]['value']));
               }
               if (menuIndex == 1) {
-                var arrList = [];
-                print(data);
-                data.map((e) => {print(111)});
-                dispatch(SortActionCreator.conditionalSearch(
-                    'stylearr', data[0]['value']));
+                List arrList = [];
+                data.forEach((e) => {arrList.add(e['value'])});
+                await dispatch(
+                    SortActionCreator.updateParams('service', arrList));
+                dispatch(
+                    SortActionCreator.conditionalSearch('service', arrList));
               }
               if (menuIndex == 2) {
-                print(data);
-                dispatch(SortActionCreator.conditionalSearch(
-                    'service', data[0]['value']));
+                List arrList = [];
+                data.forEach((e) => {arrList.add(e['value'])});
+                await dispatch(
+                    SortActionCreator.updateParams('stylearr', arrList));
+                dispatch(
+                    SortActionCreator.conditionalSearch('stylearr', arrList));
               }
             },
             child: Stack(children: [
@@ -180,102 +184,110 @@ class _DesignerListWidget extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: Adapt.height(20)),
                 margin: EdgeInsets.fromLTRB(Adapt.width(30), Adapt.height(10),
                     Adapt.width(30), Adapt.height(10)),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: Adapt.width(30),
-                    ),
-                    CircleAvatar(
-                      backgroundImage: CachedNetworkImageProvider(
-                        designerList?.result[index]?.avatar ?? '',
+                child: InkWell(
+                  onTap: () => {
+                    Navigator.of(context).pushNamed('personalPage', arguments: {
+                      'uid': designerList.result[index].uid,
+                    })
+                  },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: Adapt.width(30),
                       ),
-                    ),
-                    SizedBox(
-                      width: Adapt.width(20),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          designerList?.result[index]?.nickname ?? '',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: Adapt.sp(36)),
+                      CircleAvatar(
+                        backgroundImage: CachedNetworkImageProvider(
+                          designerList?.result[index]?.avatar ?? '',
                         ),
-                        SizedBox(
-                          height: Adapt.height(10),
-                        ),
-                        Text(
-                          '设计费：${designerList?.result[index]?.detailInfo?.designfee.toString()}元/㎡',
-                          style: TextStyle(
-                            color: Colors.grey,
+                      ),
+                      SizedBox(
+                        width: Adapt.width(20),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            designerList?.result[index]?.nickname ?? '',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: Adapt.sp(36)),
                           ),
-                        ),
-                        SizedBox(
-                          height: Adapt.height(15),
-                        ),
-                        Container(
-                          height: Adapt.height(40),
-                          child: GridView.builder(
-                            shrinkWrap: true,
-                            itemCount: designerList
-                                ?.result[index]?.detailInfo?.stylearr?.length,
-                            scrollDirection: Axis.horizontal,
-                            // reverse: true,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 1,
-                              mainAxisSpacing: Adapt.width(10),
-                              crossAxisSpacing: Adapt.height(10),
+                          SizedBox(
+                            height: Adapt.height(10),
+                          ),
+                          Text(
+                            '设计费：${designerList?.result[index]?.detailInfo?.designfee.toString()}元/㎡',
+                            style: TextStyle(
+                              color: Colors.grey,
                             ),
-                            itemBuilder: (context, index) => Container(
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: Colors.green[200],
-                                  borderRadius:
-                                      BorderRadius.circular(Adapt.radius(20)),
-                                ),
-                                child: Text(
-                                  designerList?.result[index]?.detailInfo
-                                          ?.stylearr[index] ??
-                                      '',
-                                  style: TextStyle(
-                                      color: Colors.green,
-                                      fontSize: Adapt.sp(20)),
-                                )),
                           ),
-                        ),
-                        SizedBox(
-                          height: Adapt.height(15),
-                        ),
-                        Container(
-                          width: Adapt.screenW() - Adapt.width(200),
-                          height: Adapt.height(150),
-                          child: ListView(
-                            reverse: false,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            children: designerList?.result[index]?.prodImgList
-                                ?.map((e) => GestureDetector(
-                                    child: Card(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadiusDirectional
-                                                    .circular(
-                                                        Adapt.radius(20))),
-                                        clipBehavior: Clip.antiAlias,
-                                        child: Image.network(
-                                          designerList?.result[index]
-                                                  ?.prodImgList[0] ??
-                                              '',
-                                        ))))
-                                .toList(),
+                          SizedBox(
+                            height: Adapt.height(15),
                           ),
-                        )
-                      ],
-                    )
-                  ],
+                          Container(
+                            height: Adapt.height(40),
+                            child: GridView.builder(
+                              shrinkWrap: true,
+                              itemCount: designerList
+                                  ?.result[index]?.detailInfo?.stylearr?.length,
+                              scrollDirection: Axis.horizontal,
+                              // reverse: true,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 1,
+                                mainAxisSpacing: Adapt.width(10),
+                                crossAxisSpacing: Adapt.height(10),
+                                childAspectRatio: 2 / 6,
+                              ),
+                              itemBuilder: (context, index) => Container(
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Colors.green[200],
+                                    borderRadius:
+                                        BorderRadius.circular(Adapt.radius(20)),
+                                  ),
+                                  child: Text(
+                                    designerList?.result[index]?.detailInfo
+                                            ?.stylearr[index] ??
+                                        '',
+                                    style: TextStyle(
+                                        color: Colors.green,
+                                        fontSize: Adapt.sp(20)),
+                                  )),
+                            ),
+                          ),
+                          SizedBox(
+                            height: Adapt.height(15),
+                          ),
+                          Container(
+                            width: Adapt.screenW() - Adapt.width(200),
+                            height: Adapt.height(150),
+                            child: ListView(
+                              reverse: false,
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              children: designerList?.result[index]?.prodImgList
+                                  ?.map((e) => GestureDetector(
+                                      child: Card(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadiusDirectional
+                                                      .circular(
+                                                          Adapt.radius(20))),
+                                          clipBehavior: Clip.antiAlias,
+                                          child: Image.network(
+                                            designerList?.result[index]
+                                                    ?.prodImgList[0] ??
+                                                '',
+                                          ))))
+                                  .toList(),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
                 ))),
         itemCount: designerList?.result?.length);
   }

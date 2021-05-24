@@ -11,6 +11,7 @@ Reducer<PersonalState> buildReducer() {
       // PersonalAction.showTitle: _onShowTitle,
       PersonalAction.initAccountInfo: _onInitAccountInfo,
       PersonalAction.initHomeInfo: _onInitHomeInfo,
+      PersonalAction.initDesignerInfo: _onInitDesignerInfo,
       Lifecycle.initState: _onInit,
       PersonalAction.setLoading: _setLoading,
       PersonalAction.updataIsFollow: _onupdataIsFollow,
@@ -107,6 +108,12 @@ PersonalState _onAction(PersonalState state, Action action) {
 PersonalState _onInitHomeInfo(PersonalState state, Action action) {
   final PersonalState newState = state.clone();
   newState..myhomeInfo = action.payload;
+  return newState;
+}
+
+PersonalState _onInitDesignerInfo(PersonalState state, Action action) {
+  final PersonalState newState = state.clone();
+  newState..designerInfo = action.payload;
   return newState;
 }
 

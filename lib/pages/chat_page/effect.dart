@@ -37,6 +37,7 @@ void _onRefreshPage(Action action, Context<ChatState> ctx) {
   ctx.state.socket.on(
       'getMessageList',
       (data) => {
+            print(data),
             GlobalStore.store.dispatch(GlobalActionCreator.updateMessageList(
                 MessageList.fromJson(data))),
             ctx.state.refreshController.refreshCompleted()

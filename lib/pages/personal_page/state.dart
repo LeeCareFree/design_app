@@ -1,5 +1,6 @@
 import 'package:bluespace/models/account_info.dart';
 import 'package:bluespace/models/article_list_data.dart';
+import 'package:bluespace/models/designer_info.dart';
 import 'package:bluespace/models/myhome_info.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,6 +14,7 @@ class PersonalState implements Cloneable<PersonalState> {
   TabController tabController;
   AccountInfo accountInfo;
   MyhomeInfo myhomeInfo;
+  DesignerInfo designerInfo;
   bool isShowTitle = false;
   String uid;
   String mineUid;
@@ -36,6 +38,7 @@ class PersonalState implements Cloneable<PersonalState> {
       ..isFollow = isFollow
       ..refreshController = refreshController
       ..myhomeInfo = myhomeInfo
+      ..designerInfo = designerInfo
       ..accountInfo = accountInfo
       ..bgPic = bgPic
       ..animationController = animationController

@@ -38,7 +38,8 @@ void _onSendMessage(Action action, Context<ChatDetailState> ctx) async {
 
     // RelativeDateFormat.format(dateTime);
   }
-  if (ctx.state.textEditingController.text != null) {
+  if (ctx.state.textEditingController.text != null &&
+      ctx.state.textEditingController.text != '') {
     ctx.state.socket.emit("sendMessage", {
       "uid": ctx.state.uid,
       // "guid": ctx.state.uid,
@@ -56,6 +57,7 @@ void _onSendMessage(Action action, Context<ChatDetailState> ctx) async {
       "time": DateTime.now().millisecondsSinceEpoch,
       "endTime": dateTime != null ? dateTime.toString().substring(0, 16) : null
     })));
+    ctx.state.textEditingController.text = '';
   }
 }
 

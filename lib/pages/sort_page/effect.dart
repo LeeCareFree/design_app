@@ -31,23 +31,12 @@ void _onInit(Action action, Context<SortState> ctx) {
 }
 
 void _onConditionalSearch(Action action, Context<SortState> ctx) async {
-  var designfee, stylearr, service;
-  switch (action.payload[0]) {
-    case 'designfee':
-      designfee = action.payload[1];
-      break;
-    case 'stylearr':
-      stylearr = action.payload[1];
-      break;
-    case 'service':
-      service = action.payload[1];
-  }
   var result = await DioUtil.request('getDesignerList', formData: {
     'page': 1,
     'size': 10,
-    'designfee': designfee,
-    'stylearr': stylearr,
-    'service': service,
+    'designfee': ctx.state.designfee[0],
+    'stylearr': ctx.state.stylearr[0] == '不限' ? [] : ctx.state.stylearr,
+    'service': ctx.state.service[0] == '不限' ? [] : ctx.state.service,
   });
   result = json.decode(result.toString());
   if (result['code'] == 200) {

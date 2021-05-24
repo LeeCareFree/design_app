@@ -7,6 +7,7 @@ import 'package:bluespace/utils/adapt.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'action.dart';
 import 'state.dart';
@@ -26,6 +27,49 @@ Widget buildView(
         },
         child: Scaffold(
             backgroundColor: Colors.white,
+            bottomNavigationBar: state.accountInfo?.identity != 'user'
+                ? Container(
+                    width: Adapt.screenW(),
+                    // height: Adapt.height(100),
+                    child: Flex(
+                      direction: Axis.horizontal,
+                      children: [
+                        Expanded(
+                            flex: 1,
+                            child: Card(
+                              // color: Colors.blueGrey,
+                              child: TextButton(
+                                  onPressed: () => {launch('tel:13060852786')},
+                                  child: Text(
+                                    '电话咨询',
+                                    style: TextStyle(color: Colors.black54),
+                                  )),
+                            )),
+                        Expanded(
+                            flex: 1,
+                            child: Card(
+                              color: Colors.blueGrey,
+                              child: TextButton(
+                                  onPressed: () => {
+                                        Navigator.of(context).pushNamed(
+                                            'chatDetailPage',
+                                            arguments: {
+                                              "guid": state.accountInfo.uid,
+                                              "avatar":
+                                                  state.accountInfo.avatar,
+                                              "nickname":
+                                                  state.accountInfo.nickname
+                                            })
+                                      },
+                                  child: Text(
+                                    '在线咨询',
+                                    style: TextStyle(color: Colors.white),
+                                  )),
+                            )),
+                      ],
+                    ),
+                  )
+                : null,
             body: Stack(children: [
               state.isLoading
                   ? LoadingLayout(
@@ -58,122 +102,359 @@ Widget buildView(
                                     : dispatch(PersonalActionCreator
                                         .toChangeMyhomeInfo('myhomeSettingPage',
                                             {'homeInfo': state.myhomeInfo})),
-                                child: Container(
-                                    padding: EdgeInsets.fromLTRB(
-                                        Adapt.width(40),
-                                        Adapt.height(20),
-                                        Adapt.width(0),
-                                        Adapt.height(20)),
-                                    height: Adapt.height(160),
-                                    child: Flex(
-                                      direction: Axis.horizontal,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                            flex: 5,
-                                            child: Flex(
-                                              direction: Axis.vertical,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Expanded(
-                                                    flex: 1,
-                                                    child: Row(
+                                child: state.accountInfo.identity != null
+                                    ? Container(
+                                        padding: EdgeInsets.fromLTRB(
+                                            Adapt.width(40),
+                                            Adapt.height(20),
+                                            Adapt.width(0),
+                                            Adapt.height(20)),
+                                        height: Adapt.height(250),
+                                        child: Flex(
+                                          direction: Axis.horizontal,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                                flex: 5,
+                                                child: Flex(
+                                                  direction: Axis.vertical,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Expanded(
+                                                        flex: 1,
+                                                        child: Row(
+                                                          children: [
+                                                            Text(
+                                                              '服务信息',
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      Adapt.sp(
+                                                                          32),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                          ],
+                                                        )),
+                                                    Expanded(
+                                                        flex: 1,
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .home_outlined,
+                                                              color: Colors
+                                                                  .black45,
+                                                              size: 20,
+                                                            ),
+                                                            SizedBox(
+                                                              width:
+                                                                  Adapt.width(
+                                                                      10),
+                                                            ),
+                                                            Text(
+                                                              state.designerInfo
+                                                                          ?.city !=
+                                                                      null
+                                                                  ? '地区：${state.designerInfo.city}'
+                                                                  : '待完善',
+                                                              style: TextStyle(
+                                                                fontSize:
+                                                                    Adapt.sp(
+                                                                        26),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        )),
+                                                    Expanded(
+                                                        flex: 1,
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .settings_applications_outlined,
+                                                              color: Colors
+                                                                  .black45,
+                                                              size: 20,
+                                                            ),
+                                                            SizedBox(
+                                                              width:
+                                                                  Adapt.width(
+                                                                      10),
+                                                            ),
+                                                            SizedBox(
+                                                                child: Text(
+                                                                    '服务：',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          Adapt.sp(
+                                                                              26),
+                                                                    ))),
+                                                            state.designerInfo
+                                                                        ?.service !=
+                                                                    null
+                                                                ? ListView(
+                                                                    reverse:
+                                                                        false,
+                                                                    shrinkWrap:
+                                                                        true,
+                                                                    scrollDirection:
+                                                                        Axis
+                                                                            .horizontal,
+                                                                    children: state
+                                                                        .designerInfo
+                                                                        ?.service
+                                                                        ?.map((e) => Card(
+                                                                            color: Colors.green[100],
+                                                                            elevation: 2, //阴影
+                                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadiusDirectional.circular(Adapt.radius(20))),
+                                                                            clipBehavior: Clip.antiAlias,
+                                                                            child: Text(e, style: TextStyle(fontSize: Adapt.sp(23)))))
+                                                                        .toList())
+                                                                : Text('待完善', style: TextStyle(fontSize: Adapt.sp(26)))
+                                                          ],
+                                                        )),
+                                                    Expanded(
+                                                        flex: 1,
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .location_city_outlined,
+                                                              color: Colors
+                                                                  .black45,
+                                                              size: 20,
+                                                            ),
+                                                            SizedBox(
+                                                              width:
+                                                                  Adapt.width(
+                                                                      10),
+                                                            ),
+                                                            Text(
+                                                              state.designerInfo
+                                                                          ?.address !=
+                                                                      null
+                                                                  ? '详细地址：${state.designerInfo.address}'
+                                                                  : '待完善',
+                                                              style: TextStyle(
+                                                                fontSize:
+                                                                    Adapt.sp(
+                                                                        26),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        )),
+                                                    Expanded(
+                                                        flex: 1,
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .style_outlined,
+                                                              color: Colors
+                                                                  .black45,
+                                                              size: 20,
+                                                            ),
+                                                            SizedBox(
+                                                              width:
+                                                                  Adapt.width(
+                                                                      10),
+                                                            ),
+                                                            SizedBox(
+                                                                child: Text(
+                                                                    '风格：',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          Adapt.sp(
+                                                                              26),
+                                                                    ))),
+                                                            state.designerInfo
+                                                                        ?.stylearr !=
+                                                                    null
+                                                                ? ListView(
+                                                                    reverse:
+                                                                        false,
+                                                                    shrinkWrap:
+                                                                        true,
+                                                                    scrollDirection:
+                                                                        Axis
+                                                                            .horizontal,
+                                                                    children: state
+                                                                        .designerInfo
+                                                                        ?.stylearr
+                                                                        ?.map((e) => Card(
+                                                                            color: Colors.green[100],
+                                                                            elevation: 2, //阴影
+                                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadiusDirectional.circular(Adapt.radius(20))),
+                                                                            clipBehavior: Clip.antiAlias,
+                                                                            child: Text(e, style: TextStyle(fontSize: Adapt.sp(23)))))
+                                                                        .toList())
+                                                                : Text('待完善', style: TextStyle(fontSize: Adapt.sp(26)))
+                                                          ],
+                                                        )),
+                                                  ],
+                                                )),
+                                            // Expanded(
+                                            //   flex: 1,
+                                            //   child: state.mineUid !=
+                                            //           state.accountInfo?.uid
+                                            //       ? Container()
+                                            //       : Row(
+                                            //           children: [
+                                            //             Text(
+                                            //               '修改',
+                                            //               style: TextStyle(
+                                            //                   color:
+                                            //                       Colors.grey),
+                                            //             ),
+                                            //             Padding(
+                                            //               padding:
+                                            //                   EdgeInsets.only(
+                                            //                       top: Adapt
+                                            //                           .height(
+                                            //                               5)),
+                                            //               child: Icon(
+                                            //                 Icons
+                                            //                     .chevron_right_rounded,
+                                            //                 color: Colors.grey,
+                                            //               ),
+                                            //             )
+                                            //           ],
+                                            //         ),
+                                            // )
+                                          ],
+                                        ))
+                                    : Container(
+                                        padding: EdgeInsets.fromLTRB(
+                                            Adapt.width(40),
+                                            Adapt.height(20),
+                                            Adapt.width(0),
+                                            Adapt.height(20)),
+                                        height: Adapt.height(160),
+                                        child: Flex(
+                                          direction: Axis.horizontal,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                                flex: 5,
+                                                child: Flex(
+                                                  direction: Axis.vertical,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Expanded(
+                                                        flex: 1,
+                                                        child: Row(
+                                                          children: [
+                                                            Text(
+                                                              '我的家',
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      Adapt.sp(
+                                                                          32),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                          ],
+                                                        )),
+                                                    Expanded(
+                                                        flex: 1,
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .home_outlined,
+                                                              color: Colors
+                                                                  .black45,
+                                                              size: 20,
+                                                            ),
+                                                            SizedBox(
+                                                              width:
+                                                                  Adapt.width(
+                                                                      10),
+                                                            ),
+                                                            Text(
+                                                              state.myhomeInfo
+                                                                          ?.area !=
+                                                                      null
+                                                                  ? '${state.myhomeInfo.city}.${state.myhomeInfo.area}.${state.myhomeInfo.doorModel}'
+                                                                  : '待完善',
+                                                              style: TextStyle(
+                                                                fontSize:
+                                                                    Adapt.sp(
+                                                                        26),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        )),
+                                                    Expanded(
+                                                        flex: 1,
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .settings_applications_outlined,
+                                                              color: Colors
+                                                                  .black45,
+                                                              size: 20,
+                                                            ),
+                                                            SizedBox(
+                                                              width:
+                                                                  Adapt.width(
+                                                                      10),
+                                                            ),
+                                                            Text(
+                                                                state.myhomeInfo
+                                                                            ?.progress !=
+                                                                        null
+                                                                    ? state
+                                                                        .myhomeInfo
+                                                                        .progress
+                                                                    : '待完善',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        Adapt.sp(
+                                                                            26)))
+                                                          ],
+                                                        )),
+                                                  ],
+                                                )),
+                                            Expanded(
+                                              flex: 1,
+                                              child: state.mineUid !=
+                                                      state.accountInfo?.uid
+                                                  ? Container()
+                                                  : Row(
                                                       children: [
                                                         Text(
-                                                          '我的家',
+                                                          '修改',
                                                           style: TextStyle(
-                                                              fontSize:
-                                                                  Adapt.sp(32),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
+                                                              color:
+                                                                  Colors.grey),
                                                         ),
-                                                      ],
-                                                    )),
-                                                Expanded(
-                                                    flex: 1,
-                                                    child: Row(
-                                                      children: [
-                                                        Icon(
-                                                          Icons.home_outlined,
-                                                          color: Colors.black45,
-                                                          size: 20,
-                                                        ),
-                                                        SizedBox(
-                                                          width:
-                                                              Adapt.width(10),
-                                                        ),
-                                                        Text(
-                                                          state.myhomeInfo
-                                                                      ?.area !=
-                                                                  null
-                                                              ? '${state.myhomeInfo.city}.${state.myhomeInfo.area}.${state.myhomeInfo.doorModel}'
-                                                              : '待完善',
-                                                          style: TextStyle(
-                                                            fontSize:
-                                                                Adapt.sp(26),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  top: Adapt
+                                                                      .height(
+                                                                          5)),
+                                                          child: Icon(
+                                                            Icons
+                                                                .chevron_right_rounded,
+                                                            color: Colors.grey,
                                                           ),
                                                         )
                                                       ],
-                                                    )),
-                                                Expanded(
-                                                    flex: 1,
-                                                    child: Row(
-                                                      children: [
-                                                        Icon(
-                                                          Icons
-                                                              .settings_applications_outlined,
-                                                          color: Colors.black45,
-                                                          size: 20,
-                                                        ),
-                                                        SizedBox(
-                                                          width:
-                                                              Adapt.width(10),
-                                                        ),
-                                                        Text(
-                                                            state.myhomeInfo
-                                                                        ?.progress !=
-                                                                    null
-                                                                ? state
-                                                                    .myhomeInfo
-                                                                    .progress
-                                                                : '待完善',
-                                                            style: TextStyle(
-                                                                fontSize:
-                                                                    Adapt.sp(
-                                                                        26)))
-                                                      ],
-                                                    )),
-                                              ],
-                                            )),
-                                        Expanded(
-                                          flex: 1,
-                                          child: state.mineUid !=
-                                                  state.accountInfo?.uid
-                                              ? Container()
-                                              : Row(
-                                                  children: [
-                                                    Text(
-                                                      '修改',
-                                                      style: TextStyle(
-                                                          color: Colors.grey),
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: Adapt.height(5)),
-                                                      child: Icon(
-                                                        Icons
-                                                            .chevron_right_rounded,
-                                                        color: Colors.grey,
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                        )
-                                      ],
-                                    ))),
+                                            )
+                                          ],
+                                        ))),
                           ),
                           SliverToBoxAdapter(
                               child: Container(

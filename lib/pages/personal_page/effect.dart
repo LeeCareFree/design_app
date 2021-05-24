@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bluespace/models/account_info.dart';
+import 'package:bluespace/models/designer_info.dart';
 import 'package:bluespace/models/myhome_info.dart';
 import 'package:bluespace/net/service_method.dart';
 import 'package:fish_redux/fish_redux.dart';
@@ -174,7 +175,8 @@ void _onInit(Action action, Context<PersonalState> ctx) async {
   String uid = prefs.getString('uid');
   ctx.state.mineUid = uid;
   await ctx.dispatch(PersonalActionCreator.getAccountInfo());
-  ctx.dispatch(PersonalActionCreator.getDetailInfo());
+  print(ctx.state.accountInfo.identity);
+  await ctx.dispatch(PersonalActionCreator.getDetailInfo());
   await ctx.dispatch(PersonalActionCreator.follow('query'));
   for (var i = 0; i < 3; i++) {
     String arrname = i == 0
@@ -203,16 +205,29 @@ void _onInit(Action action, Context<PersonalState> ctx) async {
 
 void _onGetDetailInfo(Action action, Context<PersonalState> ctx) async {
   // 获取一些用户信息
-  var res = await DioUtil.request('getDetailInfo',
-      formData: {'uid': ctx.state.accountInfo?.uid});
+  var formData = ctx.state.accountInfo.identity != null
+      ? {
+          'uid': ctx.state.accountInfo?.uid,
+          'identity': ctx.state.accountInfo.identity
+        }
+      : {
+          'uid': ctx.state.accountInfo?.uid,
+        };
+  var res = await DioUtil.request('getDetailInfo', formData: formData);
   res = json.decode(res.toString());
   // print(res);
   if (res['code'] != 200) {
     Fluttertoast.showToast(msg: res['msg'] ?? '请稍后再试！');
   } else {
-    MyhomeInfo myhomeInfo = MyhomeInfo.fromJson(res['data']);
-    ctx.dispatch(PersonalActionCreator.initHomeInfo(myhomeInfo));
-    ctx.state.refreshController.refreshCompleted();
+    if (ctx.state.accountInfo.identity == 'stylist') {
+      DesignerInfo designerInfo = DesignerInfo.fromJson(res['data']);
+      ctx.dispatch(PersonalActionCreator.initDesignerInfo(designerInfo));
+      ctx.state.refreshController.refreshCompleted();
+    } else {
+      MyhomeInfo myhomeInfo = MyhomeInfo.fromJson(res['data']);
+      ctx.dispatch(PersonalActionCreator.initHomeInfo(myhomeInfo));
+      ctx.state.refreshController.refreshCompleted();
+    }
   }
 }
 

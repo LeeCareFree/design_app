@@ -13,6 +13,7 @@ class AccountInfo {
   int fansNum;
   int followNum;
   int likeColl;
+  String identity;
 
   AccountInfo(
       {this.uid,
@@ -28,7 +29,8 @@ class AccountInfo {
       this.likeColl,
       this.introduction,
       this.gender,
-      this.city});
+      this.city,
+      this.identity});
 
   AccountInfo.fromJson(Map<String, dynamic> json) {
     uid = json['uid'];
@@ -45,6 +47,7 @@ class AccountInfo {
     introduction = json['introduction'];
     gender = json['gender'];
     city = json['city'];
+    identity = json['identity'];
   }
 
   Map<String, dynamic> toJson() {
@@ -63,6 +66,7 @@ class AccountInfo {
     data['introduction'] = this.introduction;
     data['gender'] = this.gender;
     data['city'] = this.city;
+    data['identity'] = this.identity;
     return data;
   }
 }
