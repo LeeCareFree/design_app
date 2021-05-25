@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:bluespace/style/themeStyle.dart';
 import 'package:bluespace/utils/adapt.dart';
@@ -37,9 +38,9 @@ Widget buildView(StartState state, Dispatch dispatch, ViewService viewService) {
                 children: <Widget>[
                   new Container(
                     color: Colors.white,
-                    child: new Image.network(
-                      'http://8.129.214.128:3001/upload/publish/launch_image.jpg',
-                      fit: BoxFit.cover,
+                    child: new Image.asset(
+                      'assets/images/ad.jpg',
+                      fit: BoxFit.fill,
                     ),
                     constraints: new BoxConstraints.expand(),
                   ),
@@ -115,39 +116,25 @@ class _BackGround extends StatelessWidget {
             width: Adapt.screenW(),
             radius: Adapt.radius(1000)),
         child: Container(
-            height: headerHeight,
-            width: Adapt.screenW(),
+          height: headerHeight,
+          width: Adapt.screenW(),
+          decoration: BoxDecoration(
+            color: Colors.black87,
+            image: DecorationImage(
+                colorFilter: ColorFilter.mode(Colors.black54, BlendMode.darken),
+                fit: BoxFit.cover,
+                image: ExactAssetImage('assets/images/bgimg.jpg')),
+          ),
+          alignment: Alignment.center,
+          child: Container(
+            width: Adapt.width(150),
+            height: Adapt.height(120),
             decoration: BoxDecoration(
-                color: Colors.black87,
+                borderRadius: BorderRadius.circular(Adapt.radius(50)),
                 image: DecorationImage(
-                    colorFilter:
-                        ColorFilter.mode(Colors.black12, BlendMode.color),
-                    fit: BoxFit.cover,
-                    image: CachedNetworkImageProvider(
-                        'http://8.129.214.128:3001/upload/publish/launch_image.jpg'))),
-            alignment: Alignment.center,
-            child: Container(
-              // color: Color.fromRGBO(20, 20, 20, 0.8),
-              alignment: Alignment.center,
-              height: headerHeight,
-              width: Adapt.screenW(),
-              // child: SlideTransition(
-              //     position: Tween(begin: Offset(0, -1), end: Offset.zero)
-              //         .animate(CurvedAnimation(
-              //       parent: controller,
-              //       curve: Interval(
-              //         0.0,
-              //         0.4,
-              //         curve: Curves.ease,
-              //       ),
-              //     )),
-              //     child: Image.asset(
-              //       'assets/images/logo.png',
-              //       width: Adapt.height(150),
-              //       height: Adapt.width(150),
-              //       color: Colors.blueGrey,
-              //     )),
-            )),
+                    image: ExactAssetImage('assets/images/logo.png'))),
+          ),
+        ),
       ),
       Expanded(child: SizedBox()),
       Container(
