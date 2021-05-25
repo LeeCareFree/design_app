@@ -2,6 +2,7 @@ import 'package:bluespace/style/themeStyle.dart';
 import 'package:bluespace/utils/adapt.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'action.dart';
 import 'state.dart';
@@ -21,7 +22,7 @@ Widget buildView(
     SizedBox(height: Adapt.height(20)),
     _MineListGroup(children: [
       _MineListCell(
-        title: '我的日记',
+        title: '历史账单',
         icon: 'assets/images/order.png',
         // onTap: () => dispatch(SettingsActionCreator.adultContentTapped()),
       ),
@@ -29,7 +30,7 @@ Widget buildView(
     SizedBox(height: Adapt.height(20)),
     _MineListGroup(children: [
       _MineListCell(
-        title: '我的日记',
+        title: '装修进程',
         icon: 'assets/images/order.png',
         // onTap: () => dispatch(SettingsActionCreator.adultContentTapped()),
       ),
@@ -39,7 +40,7 @@ Widget buildView(
       _MineListCell(
         title: '联系客服',
         icon: 'assets/images/service.png',
-        // onTap: () => dispatch(SettingsActionCreator.adultContentTapped()),
+        onTap: () => {launch('tel:13060852786')},
       ),
     ]),
     SizedBox(height: Adapt.height(20)),

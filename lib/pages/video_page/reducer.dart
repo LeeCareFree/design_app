@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:fish_redux/fish_redux.dart';
+import 'package:flutter/services.dart';
+import 'package:orientation/orientation.dart';
 
 import 'action.dart';
 import 'state.dart';
@@ -10,8 +14,72 @@ Reducer<VideoState> buildReducer() {
       VideoAction.setLoading: _setLoading,
       VideoAction.initArticle: _onInitArticle,
       VideoAction.updataStatus: _onUpdataStatus,
+      VideoAction.updateIsShowControl: _onUpdateIsShowControl,
+      VideoAction.toggleFull: _onToggleFull,
+      VideoAction.togglePlay: _onTogglePlay
     },
   );
+}
+
+VideoState _onTogglePlay(VideoState state, Action action) {
+  final VideoState newState = state.clone();
+  state.videoPlayerController.value.isPlaying
+      ? newState.videoPlayerController.pause()
+      : newState.videoPlayerController.play();
+  if (state.timer != null) newState.timer.cancel();
+  newState.timer = Timer(Duration(seconds: 3), () {
+    // 延迟3s后隐藏
+    newState.playControlOpacity = 0;
+    Future.delayed(Duration(milliseconds: 300)).whenComplete(() {
+      newState.isShowControl = true;
+    });
+  }); // 操作完控件开始计时隐藏
+  return newState;
+}
+
+VideoState _onToggleFull(VideoState state, Action action) {
+  final VideoState newState = state.clone();
+  if (state.isFull) {
+    // 如果是全屏就切换竖屏
+    OrientationPlugin.forceOrientation(DeviceOrientation.portraitUp);
+  } else {
+    OrientationPlugin.forceOrientation(DeviceOrientation.landscapeRight);
+  }
+  if (state.timer != null) newState.timer.cancel();
+  newState.timer = Timer(Duration(seconds: 3), () {
+    // 延迟3s后隐藏
+    newState.playControlOpacity = 0;
+    Future.delayed(Duration(milliseconds: 300)).whenComplete(() {
+      newState.isShowControl = true;
+    });
+  }); // 操作完控件开始计时隐藏
+  return newState;
+}
+
+VideoState _onUpdateIsShowControl(VideoState state, Action action) {
+  final VideoState newState = state.clone();
+  if (!state.isShowControl) {
+    // 如果隐藏则显示
+    newState.isShowControl = true;
+    newState.playControlOpacity = 1;
+    if (state.timer != null) newState.timer.cancel();
+    newState.timer = Timer(Duration(seconds: 3), () {
+      // 延迟3s后隐藏
+      newState.playControlOpacity = 0;
+      Future.delayed(Duration(milliseconds: 300)).whenComplete(() {
+        newState.isShowControl = true;
+      });
+    }); // 开始计时器，计时后隐藏
+  } else {
+    // 如果显示就隐藏
+    if (state.timer != null) newState.timer.cancel(); // 有计时器先移除计时器
+    newState.playControlOpacity = 0;
+    Future.delayed(Duration(milliseconds: 300)).whenComplete(() {
+      newState.isShowControl = true; // 延迟300ms(透明度动画结束)后，隐藏
+    });
+    print(newState.isShowControl);
+  }
+  return newState;
 }
 
 VideoState _onAction(VideoState state, Action action) {

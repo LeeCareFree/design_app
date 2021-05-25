@@ -15,12 +15,23 @@ enum VideoAction {
   collHandle,
   publishComment,
   deleteComment,
-  deleteArticle
+  deleteArticle,
+  updateIsShowControl,
+  toggleFull,
+  togglePlay
 }
 
 class VideoActionCreator {
   static Action onAction() {
     return const Action(VideoAction.action);
+  }
+
+  static Action togglePlay() {
+    return const Action(VideoAction.togglePlay);
+  }
+
+  static Action toggleFull() {
+    return const Action(VideoAction.toggleFull);
   }
 
   static Action deleteArticle() {
@@ -29,6 +40,10 @@ class VideoActionCreator {
 
   static Action deleteComment(String cid) {
     return Action(VideoAction.deleteComment, payload: cid);
+  }
+
+  static Action updateIsShowControl() {
+    return const Action(VideoAction.updateIsShowControl);
   }
 
   static Action publishComment() {

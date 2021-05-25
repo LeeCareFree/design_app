@@ -1,9 +1,6 @@
 import 'package:bluespace/components/loading.dart';
 import 'package:bluespace/models/article_detail.dart';
 import 'package:bluespace/pages/article_detail_page/view.dart';
-import 'package:bluespace/pages/video_page/component/buttonRow.dart';
-import 'package:bluespace/pages/video_page/component/video_comp.dart';
-import 'package:bluespace/pages/video_page/component/videoScaffold.dart';
 import 'package:bluespace/router/PopRouter.dart';
 import 'package:bluespace/utils/adapt.dart';
 import 'package:fijkplayer/fijkplayer.dart';
@@ -18,140 +15,223 @@ Widget buildView(VideoState state, Dispatch dispatch, ViewService viewService) {
   double a = MediaQuery.of(viewService.context).size.aspectRatio;
   bool hasBottomPadding = a < 0.55;
   return Scaffold(
-    // controller: state.tkController,
-    // hasBottomPadding: false,
-    appBar: AppBar(
-      backgroundColor: Colors.black,
-      elevation: 1.0,
-      centerTitle: true,
-      actions: [
-        IconButton(
-            icon: Icon(
-              Icons.more_vert,
-              color: Colors.white,
-            ),
-            onPressed: () => {
-                  showModalBottomSheet(
-                      context: viewService.context,
-                      builder: (context) {
-                        return Container(
-                          height: state.uid == state.articleInfo?.user?.uid
-                              ? Adapt.height(200)
-                              : Adapt.height(100),
-                          child: Column(
-                            children: <Widget>[
-                              state.uid == state.articleInfo?.user?.uid
-                                  ? ListTile(
-                                      leading: Icon(
-                                          Icons.report_gmailerrorred_outlined),
-                                      title: Text("删除文章"),
-                                      onTap: () => {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return AlertDialog(
-                                                  title: Text("提示"),
-                                                  content: Text("确定要删除这篇文章吗？"),
-                                                  actions: <Widget>[
-                                                    TextButton(
-                                                      child: Text(
-                                                        "取消",
-                                                      ),
-                                                      onPressed: () => {
-                                                        Navigator.pop(context),
-                                                        Navigator.pop(context),
-                                                      },
-                                                    ),
-                                                    TextButton(
+      // controller: state.tkController,
+      // hasBottomPadding: false,
+      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(92, 123, 139, 1),
+        // elevation: 1.0,
+        centerTitle: true,
+        actions: [
+          IconButton(
+              icon: Icon(
+                Icons.more_vert,
+                color: Colors.white,
+              ),
+              onPressed: () => {
+                    showModalBottomSheet(
+                        context: viewService.context,
+                        builder: (context) {
+                          return Container(
+                            height: state.uid == state.articleInfo?.user?.uid
+                                ? Adapt.height(200)
+                                : Adapt.height(100),
+                            child: Column(
+                              children: <Widget>[
+                                state.uid == state.articleInfo?.user?.uid
+                                    ? ListTile(
+                                        leading: Icon(Icons
+                                            .report_gmailerrorred_outlined),
+                                        title: Text("删除文章"),
+                                        onTap: () => {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    title: Text("提示"),
+                                                    content:
+                                                        Text("确定要删除这篇文章吗？"),
+                                                    actions: <Widget>[
+                                                      TextButton(
                                                         child: Text(
-                                                          "确定",
+                                                          "取消",
                                                         ),
                                                         onPressed: () => {
-                                                              dispatch(
-                                                                  VideoActionCreator
-                                                                      .deleteArticle()),
-                                                            }),
-                                                  ],
-                                                );
-                                              },
-                                            )
-                                          })
-                                  : Container(),
-                              ListTile(
-                                leading: Icon(Icons.cancel_outlined),
-                                title: Text("取消"),
-                                onTap: () => Navigator.pop(context),
-                              ),
-                            ],
-                          ),
-                        );
-                      })
-                })
-      ],
-    ),
-    bottomNavigationBar: _FixedRow(
-      controller: state.commentTextController,
-      commentFocusNode: state.commentFocusNode,
-      dispatch: dispatch,
-      articleDetail: state.articleInfo,
-      isColl: state.isColl,
-      isLike: state.isLike,
-      uid: state.uid,
-    ),
-    body: state.isLoading
-        ? LoadingLayout(
-            title: '加载中...',
-            show: true,
-          )
-        : Stack(
-            // index: currentPage == null ? 0 : 1,
-            children: <Widget>[
-              PageView.builder(
-                key: Key('home'),
-                controller: state.pageController,
-                pageSnapping: true,
-                physics: ClampingScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                itemCount: state.videoListController.videoCount,
-                itemBuilder: (context, i) {
-                  // 拼一个视频组件出来
-                  var data = state.videoList[i];
-                  // bool isF = SafeMap(favoriteMap)[i].boolean ?? false;
-                  var player = state.videoListController.playerOfIndex(i);
-                  // video
-                  Widget currentVideo = state.playerWidget;
-
-                  currentVideo = VideoPage(
-                    hidePauseIcon: player.state != FijkState.paused,
-                    aspectRatio: 9 / 16.0,
-                    key: Key(data.videoUrl + '$i'),
-                    tag: data.videoUrl,
-                    userInfoWidget: VideoUserInfo(
-                      desc: data.detail, userInfo: state.articleInfo?.user,
-                      // onGoodGift: () => showDialog(
-                      //   context: context,
-                      //   builder: (_) => FreeGiftDialog(),
-                      // ),
-                    ),
-                    onSingleTap: () async {
-                      if (player.state == FijkState.started) {
-                        await player.pause();
-                      } else {
-                        await player.start();
-                      }
-                    },
-                    onAddFavorite: () {},
-                    video: currentVideo,
-                  );
-                  return currentVideo;
-                },
-              ),
-              // Center(
-              //   child: Text(_currentIndex.toString()),
-              // )
-            ],
-          ),
-  );
+                                                          Navigator.pop(
+                                                              context),
+                                                          Navigator.pop(
+                                                              context),
+                                                        },
+                                                      ),
+                                                      TextButton(
+                                                          child: Text(
+                                                            "确定",
+                                                          ),
+                                                          onPressed: () => {
+                                                                dispatch(
+                                                                    VideoActionCreator
+                                                                        .deleteArticle()),
+                                                              }),
+                                                    ],
+                                                  );
+                                                },
+                                              )
+                                            })
+                                    : Container(),
+                                ListTile(
+                                  leading: Icon(Icons.cancel_outlined),
+                                  title: Text("取消"),
+                                  onTap: () => Navigator.pop(context),
+                                ),
+                              ],
+                            ),
+                          );
+                        })
+                  })
+        ],
+      ),
+      bottomNavigationBar: _FixedRow(
+        controller: state.commentTextController,
+        commentFocusNode: state.commentFocusNode,
+        dispatch: dispatch,
+        articleDetail: state.articleInfo,
+        isColl: state.isColl,
+        isLike: state.isLike,
+        uid: state.uid,
+      ),
+      body: state.isLoading
+          ? LoadingLayout(
+              title: '加载中...',
+              show: true,
+            )
+          : Stack(
+              children: [
+                FijkView(
+                  player: state.player,
+                ),
+                VideoUserInfo(
+                  desc: state.articleInfo.detail,
+                  title: state.articleInfo.title,
+                  userInfo: state.articleInfo.user,
+                )
+              ],
+            )
+      // Container(
+      //     width: Adapt.screenW(),
+      //     height: Adapt.screenH(),
+      //     color: Colors.black,
+      //     child: Stack(
+      //       // 因为控件ui和视频是重叠的，所以要用定位了
+      //       children: <Widget>[
+      //         GestureDetector(
+      //             // 手势组件
+      //             onTap: () {
+      //               // 点击显示/隐藏控件ui
+      //               dispatch(VideoActionCreator.updateIsShowControl());
+      //             },
+      //             child: Center(
+      //               child: AspectRatio(
+      //                 // 加载url成功时，根据视频比例渲染播放器
+      //                 aspectRatio:
+      //                     state.videoPlayerController.value.aspectRatio,
+      //                 child: VideoPlayer(state.videoPlayerController),
+      //               ),
+      //             )),
+      //         Positioned(
+      //           // 需要定位
+      //           left: 0,
+      //           bottom: 0,
+      //           child: Offstage(
+      //             // 控制是否隐藏
+      //             offstage: state.isShowControl,
+      //             child: AnimatedOpacity(
+      //               // 加入透明度动画
+      //               opacity: state.playControlOpacity,
+      //               duration: Duration(milliseconds: 300),
+      //               child: Container(
+      //                   // 底部控件的容器
+      //                   width: Adapt.screenW(),
+      //                   height: 40,
+      //                   decoration: BoxDecoration(
+      //                     gradient: LinearGradient(
+      //                       // 来点黑色到透明的渐变优雅一下
+      //                       begin: Alignment.bottomCenter,
+      //                       end: Alignment.topCenter,
+      //                       colors: [
+      //                         Color.fromRGBO(0, 0, 0, .7),
+      //                         Color.fromRGBO(0, 0, 0, .1)
+      //                       ],
+      //                     ),
+      //                   ),
+      //                   child: Row(
+      //                     // 加载完成时才渲染,flex布局
+      //                     children: <Widget>[
+      //                       IconButton(
+      //                         // 播放按钮
+      //                         padding: EdgeInsets.zero,
+      //                         iconSize: 26,
+      //                         icon: Icon(
+      //                           // 根据控制器动态变化播放图标还是暂停
+      //                           state.videoPlayerController.value.isPlaying
+      //                               ? Icons.pause
+      //                               : Icons.play_arrow,
+      //                           color: Colors.white,
+      //                         ),
+      //                         onPressed: () => {
+      //                           dispatch(VideoActionCreator.togglePlay())
+      //                         },
+      //                       ),
+      //                       Flexible(
+      //                         // 相当于前端的flex: 1
+      //                         child: VideoProgressIndicator(
+      //                           // 嘻嘻，这是video_player编写好的进度条，直接用就是了~~
+      //                           state.videoPlayerController,
+      //                           allowScrubbing: true, // 允许手势操作进度条
+      //                           padding: EdgeInsets.all(0),
+      //                           colors: VideoProgressColors(
+      //                             // 配置进度条颜色，也是video_player现成的，直接用
+      //                             playedColor: Colors.blueGrey, // 已播放的颜色
+      //                             bufferedColor: Color.fromRGBO(
+      //                                 255, 255, 255, .5), // 缓存中的颜色
+      //                             backgroundColor: Color.fromRGBO(
+      //                                 255, 255, 255, .2), // 为缓存的颜色
+      //                           ),
+      //                         ),
+      //                       ),
+      //                       Container(
+      //                         // 播放时间
+      //                         margin: EdgeInsets.only(left: 10),
+      //                         child: Text(
+      //                           // durationToTime是通过Duration转成hh:mm:ss的格式，自己实现。
+      //                           '${state.position.inHours}:${state.position.inMinutes.remainder(60)}:${(state.position.inSeconds.remainder(60))}' +
+      //                               '/' +
+      //                               '${state.videoPlayerController.value.duration.inSeconds}',
+      //                           style: TextStyle(color: Colors.white),
+      //                         ),
+      //                       ),
+      //                       IconButton(
+      //                         // 全屏/横屏按钮
+      //                         padding: EdgeInsets.zero,
+      //                         iconSize: 26,
+      //                         icon: Icon(
+      //                           // 根据当前屏幕方向切换图标
+      //                           state.isFull
+      //                               ? Icons.fullscreen_exit
+      //                               : Icons.fullscreen,
+      //                           color: Colors.white,
+      //                         ),
+      //                         onPressed: () => {
+      //                           // 点击切换是否全屏
+      //                           dispatch(VideoActionCreator.toggleFull())
+      //                         },
+      //                       ),
+      //                     ],
+      //                   )),
+      //             ),
+      //           ),
+      //         ) // 控件ui下半部 看下面
+      //       ],
+      //     ))
+      );
 }
 
 class _FixedRow extends StatelessWidget {
@@ -176,7 +256,7 @@ class _FixedRow extends StatelessWidget {
         width: Adapt.screenW(),
         height: Adapt.height(100),
         decoration: BoxDecoration(
-            color: Colors.black,
+            color: Color.fromRGBO(92, 123, 139, 1),
             border: Border(
                 top: BorderSide(width: Adapt.width(1), color: Colors.grey))),
         child: Flex(
@@ -460,6 +540,9 @@ class _CommentRow extends StatelessWidget {
               direction: Axis.horizontal,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                SizedBox(
+                  width: Adapt.width(30),
+                ),
                 Expanded(
                     flex: 1,
                     child: InkWell(
@@ -516,6 +599,96 @@ class _CommentRow extends StatelessWidget {
                       ],
                     )),
               ])),
+    );
+  }
+}
+
+class VideoUserInfo extends StatelessWidget {
+  final String desc;
+  final String title;
+  final User userInfo;
+  // final Function onGoodGift;
+  const VideoUserInfo(
+      {Key key,
+      // @required this.onGoodGift,
+      this.title,
+      this.desc,
+      this.userInfo})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(
+        left: 12,
+      ),
+      margin: EdgeInsets.only(right: 80),
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+            color: Colors.black12,
+            offset: Offset(50.0, 550.0), //阴影xy轴偏移量
+            blurRadius: 30.0, //阴影模糊程度
+            spreadRadius: 1.0 //阴影扩散程度
+            )
+      ]),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: [
+              CircleAvatar(
+                backgroundImage: NetworkImage(userInfo?.avatar),
+                radius: Adapt.width(50),
+              ),
+              SizedBox(width: Adapt.width(30)),
+              Text(
+                userInfo.nickname,
+                style: TextStyle(color: Colors.white),
+              ),
+              SizedBox(width: Adapt.width(30)),
+              Container(
+                  height: Adapt.height(50),
+                  decoration: BoxDecoration(
+                      color: Colors.white38,
+                      borderRadius: BorderRadius.circular(Adapt.radius(50))),
+                  child: TextButton(
+                      onPressed: () => {},
+                      child: Text(
+                        '关注',
+                        style: TextStyle(
+                            fontSize: Adapt.sp(24),
+                            fontWeight: FontWeight.bold,
+                            // letterSpacing: Adapt.px(10),
+                            color: Colors.blueGrey),
+                      )))
+            ],
+          ),
+          Container(height: Adapt.height(10)),
+          Container(height: Adapt.height(10)),
+          Container(height: Adapt.height(10)),
+          Padding(
+            padding: EdgeInsets.only(left: Adapt.width(20)),
+            child: Text(
+              title ?? '标题',
+              style: TextStyle(color: Colors.white, fontSize: Adapt.sp(32)),
+            ),
+          ),
+          Container(height: Adapt.height(10)),
+          Container(height: Adapt.height(10)),
+          Padding(
+            padding: EdgeInsets.only(left: Adapt.width(20)),
+            child: Text(
+              desc ?? '标题',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          Container(height: Adapt.height(10)),
+          Container(height: Adapt.height(10)),
+          Container(height: Adapt.height(10)),
+          Container(height: Adapt.height(10)),
+        ],
+      ),
     );
   }
 }

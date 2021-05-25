@@ -3,14 +3,14 @@ import 'dart:convert';
 import 'package:bluespace/models/article_detail.dart';
 import 'package:bluespace/models/article_list_data.dart';
 import 'package:bluespace/net/service_method.dart';
-import 'package:bluespace/pages/video_page/component/videoListController.dart';
-import 'package:bluespace/pages/video_page/component/videoScaffold.dart';
 import 'package:chewie/chewie.dart';
+import 'package:fijkplayer/fijkplayer.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/cupertino.dart' hide Action;
+import 'package:flutter/material.dart' hide Action;
+import 'package:video_player/video_player.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:video_player/video_player.dart';
 import 'action.dart';
 import 'state.dart';
 
@@ -217,37 +217,6 @@ void _onFollow(Action action, Context<VideoState> ctx) async {
 }
 
 void _onAction(Action action, Context<VideoState> ctx) {}
-void _onInit(Action action, Context<VideoState> ctx) async {
-  ctx.state.videoList = [];
-  ctx.state..commentFocusNode = FocusNode();
-  ctx.state.commentTextController = TextEditingController();
-  ctx.state.pageController = PageController(initialPage: 0);
-  ctx.state.videoListController = VideoListController();
-  ctx.state.tkController = TikTokScaffoldController();
-  await ctx.dispatch(VideoActionCreator.getArticle());
-  await ctx.dispatch(VideoActionCreator.checkStatus());
-  await ctx.dispatch(VideoActionCreator.getUserAvatar());
-  await ctx.dispatch(VideoActionCreator.follow('query'));
-  ctx.state.videoPlayerController = VideoPlayerController.network(
-      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4');
-  await ctx.state.videoPlayerController.initialize();
-  ctx.state.chewieController = ChewieController(
-    videoPlayerController: ctx.state.videoPlayerController,
-    autoPlay: true,
-    looping: true,
-  );
-  ctx.state.playerWidget = Chewie(
-    controller: ctx.state.chewieController,
-  );
-  ctx.state.videoListController.init(
-    ctx.state.pageController,
-    ctx.state.videoList,
-  );
-
-  if (ctx.state.videoList != null) {
-    ctx.state.videoListController.currentPlayer.start();
-  }
-}
 
 void _onGetUserAvatar(Action action, Context<VideoState> ctx) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -258,6 +227,66 @@ void _onGetUserAvatar(Action action, Context<VideoState> ctx) async {
 }
 
 void _onDispose(Action action, Context<VideoState> ctx) {
-  ctx.state.videoListController.currentPlayer.pause();
-  ctx.state.videoListController.dispose();
+  if (ctx.state.videoPlayerController != null) {
+    // 惯例。组件销毁时清理下
+    ctx.state.player.release();
+    ctx.state.videoPlayerController.pause();
+    ctx.state.videoPlayerController.dispose();
+  }
+}
+
+Future<void> initializePlayer(Action action, Context<VideoState> ctx) async {
+  ctx.state.videoPlayerController = VideoPlayerController.network(
+      'https://8.129.214.128:3001/upload/videos/videos_181a7f85-0a12-4e41-b5e2-d6755c499352_single.mp4');
+  await Future.wait([
+    ctx.state.videoPlayerController.initialize(),
+  ]);
+  ctx.state.chewieController = ChewieController(
+    videoPlayerController: ctx.state.videoPlayerController,
+    autoPlay: true,
+    looping: true,
+    // Try playing around with some of these other options:
+
+    showControls: false,
+    materialProgressColors: ChewieProgressColors(
+      playedColor: Colors.red,
+      handleColor: Colors.blue,
+      backgroundColor: Colors.grey,
+      bufferedColor: Colors.lightGreen,
+    ),
+    placeholder: Container(
+      color: Colors.grey,
+    ),
+    autoInitialize: true,
+  );
+}
+
+void _onInit(Action action, Context<VideoState> ctx) async {
+  // ctx.state.isFull =
+  //     MediaQuery.of(ctx.context).orientation == Orientation.landscape;
+  ctx.state.videoList = [];
+  ctx.state.player = FijkPlayer();
+  ctx.state..commentFocusNode = FocusNode();
+  ctx.state.commentTextController = TextEditingController();
+  ctx.state.pageController = PageController(initialPage: 0);
+  await ctx.dispatch(VideoActionCreator.getArticle());
+  await ctx.dispatch(VideoActionCreator.checkStatus());
+  await ctx.dispatch(VideoActionCreator.getUserAvatar());
+  await ctx.dispatch(VideoActionCreator.follow('query'));
+  print(ctx.state.articleInfo.videoUrl);
+  ctx.state.player
+      .setDataSource(ctx.state.articleInfo?.videoUrl, autoPlay: true);
+  // initializePlayer(action, ctx);
+  // ctx.state.videoPlayerController = VideoPlayerController.network(
+  //     'http://8.129.214.128:3001/upload/videos/videos_181a7f85-0a12-4e41-b5e2-d6755c499352_single.mp4');
+
+  // ctx.state.videoPlayerController.setLooping(true);
+  // ctx.state.videoPlayerController.addListener(() {});
+  // ctx.state.videoPlayerController
+  //   ..initialize().then((_) {
+  //     ctx.state.isLoading = false;
+  //   });
+  // ctx.state.videoPlayerController.play();
+  // 加载资源完成时，监听播放进度，并且标记_videoInit=true加载完成
+  // ctx.state.videoPlayerController.addListener(ctx.state.videoPlayerL);
 }

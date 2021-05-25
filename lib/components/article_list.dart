@@ -102,7 +102,7 @@ class ArticleItem extends StatelessWidget {
           ..state
           ..setDataSource(
             videoUrl,
-            autoPlay: true,
+            autoPlay: false,
             showCover: true,
           ))
         : null;
