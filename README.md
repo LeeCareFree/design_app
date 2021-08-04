@@ -1,6 +1,6 @@
 # design_app
 
-A new Flutter project.
+一个基于flutter的家庭装修毕业设计app
 
 ## Getting Started
 
